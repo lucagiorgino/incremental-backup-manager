@@ -4,10 +4,13 @@
 contenente nomefile/hash
 
 **Client**
-- FileWatcher
+- FileWatcher e rispettivo thread
 - ista di azioni (FileStatus) per ogni file/cartella, le azioni per contenuti diversi vengono
 eseguite in parallelo. Le azioni sullo stesso contenuto invece vengono eseguite in
-modo sincrono, aspettando la conferma dal server.
+modo sincrono, aspettando la conferma dal server. Le azioni sulle cartelle sono bloccanti
+
+
+
 
 **Procedimento:**
 - Client avvia applicazione

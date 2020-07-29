@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Remote_backup.dir/main.cpp.o  -o Remote_backup 

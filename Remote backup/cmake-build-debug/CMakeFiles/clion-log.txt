@@ -1,0 +1,8 @@
+/snap/clion/121/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/cosimo/Desktop/ProgettoPDS/Remote backup"
+-- start running cmake...
+-- Boost_INCLUDE_DIRS: /usr/include
+-- Boost_LIBRARIES: Boost::system;Boost::filesystem
+-- Boost_VERSION: 1.71.0
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug
