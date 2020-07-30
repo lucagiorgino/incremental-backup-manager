@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cosimo/CLionProjects/Asynchronous IO/asio_generic_server.h
+thread
+-
+vector
+-
+boost/asio.hpp
+-
+
+/home/cosimo/CLionProjects/Asynchronous IO/chat_handler.h
+memory
+-
+deque
+-
+boost/asio.hpp
+-
+utility
+-
+
+/home/cosimo/CLionProjects/Asynchronous IO/main.cpp
+iostream
+-
+boost/asio.hpp
+-
+asio_generic_server.h
+/home/cosimo/CLionProjects/Asynchronous IO/asio_generic_server.h
+chat_handler.h
+/home/cosimo/CLionProjects/Asynchronous IO/chat_handler.h
+

@@ -68,10 +68,10 @@ RM = /snap/clion/123/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/cosimo/Desktop/ProgettoPDS/Remote backup"
+CMAKE_SOURCE_DIR = "/home/cosimo/CLionProjects/Asynchronous IO"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"
+CMAKE_BINARY_DIR = "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -100,9 +100,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles" "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -156,59 +156,32 @@ BoostTest/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/build
 .PHONY : BoostTest/fast
 
-client/Client.o: client/Client.cpp.o
+chat_handler.o: chat_handler.cpp.o
 
-.PHONY : client/Client.o
-
-# target to build an object file
-client/Client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.o
-.PHONY : client/Client.cpp.o
-
-client/Client.i: client/Client.cpp.i
-
-.PHONY : client/Client.i
-
-# target to preprocess a source file
-client/Client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.i
-.PHONY : client/Client.cpp.i
-
-client/Client.s: client/Client.cpp.s
-
-.PHONY : client/Client.s
-
-# target to generate assembly for a file
-client/Client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.s
-.PHONY : client/Client.cpp.s
-
-client/FileWatcher.o: client/FileWatcher.cpp.o
-
-.PHONY : client/FileWatcher.o
+.PHONY : chat_handler.o
 
 # target to build an object file
-client/FileWatcher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.o
-.PHONY : client/FileWatcher.cpp.o
+chat_handler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.o
+.PHONY : chat_handler.cpp.o
 
-client/FileWatcher.i: client/FileWatcher.cpp.i
+chat_handler.i: chat_handler.cpp.i
 
-.PHONY : client/FileWatcher.i
+.PHONY : chat_handler.i
 
 # target to preprocess a source file
-client/FileWatcher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.i
-.PHONY : client/FileWatcher.cpp.i
+chat_handler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.i
+.PHONY : chat_handler.cpp.i
 
-client/FileWatcher.s: client/FileWatcher.cpp.s
+chat_handler.s: chat_handler.cpp.s
 
-.PHONY : client/FileWatcher.s
+.PHONY : chat_handler.s
 
 # target to generate assembly for a file
-client/FileWatcher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.s
-.PHONY : client/FileWatcher.cpp.s
+chat_handler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.s
+.PHONY : chat_handler.cpp.s
 
 main.o: main.cpp.o
 
@@ -250,12 +223,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Asynchronous_IO"
 	@echo "... BoostTest"
-	@echo "... client/Client.o"
-	@echo "... client/Client.i"
-	@echo "... client/Client.s"
-	@echo "... client/FileWatcher.o"
-	@echo "... client/FileWatcher.i"
-	@echo "... client/FileWatcher.s"
+	@echo "... chat_handler.o"
+	@echo "... chat_handler.i"
+	@echo "... chat_handler.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

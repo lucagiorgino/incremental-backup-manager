@@ -1,0 +1,4 @@
+/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir
+/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/BoostTest.dir
