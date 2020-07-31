@@ -17,16 +17,6 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"/>
 				<Option type="4"/>
@@ -37,30 +27,18 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Asynchronous_IO">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/Asynchronous_IO" prefix_auto="0" extension_auto="0"/>
+			<Target title="edit_cache">
 				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
+				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 Asynchronous_IO"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Asynchronous_IO/fast">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/Asynchronous_IO" prefix_auto="0" extension_auto="0"/>
+			<Target title="Remote_backup">
+				<Option output="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/Remote_backup" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -75,7 +53,29 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 Asynchronous_IO/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 Remote_backup"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Remote_backup/fast">
+				<Option output="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/Remote_backup" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 Remote_backup/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Remote\ backup/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -133,22 +133,22 @@
 			</Target>
 		</Build>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/Buffer.h">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/Client.cpp">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/Client.h">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/FileWatcher.cpp">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/FileWatcher.h">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/main.cpp">
-			<Option target="Asynchronous_IO"/>
+			<Option target="Remote_backup"/>
 			<Option target="BoostTest"/>
 		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Remote backup/CMakeLists.txt">

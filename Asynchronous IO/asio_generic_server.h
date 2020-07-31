@@ -29,24 +29,26 @@ public:
         acceptor_.bind(endpoint);
         acceptor_.listen();
 
+        std::cout << "Async accept\n";
         acceptor_.async_accept(handler->socket(),
                                [=, this](auto ec) { handle_new_connection(handler, ec); }
         );
-
+        std::cout << "Generating thread\n";
         // start pool of threads to process the asio events
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_.emplace_back([=, this] { io_service_.run(); });
         }
-
+        std::cout << "Thread created\n";
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_[i].join();
+            std::cout << "T joined" << std::endl;
         }
     }
 
 private:
     void handle_new_connection(shared_handler_t handler, std::error_code const &error) {
         if(error) { return; }
-
+        std::cout << "Starting new connection\n";
         handler->start();
 
         auto new_handler = std::make_shared<ConnectionHandler>(io_service_);

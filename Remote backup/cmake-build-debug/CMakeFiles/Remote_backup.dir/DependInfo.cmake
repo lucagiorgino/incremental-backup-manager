@@ -4,6 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/Client.cpp" "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/Remote backup/client/FileWatcher.cpp" "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
   "/home/cosimo/Desktop/ProgettoPDS/Remote backup/main.cpp" "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles/Remote_backup.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

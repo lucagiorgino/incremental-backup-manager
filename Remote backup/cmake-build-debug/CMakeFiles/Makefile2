@@ -73,7 +73,7 @@ CMAKE_BINARY_DIR = "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-d
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Asynchronous_IO.dir/all
+all: CMakeFiles/Remote_backup.dir/all
 all: CMakeFiles/BoostTest.dir/all
 
 .PHONY : all
@@ -84,37 +84,37 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Asynchronous_IO.dir/clean
+clean: CMakeFiles/Remote_backup.dir/clean
 clean: CMakeFiles/BoostTest.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Asynchronous_IO.dir
+# Target rules for target CMakeFiles/Remote_backup.dir
 
 # All Build rule for target.
-CMakeFiles/Asynchronous_IO.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" --progress-num=1,2,3,4 "Built target Asynchronous_IO"
-.PHONY : CMakeFiles/Asynchronous_IO.dir/all
+CMakeFiles/Remote_backup.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" --progress-num=3,4,5,6 "Built target Remote_backup"
+.PHONY : CMakeFiles/Remote_backup.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Asynchronous_IO.dir/rule: cmake_check_build_system
+CMakeFiles/Remote_backup.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Asynchronous_IO.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Remote_backup.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" 0
-.PHONY : CMakeFiles/Asynchronous_IO.dir/rule
+.PHONY : CMakeFiles/Remote_backup.dir/rule
 
 # Convenience name for target.
-Asynchronous_IO: CMakeFiles/Asynchronous_IO.dir/rule
+Remote_backup: CMakeFiles/Remote_backup.dir/rule
 
-.PHONY : Asynchronous_IO
+.PHONY : Remote_backup
 
 # clean rule for target.
-CMakeFiles/Asynchronous_IO.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/clean
-.PHONY : CMakeFiles/Asynchronous_IO.dir/clean
+CMakeFiles/Remote_backup.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/clean
+.PHONY : CMakeFiles/Remote_backup.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/BoostTest.dir
@@ -123,7 +123,7 @@ CMakeFiles/Asynchronous_IO.dir/clean:
 CMakeFiles/BoostTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" --progress-num=5,6 "Built target BoostTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target BoostTest"
 .PHONY : CMakeFiles/BoostTest.dir/all
 
 # Build rule for subdir invocation for target.

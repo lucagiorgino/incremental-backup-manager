@@ -76,17 +76,6 @@ CMAKE_BINARY_DIR = "/home/cosimo/Desktop/ProgettoPDS/Remote backup/cmake-build-d
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/123/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -97,6 +86,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/snap/clion/123/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -131,17 +131,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Asynchronous_IO
+# Target rules for targets named Remote_backup
 
 # Build rule for target.
-Asynchronous_IO: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Asynchronous_IO
-.PHONY : Asynchronous_IO
+Remote_backup: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Remote_backup
+.PHONY : Remote_backup
 
 # fast build rule for target.
-Asynchronous_IO/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/build
-.PHONY : Asynchronous_IO/fast
+Remote_backup/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/build
+.PHONY : Remote_backup/fast
 
 #=============================================================================
 # Target rules for targets named BoostTest
@@ -162,7 +162,7 @@ client/Client.o: client/Client.cpp.o
 
 # target to build an object file
 client/Client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/Client.cpp.o
 .PHONY : client/Client.cpp.o
 
 client/Client.i: client/Client.cpp.i
@@ -171,7 +171,7 @@ client/Client.i: client/Client.cpp.i
 
 # target to preprocess a source file
 client/Client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/Client.cpp.i
 .PHONY : client/Client.cpp.i
 
 client/Client.s: client/Client.cpp.s
@@ -180,7 +180,7 @@ client/Client.s: client/Client.cpp.s
 
 # target to generate assembly for a file
 client/Client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/Client.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/Client.cpp.s
 .PHONY : client/Client.cpp.s
 
 client/FileWatcher.o: client/FileWatcher.cpp.o
@@ -189,7 +189,7 @@ client/FileWatcher.o: client/FileWatcher.cpp.o
 
 # target to build an object file
 client/FileWatcher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o
 .PHONY : client/FileWatcher.cpp.o
 
 client/FileWatcher.i: client/FileWatcher.cpp.i
@@ -198,7 +198,7 @@ client/FileWatcher.i: client/FileWatcher.cpp.i
 
 # target to preprocess a source file
 client/FileWatcher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.i
 .PHONY : client/FileWatcher.cpp.i
 
 client/FileWatcher.s: client/FileWatcher.cpp.s
@@ -207,7 +207,7 @@ client/FileWatcher.s: client/FileWatcher.cpp.s
 
 # target to generate assembly for a file
 client/FileWatcher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/client/FileWatcher.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.s
 .PHONY : client/FileWatcher.cpp.s
 
 main.o: main.cpp.o
@@ -216,7 +216,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/main.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.o
 .PHONY : main.cpp.o
 
@@ -226,7 +226,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/main.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.i
 .PHONY : main.cpp.i
 
@@ -236,7 +236,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Asynchronous_IO.dir/build.make CMakeFiles/Asynchronous_IO.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Remote_backup.dir/build.make CMakeFiles/Remote_backup.dir/main.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.s
 .PHONY : main.cpp.s
 
@@ -248,8 +248,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Asynchronous_IO"
 	@echo "... BoostTest"
+	@echo "... Remote_backup"
 	@echo "... client/Client.o"
 	@echo "... client/Client.i"
 	@echo "... client/Client.s"

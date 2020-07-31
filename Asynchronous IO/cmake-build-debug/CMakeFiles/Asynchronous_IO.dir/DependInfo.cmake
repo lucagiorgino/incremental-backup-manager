@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/cosimo/CLionProjects/Asynchronous IO/chat_handler.cpp" "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.o"
-  "/home/cosimo/CLionProjects/Asynchronous IO/main.cpp" "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/main.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/chat_handler.cpp" "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/main.cpp" "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

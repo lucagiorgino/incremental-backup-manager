@@ -1,4 +1,4 @@
-# Install script for directory: /home/cosimo/CLionProjects/Asynchronous IO
+# Install script for directory: /home/cosimo/Desktop/ProgettoPDS/Asynchronous IO
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/cosimo/CLionProjects/Asynchronous IO/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

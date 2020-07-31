@@ -1,11 +1,12 @@
 #include <iostream>
 #include "client/FileWatcher.h"
+#include "client/Client.h"
 
 
 int main() {
-    std::unordered_map<std::string, HASH> map;
+    //std::unordered_map<std::string, HASH> map;
     // Create a FileWatcher instance that will check the current folder for changes every 5 seconds
-    FileWatcher fw{"../", std::chrono::milliseconds(500),
+    /*FileWatcher fw{"../", std::chrono::milliseconds(500),
                    map,
                    [] (std::string path_to_watch, FileStatus status) -> void {
                        // Process only regular files, all other file types are ignored
@@ -26,9 +27,11 @@ int main() {
                            default:
                                std::cout << "Error! Unknown file status.\n";
                        }
-                   }};
+                   }};*/
 
     // Start monitoring a folder for changes and (in case of changes)
     // run a user provided lambda function
-    fw.start();
+    //fw.start();
+
+    Client client{"./", "gigi", "password"};
 }

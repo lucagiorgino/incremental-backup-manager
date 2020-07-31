@@ -40,7 +40,6 @@ int main() {
     //timerTest();
     asio_generic_server<chat_handler> server{2};
     server.start_server(5000);
-    while(true);
 
     return 0;
 }

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
+  "CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
   "CMakeFiles/Remote_backup.dir/main.cpp.o"
   "Remote_backup"
   "Remote_backup.pdb"

@@ -8,6 +8,7 @@
 #include <memory>
 #include <deque>
 #include <boost/asio.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <utility>
 
 class chat_handler
@@ -25,6 +26,7 @@ public:
     }
 
     void start() {
+        std::cout << "CH: starting\n";
         read_packet();
     }
 
