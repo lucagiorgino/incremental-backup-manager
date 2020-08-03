@@ -1,0 +1,92 @@
+SHA-2
+From Wikipedia, the free encyclopedia
+Jump to navigationJump to search
+Secure Hash Algorithms
+Concepts
+hash functions · SHA · DSA
+Main standards
+SHA-0 · SHA-1 · SHA-2 · SHA-3
+vte
+SHA-2
+General
+Designers	National Security Agency
+First published	2001
+Series	(SHA-0), SHA-1, SHA-2, SHA-3
+Certification	FIPS PUB 180-4, CRYPTREC, NESSIE
+Detail
+Digest sizes	224, 256, 384, or 512 bits
+Structure	Merkle–Damgård construction with Davies–Meyer compression function
+Rounds	64 or 80
+Best public cryptanalysis
+A 2011 attack breaks preimage resistance for 57 out of 80 rounds of SHA-512, and 52 out of 64 rounds for SHA-256.[1]
+Pseudo-collision attack against up to 46 rounds of SHA-256.[2]
+
+SHA-256 and SHA-512 are prone to length extension attacks. By guessing the hidden part of the state, length extension attacks on SHA-224 and SHA-384 succeed with probability 2−(256−224) = 2−32 > 2−224 and 2−(512−384) = 2−128 > 2−384 respectively.
+SHA-2 (Secure Hash Algorithm 2) is a set of cryptographic hash functions designed by the United States National Security Agency (NSA) and first published in 2001.[3][4] They are built using the Merkle–Damgård structure, from a one-way compression function itself built using the Davies–Meyer structure from a (classified) specialized block cipher.
+
+SHA-2 includes significant changes from its predecessor, SHA-1. The SHA-2 family consists of six hash functions with digests (hash values) that are 224, 256, 384 or 512 bits: SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, SHA-512/256. SHA-256 and SHA-512 are novel hash functions computed with 32-bit and 64-bit words, respectively. They use different shift amounts and additive constants, but their structures are otherwise virtually identical, differing only in the number of rounds. SHA-224 and SHA-384 are truncated versions of SHA-256 and SHA-512 respectively, computed with different initial values. SHA-512/224 and SHA-512/256 are also truncated versions of SHA-512, but the initial values are generated using the method described in Federal Information Processing Standards (FIPS) PUB 180-4.
+
+SHA-2 was first published by the National Institute of Standards and Technology (NIST) as a U.S. federal standard (FIPS). The SHA-2 family of algorithms are patented in US patent 6829355.[5] The United States has released the patent under a royalty-free license.[6]
+
+Currently, the best public attacks break preimage resistance for 52 out of 64 rounds of SHA-256 or 57 out of 80 rounds of SHA-512, and collision resistance for 46 out of 64 rounds of SHA-256.[1][2]
+
+
+Contents
+1	Hash standard
+2	Applications
+3	Cryptanalysis and validation
+3.1	Official validation
+4	Test vectors
+5	Pseudocode
+6	Comparison of SHA functions
+7	Implementations
+8	See also
+9	References
+10	Further reading
+11	External links
+Hash standard
+
+One iteration in a SHA-2 family compression function. The blue components perform the following operations:
+    {\displaystyle \operatorname {Ch} (E,F,G)=(E\land F)\oplus (\neg E\land G)}{\displaystyle \operatorname {Ch} (E,F,G)=(E\land F)\oplus (\neg E\land G)}
+    {\displaystyle \operatorname {Ma} (A,B,C)=(A\land B)\oplus (A\land C)\oplus (B\land C)}{\displaystyle \operatorname {Ma} (A,B,C)=(A\land B)\oplus (A\land C)\oplus (B\land C)}
+    {\displaystyle \Sigma _{0}(A)=(A\!\ggg \!2)\oplus (A\!\ggg \!13)\oplus (A\!\ggg \!22)}\Sigma _{0}(A)=(A\!\ggg \!2)\oplus (A\!\ggg \!13)\oplus (A\!\ggg \!22)
+    {\displaystyle \Sigma _{1}(E)=(E\!\ggg \!6)\oplus (E\!\ggg \!11)\oplus (E\!\ggg \!25)}\Sigma _{1}(E)=(E\!\ggg \!6)\oplus (E\!\ggg \!11)\oplus (E\!\ggg \!25)
+The bitwise rotation uses different constants for SHA-512. The given numbers are for SHA-256.
+The red {\displaystyle \color {red}\boxplus }\color {red}\boxplus  is addition modulo 232 for SHA-256, or 264 for SHA-512.
+With the publication of FIPS PUB 180-2, NIST added three additional hash functions in the SHA family. The algorithms are collectively known as SHA-2, named after their digest lengths (in bits): SHA-256, SHA-384, and SHA-512.
+
+The algorithms were first published in 2001 in the draft FIPS PUB 180-2, at which time public review and comments were accepted. In August 2002, FIPS PUB 180-2 became the new Secure Hash Standard, replacing FIPS PUB 180-1, which was released in April 1995. The updated standard included the original SHA-1 algorithm, with updated technical notation consistent with that describing the inner workings of the SHA-2 family.[4]
+
+In February 2004, a change notice was published for FIPS PUB 180-2, specifying an additional variant, SHA-224, defined to match the key length of two-key Triple DES.[7] In October 2008, the standard was updated in FIPS PUB 180-3, including SHA-224 from the change notice, but otherwise making no fundamental changes to the standard. The primary motivation for updating the standard was relocating security information about the hash algorithms and recommendations for their use to Special Publications 800-107 and 800-57.[8][9][10] Detailed test data and example message digests were also removed from the standard, and provided as separate documents.[11]
+
+In January 2011, NIST published SP800-131A, which specified a move from the then-current minimum of 80-bit security (provided by SHA-1) allowable for federal government use until the end of 2013, to 112-bit security (provided by SHA-2) being both the minimum requirement (starting in 2014) and the recommended security level (starting from the publication date in 2011).[12]
+
+In March 2012, the standard was updated in FIPS PUB 180-4, adding the hash functions SHA-512/224 and SHA-512/256, and describing a method for generating initial values for truncated versions of SHA-512. Additionally, a restriction on padding the input data prior to hash calculation was removed, allowing hash data to be calculated simultaneously with content generation, such as a real-time video or audio feed. Padding the final data block must still occur prior to hash output.[13]
+
+In July 2012, NIST revised SP800-57, which provides guidance for cryptographic key management. The publication disallowed creation of digital signatures with a hash security lower than 112 bits after 2013. The previous revision from 2007 specified the cutoff to be the end of 2010.[10] In August 2012, NIST revised SP800-107 in the same manner.[9]
+
+The NIST hash function competition selected a new hash function, SHA-3, in 2012.[14] The SHA-3 algorithm is not derived from SHA-2.
+
+Applications
+Further information: Cryptographic hash function § Applications
+The SHA-2 hash function is implemented in some widely used security applications and protocols, including TLS and SSL, PGP, SSH, S/MIME, and IPsec.
+
+SHA-256 partakes in the process of authenticating Debian software packages[15] and in the DKIM message signing standard; SHA-512 is part of a system to authenticate archival video from the International Criminal Tribunal of the Rwandan genocide.[16] SHA-256 and SHA-512 are proposed for use in DNSSEC.[17] Unix and Linux vendors are moving to using 256- and 512-bit SHA-2 for secure password hashing.[18]
+
+Several cryptocurrencies like Bitcoin use SHA-256 for verifying transactions and calculating proof of work[19] or proof of stake.[20] The rise of ASIC SHA-2 accelerator chips has led to the use of scrypt-based proof-of-work schemes.
+
+SHA-1 and SHA-2 are the Secure Hash Algorithms required by law for use in certain U.S. Government applications, including use within other cryptographic algorithms and protocols, for the protection of sensitive unclassified information. FIPS PUB 180-1 also encouraged adoption and use of SHA-1 by private and commercial organizations. SHA-1 is being retired for most government uses; the U.S. National Institute of Standards and Technology says, "Federal agencies should stop using SHA-1 for...applications that require collision resistance as soon as practical, and must use the SHA-2 family of hash functions for these applications after 2010" (emphasis in original).[21] NIST's directive that U.S. government agencies must stop uses of SHA-1 after 2010[22] was hoped to accelerate migration away from SHA-1.
+
+The SHA-2 functions were not quickly adopted initially, despite better security than SHA-1. Reasons might include lack of support for SHA-2 on systems running Windows XP SP2 or older[23] and a lack of perceived urgency since SHA-1 collisions had not yet been found. The Google Chrome team announced a plan to make their web browser gradually stop honoring SHA-1-dependent TLS certificates over a period from late 2014 and early 2015.[24][25][26] Similarly, Microsoft announced[27] that Internet Explorer and Edge would stop honoring public SHA-1-signed TLS certificates from February 2017. Mozilla disabled SHA-1 in early January 2016, but had to re-enable it temporarily via a Firefox update, after problems with web-based user interfaces of some router models and security appliances.[28]
+
+Cryptanalysis and validation
+For a hash function for which L is the number of bits in the message digest, finding a message that corresponds to a given message digest can always be done using a brute force search in 2L evaluations. This is called a preimage attack and may or may not be practical depending on L and the particular computing environment. The second criterion, finding two different messages that produce the same message digest, known as a collision, requires on average only 2L/2 evaluations using a birthday attack.
+
+Some of the applications that use cryptographic hashes, such as password storage, are only minimally affected by a collision attack. Constructing a password that works for a given account requires a preimage attack, as well as access to the hash of the original password (typically in the shadow file) which may or may not be trivial. Reversing password encryption (e.g., to obtain a password to try against a user's account elsewhere) is not made possible by the attacks. (However, even a secure password hash cannot prevent brute-force attacks on weak passwords.)
+
+In the case of document signing, an attacker could not simply fake a signature from an existing document—the attacker would have to produce a pair of documents, one innocuous and one damaging, and get the private key holder to sign the innocuous document. There are practical circumstances in which this is possible; until the end of 2008, it was possible to create forged SSL certificates using an MD5 collision which would be accepted by widely used web browsers.[29]
+
+Increased interest in cryptographic hash analysis during the SHA-3 competition produced several new attacks on the SHA-2 family, the best of which are given in the table below. Only the collision attacks are of practical complexity; none of the attacks extend to the full round hash function.
+
+At FSE 2012, researchers at Sony gave a presentation suggesting pseudo-collision attacks could be extended to 52 rounds on SHA-256 and 57 rounds on SHA-512 by building
+upon the biclique pseudo-preimage attack.[30]
