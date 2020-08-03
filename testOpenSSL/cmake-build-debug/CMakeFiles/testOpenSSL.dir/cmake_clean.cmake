@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
+  "../bin/testOpenSSL"
+  "../bin/testOpenSSL.pdb"
   "CMakeFiles/testOpenSSL.dir/main.cpp.o"
-  "testOpenSSL"
-  "testOpenSSL.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

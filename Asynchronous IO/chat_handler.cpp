@@ -5,14 +5,24 @@
 #include <iostream>
 #include "chat_handler.h"
 
+
+void chat_handler::read_credential() {
+    std::string data;
+    size_t len;
+
+    boost::asio::read();
+
+
+}
+
+
 /**
  *
  */
 void chat_handler::read_packet() {
-    std::cout << "CH: read packet\n";
     boost::asio::async_read_until(socket_,
                                   in_packet_,
-                                  '\0', // terminator
+                                  "\r\n", // terminator
                                   [me = shared_from_this()] // this shared pointer enable to manage the lifetime
                                           // of the instance by creating a new reference
                                           (std::error_code const &ec,
@@ -23,7 +33,6 @@ void chat_handler::read_packet() {
 }
 
 void chat_handler::read_packet_done(std::error_code const &error, std::size_t bytes_transferred) {
-    std::cout << "CH: read packet done\n";
     if (error) {
         std::cerr << error << std::endl;
         return;
@@ -32,7 +41,8 @@ void chat_handler::read_packet_done(std::error_code const &error, std::size_t by
     std::istream stream(&in_packet_);
     std::string packet_string;
     stream >> packet_string;
-    std::cout << "CH: message read:" << packet_string << std::endl;
+    //std::getline(stream, packet_string, '\0');
+    std::cout << "CH: message reading: " << packet_string << std::endl;
     // do something with it
     send(packet_string);
     // ex
@@ -41,7 +51,6 @@ void chat_handler::read_packet_done(std::error_code const &error, std::size_t by
 }
 
 void chat_handler::queue_message(std::string msg) {
-    std::cout << "CH: queue message\n";
     bool write_in_progress = !send_packet_queue.empty(); // only 1 thread per time can access this thanks to strand
     send_packet_queue.push_back(std::move(msg));
 
@@ -51,8 +60,8 @@ void chat_handler::queue_message(std::string msg) {
 }
 
 void chat_handler::start_packet_send() {
-    send_packet_queue.front() += "\0";
-    std::cout << "CH: start packet sending" << send_packet_queue.front() << std::endl;
+    send_packet_queue.front() += "\r\n";
+    std::cout << "CH: start packet sending: " << send_packet_queue.front() << std::endl;
     boost::asio::async_write(socket_,
                              boost::asio::buffer(send_packet_queue.front()),
                              write_strand_.wrap([me = shared_from_this()]
@@ -63,7 +72,7 @@ void chat_handler::start_packet_send() {
 }
 
 void chat_handler::packet_send_done(const std::error_code &error) {
-    std::cout << "CH: start packet send done\n";
+    std::cout << "CH: sending done" << std::endl;
     if (!error) {
         send_packet_queue.pop_front();
         if (!send_packet_queue.empty()) {

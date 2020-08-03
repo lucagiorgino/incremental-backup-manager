@@ -4,6 +4,9 @@ project(testOpenSSL)
 set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS -lcrypto)
 
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
+
 link_libraries(crypto)
 
 find_package(OpenSSL)

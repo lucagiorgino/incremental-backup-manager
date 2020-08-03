@@ -12,7 +12,7 @@ if(OpenSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIRS})
 endif()
 
-find_package(Boost 1.71.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.65.0 COMPONENTS system filesystem REQUIRED)
 
 if(Boost_FOUND)
     message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")

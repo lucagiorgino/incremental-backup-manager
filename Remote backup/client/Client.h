@@ -55,23 +55,28 @@ public:
             //** TO-DO: Criptare la connessione per lo scambio di username/password
             boost::asio::write(socket_, boost::asio::buffer(name), error);
 
-            std::cout << "reading name" << std::endl;
-            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), '\0', error);
+            std::cout << "writing password" << std::endl;
+            boost::asio::write(socket_, boost::asio::buffer(password), error);
+            data.clear();
 
+            std::cout << "reading name" << std::endl;
+            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\r\n", error);
+            std::string namercv;
+            std::getline(std::istringstream(data), namercv, '\n');
             if (error && error != boost::asio::error::eof)
                 throw boost::system::system_error(error); // Some other error.
 
 
             std::cout << data << " - " << len << std::endl;
-            std::cout << "writing password" << std::endl;
-            boost::asio::write(socket_, boost::asio::buffer(password), error);
-            data.clear();
+
             std::cout << "reading password" << std::endl;
-            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), '\0',error);
+            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\r\n",error);
             if (error && error != boost::asio::error::eof)
                 throw boost::system::system_error(error);
+            std::string passrecv;
+            std::getline(std::istringstream(data), namercv, '\n');
 
-            std::cout << data << " - " << len << std::endl;
+            std::cout << passrecv << " - " << len << std::endl;
 
         } catch (std::exception &exception) {
             std::cerr << exception.what() << std::endl;

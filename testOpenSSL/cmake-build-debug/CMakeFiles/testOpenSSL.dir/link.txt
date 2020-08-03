@@ -1,1 +1,1 @@
-/usr/bin/c++  -lcrypto -g   CMakeFiles/testOpenSSL.dir/main.cpp.o  -o testOpenSSL  -lcrypto 
+/usr/bin/c++  -lcrypto -g   CMakeFiles/testOpenSSL.dir/main.cpp.o  -o ../bin/testOpenSSL  -lcrypto 

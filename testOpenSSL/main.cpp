@@ -110,10 +110,10 @@ public:
 int main(){
 
     Hash file1;
-    file1.computeHash("example.txt");
+    file1.computeHash("../example.txt");
 
     Hash file2;
-    file2.computeHash("example2.txt");
+    file2.computeHash("../example2.txt");
 
     if(file1 == file2);
 
