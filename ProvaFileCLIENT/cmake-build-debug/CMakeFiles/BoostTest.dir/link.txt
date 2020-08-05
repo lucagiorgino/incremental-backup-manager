@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -g   CMakeFiles/BoostTest.dir/main.cpp.o  -o BoostTest  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 
