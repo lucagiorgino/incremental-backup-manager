@@ -27,7 +27,7 @@ public:
 
     void start() {
         std::cout << "CH: starting\n";
-        read_packet();
+        read_size_then_packet();
     }
 
     void send(std::string msg) {
@@ -41,6 +41,7 @@ private:
     boost::asio::ip::tcp::socket socket_;
     boost::asio::io_service::strand write_strand_;
     boost::asio::streambuf in_packet_;
+    std::string in_packet;
     std::deque<std::string> send_packet_queue;
 
     void read_packet();
@@ -48,6 +49,10 @@ private:
     void queue_message(std::string msg);
     void start_packet_send();
     void packet_send_done(std::error_code const & error);
+
+    void read_size_then_packet();
+    void read_body(std::error_code const &error, std::size_t bytes_transferred);
+    void send_size_then_packet(std::string msg);
 };
 
 

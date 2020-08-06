@@ -47,10 +47,11 @@ public:
 
             std::string data;
             boost::system::error_code error;
+            size_t len;
             name += '\0';
             password += '\0';
 
-            size_t len;
+
             std::cout << "writing name" << std::endl;
             //** TO-DO: Criptare la connessione per lo scambio di username/password
             boost::asio::write(socket_, boost::asio::buffer(name), error);
@@ -60,9 +61,9 @@ public:
             data.clear();
 
             std::cout << "reading name" << std::endl;
-            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\r\n", error);
+            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\n", error);
             std::string namercv;
-            std::getline(std::istringstream(data), namercv, '\n');
+            std::getline(std::istringstream(data), namercv);
             if (error && error != boost::asio::error::eof)
                 throw boost::system::system_error(error); // Some other error.
 
@@ -70,11 +71,11 @@ public:
             std::cout << data << " - " << len << std::endl;
 
             std::cout << "reading password" << std::endl;
-            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\r\n",error);
+            len = boost::asio::read_until(socket_, boost::asio::dynamic_buffer(data), "\n",error);
             if (error && error != boost::asio::error::eof)
                 throw boost::system::system_error(error);
             std::string passrecv;
-            std::getline(std::istringstream(data), namercv, '\n');
+            std::getline(std::istringstream(data), namercv);
 
             std::cout << passrecv << " - " << len << std::endl;
 
@@ -92,8 +93,10 @@ public:
 private:
     Buffer<Action> actions;
     boost::asio::io_context io_context_;
-    boost::asio::ip::tcp::resolver resolver_;
-    boost::asio::ip::tcp::socket socket_;
+    tcp::resolver resolver_;
+    tcp::socket socket_;
+    void send_packet(std::string packet);
+
 };
 
 

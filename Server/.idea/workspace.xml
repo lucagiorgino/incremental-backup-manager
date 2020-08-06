@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="Server" targetName="Server" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/chat_handler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/chat_handler.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/chat_handler.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/chat_handler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/Asynchronous_IO" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/Asynchronous_IO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/chat_handler.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Asynchronous IO/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Remote backup/client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Remote backup/client/Client.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Remote backup/client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Remote backup/client/Client.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Remote backup/cmake-build-debug/BoostTest" beforeDir="false" afterPath="$PROJECT_DIR$/../Remote backup/cmake-build-debug/BoostTest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Remote backup/cmake-build-debug/CMakeFiles/BoostTest.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Remote backup/cmake-build-debug/CMakeFiles/BoostTest.dir/main.cpp.o" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1fiYES2emS8bMKYimVEGIqL71Dm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Server" TARGET_NAME="Server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Server" RUN_TARGET_NAME="Server">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="" />
+      <created>1596702267917</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596702267917</updated>
+      <workItem from="1596702269185" duration="2000" />
+    </task>
+    <servers />
+  </component>
+</project>
