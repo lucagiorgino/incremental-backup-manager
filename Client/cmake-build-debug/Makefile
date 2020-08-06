@@ -143,6 +143,100 @@ Client/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/build
 .PHONY : Client/fast
 
+#=============================================================================
+# Target rules for targets named BoostTest
+
+# Build rule for target.
+BoostTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BoostTest
+.PHONY : BoostTest
+
+# fast build rule for target.
+BoostTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/build
+.PHONY : BoostTest/fast
+
+Client.o: Client.cpp.o
+
+.PHONY : Client.o
+
+# target to build an object file
+Client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Client.cpp.o
+.PHONY : Client.cpp.o
+
+Client.i: Client.cpp.i
+
+.PHONY : Client.i
+
+# target to preprocess a source file
+Client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Client.cpp.i
+.PHONY : Client.cpp.i
+
+Client.s: Client.cpp.s
+
+.PHONY : Client.s
+
+# target to generate assembly for a file
+Client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Client.cpp.s
+.PHONY : Client.cpp.s
+
+FileWatcher.o: FileWatcher.cpp.o
+
+.PHONY : FileWatcher.o
+
+# target to build an object file
+FileWatcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/FileWatcher.cpp.o
+.PHONY : FileWatcher.cpp.o
+
+FileWatcher.i: FileWatcher.cpp.i
+
+.PHONY : FileWatcher.i
+
+# target to preprocess a source file
+FileWatcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/FileWatcher.cpp.i
+.PHONY : FileWatcher.cpp.i
+
+FileWatcher.s: FileWatcher.cpp.s
+
+.PHONY : FileWatcher.s
+
+# target to generate assembly for a file
+FileWatcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/FileWatcher.cpp.s
+.PHONY : FileWatcher.cpp.s
+
+Hash.o: Hash.cpp.o
+
+.PHONY : Hash.o
+
+# target to build an object file
+Hash.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Hash.cpp.o
+.PHONY : Hash.cpp.o
+
+Hash.i: Hash.cpp.i
+
+.PHONY : Hash.i
+
+# target to preprocess a source file
+Hash.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Hash.cpp.i
+.PHONY : Hash.cpp.i
+
+Hash.s: Hash.cpp.s
+
+.PHONY : Hash.s
+
+# target to generate assembly for a file
+Hash.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Hash.cpp.s
+.PHONY : Hash.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -150,6 +244,7 @@ main.o: main.cpp.o
 # target to build an object file
 main.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -159,6 +254,7 @@ main.i: main.cpp.i
 # target to preprocess a source file
 main.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -168,6 +264,7 @@ main.s: main.cpp.s
 # target to generate assembly for a file
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -178,7 +275,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... BoostTest"
 	@echo "... Client"
+	@echo "... Client.o"
+	@echo "... Client.i"
+	@echo "... Client.s"
+	@echo "... FileWatcher.o"
+	@echo "... FileWatcher.i"
+	@echo "... FileWatcher.s"
+	@echo "... Hash.o"
+	@echo "... Hash.i"
+	@echo "... Hash.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

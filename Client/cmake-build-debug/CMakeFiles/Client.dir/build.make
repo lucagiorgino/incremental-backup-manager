@@ -90,17 +90,62 @@ CMakeFiles/Client.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Client.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/Client/main.cpp -o CMakeFiles/Client.dir/main.cpp.s
 
+CMakeFiles/Client.dir/Client.cpp.o: CMakeFiles/Client.dir/flags.make
+CMakeFiles/Client.dir/Client.cpp.o: ../Client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Client.dir/Client.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Client.dir/Client.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp
+
+CMakeFiles/Client.dir/Client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Client.dir/Client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp > CMakeFiles/Client.dir/Client.cpp.i
+
+CMakeFiles/Client.dir/Client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Client.dir/Client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp -o CMakeFiles/Client.dir/Client.cpp.s
+
+CMakeFiles/Client.dir/FileWatcher.cpp.o: CMakeFiles/Client.dir/flags.make
+CMakeFiles/Client.dir/FileWatcher.cpp.o: ../FileWatcher.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Client.dir/FileWatcher.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Client.dir/FileWatcher.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp
+
+CMakeFiles/Client.dir/FileWatcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Client.dir/FileWatcher.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp > CMakeFiles/Client.dir/FileWatcher.cpp.i
+
+CMakeFiles/Client.dir/FileWatcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Client.dir/FileWatcher.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp -o CMakeFiles/Client.dir/FileWatcher.cpp.s
+
+CMakeFiles/Client.dir/Hash.cpp.o: CMakeFiles/Client.dir/flags.make
+CMakeFiles/Client.dir/Hash.cpp.o: ../Hash.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Client.dir/Hash.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Client.dir/Hash.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/Client/Hash.cpp
+
+CMakeFiles/Client.dir/Hash.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Client.dir/Hash.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/Client/Hash.cpp > CMakeFiles/Client.dir/Hash.cpp.i
+
+CMakeFiles/Client.dir/Hash.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Client.dir/Hash.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/Client/Hash.cpp -o CMakeFiles/Client.dir/Hash.cpp.s
+
 # Object files for target Client
 Client_OBJECTS = \
-"CMakeFiles/Client.dir/main.cpp.o"
+"CMakeFiles/Client.dir/main.cpp.o" \
+"CMakeFiles/Client.dir/Client.cpp.o" \
+"CMakeFiles/Client.dir/FileWatcher.cpp.o" \
+"CMakeFiles/Client.dir/Hash.cpp.o"
 
 # External object files for target Client
 Client_EXTERNAL_OBJECTS =
 
 Client: CMakeFiles/Client.dir/main.cpp.o
+Client: CMakeFiles/Client.dir/Client.cpp.o
+Client: CMakeFiles/Client.dir/FileWatcher.cpp.o
+Client: CMakeFiles/Client.dir/Hash.cpp.o
 Client: CMakeFiles/Client.dir/build.make
 Client: CMakeFiles/Client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

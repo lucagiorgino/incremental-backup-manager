@@ -143,6 +143,73 @@ Server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/build
 .PHONY : Server/fast
 
+#=============================================================================
+# Target rules for targets named BoostTest
+
+# Build rule for target.
+BoostTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BoostTest
+.PHONY : BoostTest
+
+# fast build rule for target.
+BoostTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/build
+.PHONY : BoostTest/fast
+
+ClientHandler.o: ClientHandler.cpp.o
+
+.PHONY : ClientHandler.o
+
+# target to build an object file
+ClientHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/ClientHandler.cpp.o
+.PHONY : ClientHandler.cpp.o
+
+ClientHandler.i: ClientHandler.cpp.i
+
+.PHONY : ClientHandler.i
+
+# target to preprocess a source file
+ClientHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/ClientHandler.cpp.i
+.PHONY : ClientHandler.cpp.i
+
+ClientHandler.s: ClientHandler.cpp.s
+
+.PHONY : ClientHandler.s
+
+# target to generate assembly for a file
+ClientHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/ClientHandler.cpp.s
+.PHONY : ClientHandler.cpp.s
+
+Server.o: Server.cpp.o
+
+.PHONY : Server.o
+
+# target to build an object file
+Server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.o
+.PHONY : Server.cpp.o
+
+Server.i: Server.cpp.i
+
+.PHONY : Server.i
+
+# target to preprocess a source file
+Server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.i
+.PHONY : Server.cpp.i
+
+Server.s: Server.cpp.s
+
+.PHONY : Server.s
+
+# target to generate assembly for a file
+Server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.s
+.PHONY : Server.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -150,6 +217,7 @@ main.o: main.cpp.o
 # target to build an object file
 main.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -159,6 +227,7 @@ main.i: main.cpp.i
 # target to preprocess a source file
 main.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -168,6 +237,7 @@ main.s: main.cpp.s
 # target to generate assembly for a file
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BoostTest.dir/build.make CMakeFiles/BoostTest.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -178,7 +248,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... BoostTest"
 	@echo "... Server"
+	@echo "... ClientHandler.o"
+	@echo "... ClientHandler.i"
+	@echo "... ClientHandler.s"
+	@echo "... Server.o"
+	@echo "... Server.i"
+	@echo "... Server.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

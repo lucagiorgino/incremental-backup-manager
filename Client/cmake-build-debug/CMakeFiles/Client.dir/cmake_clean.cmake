@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Client.dir/Client.cpp.o"
+  "CMakeFiles/Client.dir/FileWatcher.cpp.o"
+  "CMakeFiles/Client.dir/Hash.cpp.o"
   "CMakeFiles/Client.dir/main.cpp.o"
   "Client"
   "Client.pdb"

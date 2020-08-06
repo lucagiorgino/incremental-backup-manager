@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.cpp
+ClientHandler.h
+/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+iostream
+-
+ClientHandler.h
+/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+
+/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+ctime
+-
+iostream
+-
+string
+-
+fstream
+-
+sstream
+-
+boost/array.hpp
+-
+memory
+-
+deque
+-
+boost/asio.hpp
+-
+boost/enable_shared_from_this.hpp
+-
+utility
+-
+

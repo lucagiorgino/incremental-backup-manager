@@ -2,3 +2,6 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/cosimo/Desktop/ProgettoPDS/testOpenSSL/cmake-build-debug
+
+Problems were encountered while collecting compiler information:
+	c++: error: unrecognized command line option '-pthread;-lcrypto'
