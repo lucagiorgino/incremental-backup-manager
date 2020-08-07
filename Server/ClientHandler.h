@@ -21,6 +21,14 @@
 
 #define MAX_MSG_SIZE 1024
 
+enum ActionType {
+    read_file, delete_file, create_folder, delete_folder
+};
+
+enum ClientStatus {
+    starting, active, terminating
+};
+
 class ClientHandler
         : public std::enable_shared_from_this<ClientHandler> // pattern that allows to inject behaviours via
     // a shared pointer to himself and pass or bind it
@@ -36,6 +44,9 @@ public:
     }
 
     void start() {
+
+
+
         std::cout << "CH: starting\n";
         read_file();
         std::cout << "second read" << std::endl;
@@ -43,7 +54,7 @@ public:
     }
 
     void send(std::string msg) {
-        service_.post(write_strand_.wrap([me = shared_from_this(), msg=std::move(msg)]() {
+        service_.post(write_strand_.wrap([me = shared_from_this(), msg = std::move(msg)]() {
             me->queue_message(msg);
         }));
     }
@@ -56,13 +67,17 @@ private:
     std::deque<std::string> send_packet_queue;
 
 
-
     void read_packet();
+
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);
+
     void read_file();
+
     void queue_message(std::string msg);
+
     void start_packet_send();
-    void packet_send_done(std::error_code const & error);
+
+    void packet_send_done(std::error_code const &error);
 };
 
 

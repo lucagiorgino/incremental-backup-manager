@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "BoostTest"
-  "BoostTest.pdb"
+  "../bin/BoostTest"
+  "../bin/BoostTest.pdb"
   "CMakeFiles/BoostTest.dir/main.cpp.o"
 )
 

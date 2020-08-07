@@ -92,6 +92,7 @@ void ClientHandler::read_file() {
     request_stream >> file_path;
     request_stream >> file_size;
     request_stream.read(buf.c_array(), 2); // eat the "\n\n"
+
     std::cout << file_path << " size is " << file_size << std::endl;
 
     size_t pos = file_path.find_last_of("\\");
@@ -115,8 +116,15 @@ void ClientHandler::read_file() {
         counter -= request_stream.gcount();
     } while (counter>0);
     */
+
     std::cout << "Reading file " << file_path << std::endl;
     boost::system::error_code error;
+    if(request_buf.size() > 0){
+
+
+    }
+
+
     for (;;) {
         if (file_size > MAX_MSG_SIZE) {
             size_t len = socket_.read_some(boost::asio::buffer(buf), error);
@@ -127,8 +135,8 @@ void ClientHandler::read_file() {
             // ###### BISOGNA SETTARE IL boost::asio::buffer AD UNA GRANDEZZA
             // MASSIMA PARI A FILE_SIZE, IL PROBLEMA È CHE NON PERMETTE DI
             // AGGIUNGERE VALORI CHE NON SIANO COSTANTI O ALMENO IO NON
-            // CI SONO RIUSCITO #######################################
-            size_t len = socket_.read_some(boost::asio::buffer(buf), error);
+            // CI SONO RIUSCITO ######################################
+            size_t len = socket_.read_some(boost::asio::buffer(buf, file_size), error);
             std::cout << "out" << len << std::endl;
             output_file.write(buf.c_array(), (std::streamsize) file_size);
             break; // file received

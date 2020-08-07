@@ -3,7 +3,8 @@ project(Client)
 
 set(CMAKE_CXX_STANDARD 20)
 SET(CMAKE_CXX_FLAGS "-pthread -lcrypto")
-
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
 message(STATUS "start running cmake...")
 
 link_libraries(crypto)
