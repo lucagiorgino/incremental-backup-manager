@@ -21,6 +21,7 @@
 
 #define MAX_MSG_SIZE 1024
 
+
 enum ActionType {
     read_file, delete_file, create_folder, delete_folder
 };
@@ -37,20 +38,15 @@ public:
     ClientHandler(boost::asio::io_service &service) :
             service_(service),
             socket_(service),
-            write_strand_(service) {}
+            write_strand_(service),
+            current_dimension(0) {}
 
     boost::asio::ip::tcp::socket &socket() {
         return socket_;
     }
 
     void start() {
-
-
-
-        std::cout << "CH: starting\n";
-        read_file();
-        std::cout << "second read" << std::endl;
-        read_file();
+        std::cout << "DO NOTHING" << std::endl;
     }
 
     void send(std::string msg) {
@@ -66,12 +62,18 @@ private:
     boost::asio::streambuf in_packet_;
     std::deque<std::string> send_packet_queue;
 
+    boost::array<char, MAX_MSG_SIZE> buf;
+    size_t current_dimension;
+    //std::string buf;
 
     void read_packet();
 
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);
 
-    void read_file();
+    void action_read_file();
+    void action_delete_file();
+    void action_create_folder();
+    void action_delete_folder();
 
     void queue_message(std::string msg);
 

@@ -76,8 +76,9 @@ void Client::sendFile(const std::string &filename) {
     // first send file name and file size to server
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
-    request_stream << filename << "\n"
-                   << file_size << "\n\n";
+    request_stream << filename.size() << "\n"
+                   << filename << "\n"
+                   << file_size ;
     boost::asio::write(socket_, request);
     std::cout << "start sending file content.\n";
     for (;;) {

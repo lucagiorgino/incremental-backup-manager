@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 3.17)
 project(Server)
 
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
+
 set(CMAKE_CXX_STANDARD 20)
 SET(CMAKE_CXX_FLAGS -pthread)
 
 message(STATUS "start running cmake...")
 
 find_package(OpenSSL)
+
+
 
 if(OpenSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIRS})

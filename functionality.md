@@ -28,3 +28,4 @@ modo sincrono, aspettando la conferma dal server. Le azioni sulle cartelle sono 
 
 !!! L'hash deve essere indipendente dai metadati(?)
 !!! Se al server arriva prima il file
+
