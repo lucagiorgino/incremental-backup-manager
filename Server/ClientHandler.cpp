@@ -4,6 +4,22 @@
 #include <filesystem>
 #include "ClientHandler.h"
 
+// ***** PUBLIC *****
+
+void ClientHandler::start() {
+    std::cout << "START CLIENT CONNECTION" << std::endl;
+    main_folder = "Client_1";
+    while(true){
+        read_action();
+    }
+}
+
+
+
+
+// ***** PRIVATE *****
+
+
 /*
 void ClientHandler::read_credential() {
     std::string data;
@@ -81,6 +97,44 @@ void ClientHandler::packet_send_done(const std::error_code &error) {
     }
 }
 
+
+
+
+void ClientHandler::read_action(){
+    size_t action = 0;
+
+    boost::asio::streambuf request_buf;
+    std::istream request_stream(&request_buf);
+
+    std::cout << "reading action" << std::endl;
+
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    request_stream >> action;
+
+    std::cout << action << std::endl;
+
+    switch (action) {
+        case read_file:
+            action_read_file();
+            break;
+        case delete_file:
+            action_delete_file();
+            break;
+        case create_folder:
+            action_create_folder();
+            break;
+        case delete_folder:
+            action_delete_folder();
+            break;
+        case quit:
+            // close connection
+            break;
+        default:
+            // throw exception???
+            break;
+    }
+}
+
 /**
  * Read file from socket_, the client must send in this order:
  * (int) path_size + "\n"
@@ -99,18 +153,14 @@ void ClientHandler::action_read_file() {
     boost::asio::streambuf request_buf;
     std::istream request_stream(&request_buf);
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> path_size;
 
     boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
     request_stream >> file_path;
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> file_size;
-
-    std::cout << "path_size: " << path_size << std::endl;
-    std::cout << "file_path: " << file_path << std::endl;
-    std::cout << "file_size: " << file_size << std::endl;
 
     size_t pos = file_path.find_last_of("\\");
     if (pos != std::string::npos)
@@ -131,16 +181,10 @@ void ClientHandler::action_read_file() {
             file_size -= len;
             output_file.write(buf.c_array(), (std::streamsize) len);
         } else {
-            // ###### BISOGNA SETTARE IL boost::asio::buffer AD UNA GRANDEZZA
-            // MASSIMA PARI A FILE_SIZE, IL PROBLEMA È CHE NON PERMETTE DI
-            // AGGIUNGERE VALORI CHE NON SIANO COSTANTI O ALMENO IO NON
-            // CI SONO RIUSCITO ######################################
-            size_t len = socket_.read_some(boost::asio::buffer(buf, file_size), error);
+            socket_.read_some(boost::asio::buffer(buf, file_size), error);
             output_file.write(buf.c_array(), (std::streamsize) file_size);
             break; // file received
         }
-
-        std::cout << "bytes remaining: " << file_size << std::endl;
 
         if (error) {
             std::cerr << error << std::endl;
@@ -165,7 +209,7 @@ void ClientHandler::action_delete_file() {
     boost::asio::streambuf request_buf;
     std::istream request_stream(&request_buf);
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> path_size;
 
     boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
@@ -191,7 +235,7 @@ void ClientHandler::action_create_folder() {
     boost::asio::streambuf request_buf;
     std::istream request_stream(&request_buf);
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> path_size;
 
     boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
@@ -220,7 +264,7 @@ void ClientHandler::action_delete_folder() {
     boost::asio::streambuf request_buf;
     std::istream request_stream(&request_buf);
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> path_size;
 
     boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));

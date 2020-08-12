@@ -4,7 +4,13 @@ Client::Client(std::string path, std::string name, std::string password) :
         resolver_(io_context_),
         socket_(io_context_),
         fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
-                    [](const std::string &path, FileStatus fileStatus) { return; }) {
+                    [this](const std::string &path, FileStatus fileStatus) {
+                        std::cout << "action " << path << std::endl;
+                        Action action;
+                        action.path = path;
+                        action.fileStatus = fileStatus;
+                        this->actions.push(action);
+                    }) {
 
     try {
         tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
@@ -13,8 +19,24 @@ Client::Client(std::string path, std::string name, std::string password) :
         std::string filename = "../dirA/loremipsum";
         std::string filenamenew = "../dirA/loremipsumNEW";
 
-        sendFile(filename);
-        sendFile(filenamenew);
+        std::thread fileWatcherThread([this]() {
+            std::unordered_map<std::string, Hash> initial_status;
+            this->fileWatcher.start(initial_status);
+        });
+
+        std::thread actionsConsumer([this]() {
+            while (true) {
+                std::optional<Action> action = actions.pop();
+                if (action.has_value()) {
+                    send_action(action.value());
+                }
+            }
+        });
+
+        // SERVONO I JOIN? DISPATCH? ALTRO?
+        fileWatcherThread.join();
+        actionsConsumer.join();
+
 
         /*std::string data;
         boost::system::error_code error;
@@ -64,8 +86,43 @@ Client::Client(std::string path, std::string name, std::string password) :
 }
 
 
-void Client::sendFile(const std::string &filename) {
-    boost::array<char, 1024> buf;
+void Client::send_action(Action action) {
+    boost::array<char, MAX_MSG_SIZE> buf;
+    /***  DA COMPLETARE, VERIFICARE IL TIPO
+     *    DEGLI ENUM PER LA LETTURA LATO SERVER
+     *    (FARE STATIC CAST A INT? SIZE_T?)
+     *    ***/
+    boost::asio::streambuf request;
+    std::ostream request_stream(&request);
+    ActionType actionType;
+
+    bool isDirectory = fs::is_directory(action.path);
+
+    switch(action.fileStatus){
+        case FileStatus::created:
+            actionType = isDirectory ? ActionType::create_folder : ActionType::read_file;
+            break;
+        case FileStatus::modified:
+            actionType = isDirectory ? ActionType::create_folder : ActionType::read_file;
+            break;
+        case FileStatus::erased:
+            actionType = isDirectory ? ActionType::delete_folder : ActionType::delete_file;
+            break;
+    }
+
+    request_stream << actionType
+                   << action.path.string().length()
+                   << action.path.string();
+    boost::asio::write(socket_, request);
+
+    if(actionType == ActionType::read_file ){
+        send_file(action.path.string());
+    }
+}
+
+
+void Client::send_file(const std::string &filename) {
+    boost::array<char, MAX_MSG_SIZE> buf;
     std::ifstream source_file(filename, std::ios_base::binary | std::ios_base::ate);
     if (!source_file) {
         std::cout << "failed to open " << filename << std::endl;
@@ -78,7 +135,7 @@ void Client::sendFile(const std::string &filename) {
     std::ostream request_stream(&request);
     request_stream << filename.size() << "\n"
                    << filename << "\n"
-                   << file_size ;
+                   << file_size;
     boost::asio::write(socket_, request);
     std::cout << "start sending file content.\n";
     for (;;) {

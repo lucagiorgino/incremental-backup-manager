@@ -15,10 +15,16 @@ using boost::asio::ip::tcp;
 #include "Buffer.h"
 
 #define DELAY 2000
+#define MAX_MSG_SIZE 1024
 
 namespace fs = std::filesystem;
 
 using boost::asio::ip::tcp;
+
+
+enum ActionType {
+    read_file, delete_file, create_folder, delete_folder, quit
+};
 
 struct Action {
     fs::path path;
@@ -36,7 +42,9 @@ private:
     boost::asio::ip::tcp::resolver resolver_;
     boost::asio::ip::tcp::socket socket_;
 
-    void sendFile(const std::string& filename);
+
+    void send_action(Action action);
+    void send_file(const std::string& filename);
 };
 
 #endif //CLIENT_CLIENT_H
