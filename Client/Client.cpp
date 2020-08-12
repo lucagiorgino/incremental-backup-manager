@@ -38,6 +38,17 @@ Client::Client(std::string path, std::string name, std::string password) :
         actionsConsumer.join();
 
 
+        /*
+        Action action;
+        action.fileStatus = FileStatus::created;
+        action.path = "../dirA";
+        send_action(action);
+
+        action.fileStatus = FileStatus::created;
+        action.path = "../dirA/loremipsum";
+
+        send_action(action);
+        */
         /*std::string data;
         boost::system::error_code error;
         name += '\0';
@@ -94,7 +105,7 @@ void Client::send_action(Action action) {
      *    ***/
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
-    ActionType actionType;
+    size_t actionType;
 
     bool isDirectory = fs::is_directory(action.path);
 
@@ -110,9 +121,9 @@ void Client::send_action(Action action) {
             break;
     }
 
-    request_stream << actionType
-                   << action.path.string().length()
-                   << action.path.string();
+    request_stream << actionType << "\n"
+                   << action.path.string().length() << "\n"
+                   << action.path.string() << "\n";
     boost::asio::write(socket_, request);
 
     if(actionType == ActionType::read_file ){
@@ -130,16 +141,13 @@ void Client::send_file(const std::string &filename) {
     }
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
-    // first send file name and file size to server
+    // send file size to server
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
-    request_stream << filename.size() << "\n"
-                   << filename << "\n"
-                   << file_size;
+    request_stream << file_size ;
     boost::asio::write(socket_, request);
-    std::cout << "start sending file content.\n";
+    std::cout << "start sending file content." << file_size << "bytes\n";
     for (;;) {
-
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
             if (source_file.gcount() <= 0) {

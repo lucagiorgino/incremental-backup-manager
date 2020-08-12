@@ -102,29 +102,35 @@ void ClientHandler::packet_send_done(const std::error_code &error) {
 
 void ClientHandler::read_action(){
     size_t action = 0;
+    size_t path_size = 0;
+    std::string path;
 
-    boost::asio::streambuf request_buf;
-    std::istream request_stream(&request_buf);
 
     std::cout << "reading action" << std::endl;
 
     boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> action;
 
-    std::cout << action << std::endl;
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    request_stream >> path_size;
 
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
+    request_stream >> path;
+
+
+    std::cout << action << " " << path << " " << path_size << std::endl;
     switch (action) {
         case read_file:
-            action_read_file();
+            action_read_file(path);
             break;
         case delete_file:
-            action_delete_file();
+            action_delete_file(path);
             break;
         case create_folder:
-            action_create_folder();
+            action_create_folder(path);
             break;
         case delete_folder:
-            action_delete_folder();
+            action_delete_folder(path);
             break;
         case quit:
             // close connection
@@ -133,7 +139,9 @@ void ClientHandler::read_action(){
             // throw exception???
             break;
     }
+    std::cout << "action" << action << " over" << std::endl;
 }
+
 
 /**
  * Read file from socket_, the client must send in this order:
@@ -145,35 +153,35 @@ void ClientHandler::read_action(){
  * a new file named file_path
  * @throw ????????????
  */
-void ClientHandler::action_read_file() {
-    size_t path_size = 0;
+void ClientHandler::action_read_file(std::string path) {
     size_t file_size = 0;
-    std::string file_path;
 
-    boost::asio::streambuf request_buf;
-    std::istream request_stream(&request_buf);
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
-    request_stream >> path_size;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
-    request_stream >> file_path;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(8));
     request_stream >> file_size;
 
-    size_t pos = file_path.find_last_of("\\");
+    std::cout << path << " - file size: " << file_size << std::endl;
+
+    size_t pos = path.find_last_of("\\");
     if (pos != std::string::npos)
-        file_path = file_path.substr(pos + 1);
+        path = path.substr(pos + 1);
     // Modify for different scenarios of new/already existent files
-    std::ofstream output_file(file_path.c_str(), std::ios_base::binary);
+    std::ofstream output_file(path.c_str(), std::ios_base::binary);
     if (!output_file) {
-        std::cout << "failed to open " << file_path << std::endl;
+        std::cout << "failed to open " << path << std::endl;
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
 
-    std::cout << "Reading file " << file_path << std::endl;
+
+
+    std::cout << "Reading file " << path << std::endl;
     boost::system::error_code error;
+
+    if(request_buf.size() > 0){
+        size_t size = request_buf.size();
+        request_stream.read(buf.c_array(), size);
+        file_size -= size;
+        output_file.write(buf.c_array(), (std::streamsize) size);
+    }
 
     for (;;) {
         if (file_size > MAX_MSG_SIZE) {
@@ -201,22 +209,10 @@ void ClientHandler::action_read_file() {
  * (char*path_size) file_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_file() {
-    size_t path_size = 0;
-    std::string file_path;
+void ClientHandler::action_delete_file(std::string path) {
     std::error_code errorCode;
 
-    boost::asio::streambuf request_buf;
-    std::istream request_stream(&request_buf);
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
-    request_stream >> path_size;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
-    request_stream >> file_path;
-
-
-    if (!std::filesystem::remove(file_path, errorCode)) {
+    if (!std::filesystem::remove(path, errorCode)) {
         std::cout << errorCode.message() << std::endl;
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
@@ -228,21 +224,10 @@ void ClientHandler::action_delete_file() {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if create operation is not successful
  */
-void ClientHandler::action_create_folder() {
-    size_t path_size = 0;
-    std::string folder_path;
-
-    boost::asio::streambuf request_buf;
-    std::istream request_stream(&request_buf);
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
-    request_stream >> path_size;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
-    request_stream >> folder_path;
+void ClientHandler::action_create_folder(std::string path) {
 
     // check if directory is created or not
-    if (!mkdir(folder_path.c_str(), 0777)) {
+    if (!mkdir(path.c_str(), 0777)) {
         printf("Directory created\n");
     } else {
         printf("Unable to create directory\n");
@@ -256,22 +241,10 @@ void ClientHandler::action_create_folder() {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_folder() {
-    size_t path_size = 0;
-    std::string folder_path;
+void ClientHandler::action_delete_folder(std::string path) {
     std::error_code errorCode;
 
-    boost::asio::streambuf request_buf;
-    std::istream request_stream(&request_buf);
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
-    request_stream >> path_size;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
-    request_stream >> folder_path;
-
-
-    if (!std::filesystem::remove(folder_path, errorCode)) {
+    if (!std::filesystem::remove(path, errorCode)) {
         std::cout << errorCode.message() << std::endl;
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }

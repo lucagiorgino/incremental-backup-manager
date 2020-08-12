@@ -38,7 +38,8 @@ public:
     ClientHandler(boost::asio::io_service &service) :
             service_(service),
             socket_(service),
-            write_strand_(service)
+            write_strand_(service),
+            request_stream(&request_buf)
             {}
 
     boost::asio::ip::tcp::socket &socket() {
@@ -62,16 +63,17 @@ private:
 
     std::string main_folder;
     boost::array<char, MAX_MSG_SIZE> buf;
-
+    boost::asio::streambuf request_buf;
+    std::istream request_stream;
     void read_packet();
 
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);
 
     void read_action();
-    void action_read_file();
-    void action_delete_file();
-    void action_create_folder();
-    void action_delete_folder();
+    void action_read_file(std::string path);
+    void action_delete_file(std::string path);
+    void action_create_folder(std::string path);
+    void action_delete_folder(std::string path);
 
     void queue_message(std::string msg);
 
