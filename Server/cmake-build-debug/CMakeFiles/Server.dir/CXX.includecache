@@ -40,3 +40,21 @@ boost/enable_shared_from_this.hpp
 utility
 -
 
+/home/cosimo/Desktop/ProgettoPDS/Server/Server.h
+thread
+-
+vector
+-
+boost/asio.hpp
+-
+iostream
+-
+
+/home/cosimo/Desktop/ProgettoPDS/Server/main.cpp
+iostream
+-
+Server.h
+/home/cosimo/Desktop/ProgettoPDS/Server/Server.h
+ClientHandler.h
+/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+

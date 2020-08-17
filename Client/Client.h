@@ -23,7 +23,7 @@ using boost::asio::ip::tcp;
 
 
 enum ActionType {
-    read_file, delete_file, create_folder, delete_folder, quit
+    read_file, delete_file, create_folder, delete_folder, quit, ignore
 };
 
 struct Action {

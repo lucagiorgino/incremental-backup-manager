@@ -13,43 +13,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Client/Buffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Buffer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/bin/Client" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/bin/Client" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/FileWatcher.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/FileWatcher.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Hash.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Hash.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/client/FileWatcher.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/client/FileWatcher.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/BoostTest" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/BoostTest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/BoostTest.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/Remote_backup.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/Remote_backup.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProvaFileCLIENT/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ProvaFileCLIENT/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Server" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Server" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dirA/loremipsum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dirA/loremipsumNEW" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +102,7 @@
       <workItem from="1596996701019" duration="2999000" />
       <workItem from="1597228490015" duration="5311000" />
       <workItem from="1597240884592" duration="6637000" />
-      <workItem from="1597670202548" duration="7246000" />
+      <workItem from="1597670202548" duration="10713000" />
     </task>
     <servers />
   </component>
@@ -144,26 +123,26 @@
     </state>
     <state x="779" y="330" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596996731964" />
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597228502606" />
-    <state width="878" height="296" key="GridCell.Tab.0.bottom" timestamp="1597676876510">
+    <state width="795" height="292" key="GridCell.Tab.0.bottom" timestamp="1597680736314">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="878" height="296" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597676876510" />
-    <state width="878" height="296" key="GridCell.Tab.0.center" timestamp="1597676876509">
+    <state width="795" height="292" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597680736314" />
+    <state width="795" height="292" key="GridCell.Tab.0.center" timestamp="1597680736314">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="878" height="296" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597676876509" />
-    <state width="878" height="296" key="GridCell.Tab.0.left" timestamp="1597676876509">
+    <state width="795" height="292" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597680736314" />
+    <state width="795" height="292" key="GridCell.Tab.0.left" timestamp="1597680736314">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820295" />
-    <state width="878" height="296" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597676876509" />
-    <state width="878" height="296" key="GridCell.Tab.0.right" timestamp="1597676876509">
+    <state width="795" height="292" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597680736314" />
+    <state width="795" height="292" key="GridCell.Tab.0.right" timestamp="1597680736314">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="878" height="296" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597676876509" />
+    <state width="795" height="292" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597680736314" />
     <state width="1802" height="340" key="GridCell.Tab.1.bottom" timestamp="1597250542456">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

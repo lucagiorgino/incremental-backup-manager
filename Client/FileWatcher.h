@@ -44,7 +44,7 @@ public:
 private:
     std::string path_to_watch;
     std::chrono::duration<int, std::milli> delay;       // Time interval at which we check the base folder for changes
-    const std::function<void(std::string, FileStatus)> &action;
+    std::function<void(std::string, FileStatus)> action;
     std::unordered_map<std::string, std::filesystem::file_time_type> paths_;
     bool running_ = true;
 

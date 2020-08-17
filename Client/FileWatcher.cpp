@@ -22,7 +22,6 @@ void FileWatcher::start(std::unordered_map<std::string, Hash> initial_status) {
         auto it = paths_.begin();
         while (it != paths_.end()) {
             if (!std::filesystem::exists(it->first)) {
-                std::cout << "erased" << std::endl;
                 action(it->first, FileStatus::erased);
                 it = paths_.erase(it);
             } else {
@@ -37,12 +36,10 @@ void FileWatcher::start(std::unordered_map<std::string, Hash> initial_status) {
             // File creation
             if (!paths_.contains(file.path().string())) {
                 paths_[file.path().string()] = current_file_last_write_time;
-                std::cout << "created" << std::endl;
                 action(file.path().string(), FileStatus::created);
                 // File modification
             } else {
                 if (paths_[file.path().string()] != current_file_last_write_time) {
-                    std::cout << "modified" << std::endl;
                     paths_[file.path().string()] = current_file_last_write_time;
                     action(file.path().string(), FileStatus::modified);
                 }
