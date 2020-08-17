@@ -20,6 +20,7 @@ class Buffer{
     int curr = 0;
     std::mutex lock;
     std::condition_variable cv;
+    bool isTerminated = false;
 
 public:
     void push(T item){
@@ -33,12 +34,20 @@ public:
 
     std::optional<T> pop(){
         std::unique_lock lg(lock);
-        cv.wait(lg, [this](){ return head != curr; });
+        cv.wait(lg, [this](){ return head != curr || isTerminated ; });
+        if(isTerminated && head == curr)
+            return std::nullopt;
 
         T tmp = buf[head];
         head = (head + 1)%MAX_SIZE;
         cv.notify_all();
         return tmp;
+    }
+
+    void terminate(){
+        std::unique_lock lg(lock);
+        isTerminated = true;
+        cv.notify_all();
     }
 };
 

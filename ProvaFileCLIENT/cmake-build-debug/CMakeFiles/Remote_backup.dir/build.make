@@ -63,10 +63,10 @@ RM = /snap/clion/123/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/andrea/Desktop/ProvaFileCLIENT
+CMAKE_SOURCE_DIR = /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug
+CMAKE_BINARY_DIR = /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Remote_backup.dir/depend.make
@@ -79,42 +79,42 @@ include CMakeFiles/Remote_backup.dir/flags.make
 
 CMakeFiles/Remote_backup.dir/main.cpp.o: CMakeFiles/Remote_backup.dir/flags.make
 CMakeFiles/Remote_backup.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Remote_backup.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/main.cpp.o -c /home/andrea/Desktop/ProvaFileCLIENT/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Remote_backup.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/main.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/main.cpp
 
 CMakeFiles/Remote_backup.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Remote_backup.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andrea/Desktop/ProvaFileCLIENT/main.cpp > CMakeFiles/Remote_backup.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/main.cpp > CMakeFiles/Remote_backup.dir/main.cpp.i
 
 CMakeFiles/Remote_backup.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Remote_backup.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andrea/Desktop/ProvaFileCLIENT/main.cpp -o CMakeFiles/Remote_backup.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/main.cpp -o CMakeFiles/Remote_backup.dir/main.cpp.s
 
 CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o: CMakeFiles/Remote_backup.dir/flags.make
 CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o: ../client/FileWatcher.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o -c /home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.cpp
 
 CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.cpp > CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.cpp > CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.i
 
 CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.cpp -o CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.cpp -o CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.s
 
 CMakeFiles/Remote_backup.dir/client/Client.cpp.o: CMakeFiles/Remote_backup.dir/flags.make
 CMakeFiles/Remote_backup.dir/client/Client.cpp.o: ../client/Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/client/Client.cpp.o -c /home/andrea/Desktop/ProvaFileCLIENT/client/Client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Remote_backup.dir/client/Client.cpp.o -c /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.cpp
 
 CMakeFiles/Remote_backup.dir/client/Client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Remote_backup.dir/client/Client.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andrea/Desktop/ProvaFileCLIENT/client/Client.cpp > CMakeFiles/Remote_backup.dir/client/Client.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.cpp > CMakeFiles/Remote_backup.dir/client/Client.cpp.i
 
 CMakeFiles/Remote_backup.dir/client/Client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Remote_backup.dir/client/Client.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andrea/Desktop/ProvaFileCLIENT/client/Client.cpp -o CMakeFiles/Remote_backup.dir/client/Client.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.cpp -o CMakeFiles/Remote_backup.dir/client/Client.cpp.s
 
 # Object files for target Remote_backup
 Remote_backup_OBJECTS = \
@@ -130,7 +130,7 @@ Remote_backup: CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o
 Remote_backup: CMakeFiles/Remote_backup.dir/client/Client.cpp.o
 Remote_backup: CMakeFiles/Remote_backup.dir/build.make
 Remote_backup: CMakeFiles/Remote_backup.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Remote_backup"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Remote_backup"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Remote_backup.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -143,6 +143,6 @@ CMakeFiles/Remote_backup.dir/clean:
 .PHONY : CMakeFiles/Remote_backup.dir/clean
 
 CMakeFiles/Remote_backup.dir/depend:
-	cd /home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/andrea/Desktop/ProvaFileCLIENT /home/andrea/Desktop/ProvaFileCLIENT /home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug /home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug /home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug /home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Remote_backup.dir/depend
 

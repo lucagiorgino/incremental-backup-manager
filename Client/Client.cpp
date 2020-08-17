@@ -5,25 +5,44 @@ Client::Client(std::string path, std::string name, std::string password) :
         socket_(io_context_),
         fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
                     [this](const std::string &path, FileStatus fileStatus) {
-                        std::cout << "action " << path << std::endl;
-                        Action action;
-                        action.path = path;
-                        action.fileStatus = fileStatus;
-                        this->actions.push(action);
+                        std::cout << "AAAAAASADASDASD" << std::endl;
+                        /*std::cout << "action " << path << std::endl;
+                                    Action action;
+                                    action.path = path;
+                                    action.fileStatus = fileStatus;
+                                    this->actions.push(action);*/
                     }) {
 
     try {
         tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
         socket_.connect(endpoint);
 
+
+        /*
         std::string filename = "../dirA/loremipsum";
         std::string filenamenew = "../dirA/loremipsumNEW";
 
+        Action action;
+        action.fileStatus = FileStatus::created;
+        action.path = "../dirA";
+        actions.push(action);
+        action.fileStatus = FileStatus::created;
+        action.path = filename;
+        actions.push(action);
+        action.fileStatus = FileStatus::created;
+        action.path = filenamenew;
+        actions.push(action);
+        */
+
+/*
         std::thread fileWatcherThread([this]() {
             std::unordered_map<std::string, Hash> initial_status;
             this->fileWatcher.start(initial_status);
         });
+*/
 
+        std::unordered_map<std::string, Hash> initial_status;
+        this->fileWatcher.start(initial_status);
         std::thread actionsConsumer([this]() {
             while (true) {
                 std::optional<Action> action = actions.pop();
@@ -33,10 +52,9 @@ Client::Client(std::string path, std::string name, std::string password) :
             }
         });
 
-        // SERVONO I JOIN? DISPATCH? ALTRO?
-        fileWatcherThread.join();
+        //fileWatcherThread.join();
+        actions.terminate();
         actionsConsumer.join();
-
 
         /*
         Action action;
@@ -109,7 +127,7 @@ void Client::send_action(Action action) {
 
     bool isDirectory = fs::is_directory(action.path);
 
-    switch(action.fileStatus){
+    switch (action.fileStatus) {
         case FileStatus::created:
             actionType = isDirectory ? ActionType::create_folder : ActionType::read_file;
             break;
@@ -122,11 +140,11 @@ void Client::send_action(Action action) {
     }
 
     request_stream << actionType << "\n"
-                   << action.path.string().length() << "\n"
+                   << (size_t) action.path.string().length() << "\n"
                    << action.path.string() << "\n";
     boost::asio::write(socket_, request);
 
-    if(actionType == ActionType::read_file ){
+    if (actionType == ActionType::read_file) {
         send_file(action.path.string());
     }
 }
@@ -144,7 +162,7 @@ void Client::send_file(const std::string &filename) {
     // send file size to server
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
-    request_stream << file_size ;
+    request_stream << file_size;
     boost::asio::write(socket_, request);
     std::cout << "start sending file content." << file_size << "bytes\n";
     for (;;) {

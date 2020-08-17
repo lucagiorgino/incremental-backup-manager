@@ -62,7 +62,6 @@ private:
     std::deque<std::string> send_packet_queue;
 
     std::string main_folder;
-    boost::array<char, MAX_MSG_SIZE> buf;
     boost::asio::streambuf request_buf;
     std::istream request_stream;
     void read_packet();

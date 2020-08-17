@@ -9,7 +9,7 @@
 void ClientHandler::start() {
     std::cout << "START CLIENT CONNECTION" << std::endl;
     main_folder = "Client_1";
-    while(true){
+    while (true) {
         read_action();
     }
 }
@@ -98,9 +98,7 @@ void ClientHandler::packet_send_done(const std::error_code &error) {
 }
 
 
-
-
-void ClientHandler::read_action(){
+void ClientHandler::read_action() {
     size_t action = 0;
     size_t path_size = 0;
     std::string path;
@@ -154,9 +152,10 @@ void ClientHandler::read_action(){
  * @throw ????????????
  */
 void ClientHandler::action_read_file(std::string path) {
+    boost::array<char, MAX_MSG_SIZE> array;
     size_t file_size = 0;
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(8));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     request_stream >> file_size;
 
     std::cout << path << " - file size: " << file_size << std::endl;
@@ -172,33 +171,28 @@ void ClientHandler::action_read_file(std::string path) {
     }
 
 
-
     std::cout << "Reading file " << path << std::endl;
     boost::system::error_code error;
 
-    if(request_buf.size() > 0){
-        size_t size = request_buf.size();
-        request_stream.read(buf.c_array(), size);
-        file_size -= size;
-        output_file.write(buf.c_array(), (std::streamsize) size);
-    }
+    /* Empty stream in file */
+    while (file_size > 0) {
+        size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
+        std::cout << "REQ_BUF BEFORE: " << request_buf.size() << " \\\\\\ ";
+        boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(size-request_buf.size()), error);
+        std::cout << "REQ_BUF SIZE: " << request_buf.size() << " /// ";
 
-    for (;;) {
-        if (file_size > MAX_MSG_SIZE) {
-            size_t len = socket_.read_some(boost::asio::buffer(buf), error);
-            file_size -= len;
-            output_file.write(buf.c_array(), (std::streamsize) len);
-        } else {
-            socket_.read_some(boost::asio::buffer(buf, file_size), error);
-            output_file.write(buf.c_array(), (std::streamsize) file_size);
-            break; // file received
-        }
+        request_stream.read(array.c_array(), size);
+        output_file.write(array.c_array(), (std::streamsize) size);
+        file_size -= size;
+
+        std::cout << "READ: " << size << " ... " << file_size << " --- " << request_buf.size() << std::endl;
 
         if (error) {
             std::cerr << error << std::endl;
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
+
     std::cout << "received " << output_file.tellp() << " bytes.\n";
     output_file.close();
 }

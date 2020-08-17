@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/andrea/Desktop/ProvaFileCLIENT/client/Client.cpp" "/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
-  "/home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.cpp" "/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
-  "/home/andrea/Desktop/ProvaFileCLIENT/main.cpp" "/home/andrea/Desktop/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/main.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.cpp" "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/Client.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.cpp" "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/client/FileWatcher.cpp.o"
+  "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/main.cpp" "/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/cmake-build-debug/CMakeFiles/Remote_backup.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

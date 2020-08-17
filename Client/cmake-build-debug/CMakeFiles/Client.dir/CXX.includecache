@@ -38,6 +38,12 @@ FileWatcher.h
 Buffer.h
 /home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h
 
+/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp
+FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
+utility
+-
+
 /home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
 filesystem
 -
@@ -69,4 +75,10 @@ iomanip
 -
 fstream
 -
+
+/home/cosimo/Desktop/ProgettoPDS/Client/main.cpp
+iostream
+-
+Client.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
 

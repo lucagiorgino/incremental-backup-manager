@@ -4,14 +4,16 @@
 
 #include "FileWatcher.h"
 
+#include <utility>
+
 FileWatcher::FileWatcher(std::string path_to_watch, std::chrono::duration<int, std::milli> delay,
                          const std::function<void(std::string, FileStatus)> &action) :
-        path_to_watch{path_to_watch}, delay{delay}, action(action) {
+        path_to_watch{std::move(path_to_watch)}, delay{delay}, action{action} {
 }
 
 void FileWatcher::start(std::unordered_map<std::string, Hash> initial_status) {
     std::cout << "Starting fileWatcher" << std::endl;
-    init_status(std::move(initial_status));
+    //init_status(std::move(initial_status));
 
     while (running_) {
         // Wait for "delay" milliseconds

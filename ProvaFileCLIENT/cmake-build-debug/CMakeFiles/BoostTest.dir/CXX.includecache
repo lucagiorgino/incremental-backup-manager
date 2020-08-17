@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/andrea/Desktop/ProvaFileCLIENT/client/Buffer.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Buffer.h
 array
 -
 mutex
@@ -16,7 +16,7 @@ condition_variable
 optional
 -
 
-/home/andrea/Desktop/ProvaFileCLIENT/client/Client.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.h
 filesystem
 -
 iostream
@@ -30,11 +30,11 @@ fstream
 sstream
 -
 FileWatcher.h
-/home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.h
 Buffer.h
-/home/andrea/Desktop/ProvaFileCLIENT/client/Buffer.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Buffer.h
 
-/home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.h
 filesystem
 -
 chrono
@@ -50,11 +50,19 @@ functional
 openssl/md5.h
 -
 
-/home/andrea/Desktop/ProvaFileCLIENT/main.cpp
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/fileWatcherTest.h
+string
+-
 iostream
 -
-client/FileWatcher.h
-/home/andrea/Desktop/ProvaFileCLIENT/client/FileWatcher.h
+FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/FileWatcher.h
+
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/main.cpp
+iostream
+-
+client/fileWatcherTest.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/fileWatcherTest.h
 client/Client.h
-/home/andrea/Desktop/ProvaFileCLIENT/client/Client.h
+/home/cosimo/Desktop/ProgettoPDS/ProvaFileCLIENT/client/Client.h
 
