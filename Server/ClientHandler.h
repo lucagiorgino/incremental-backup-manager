@@ -42,6 +42,8 @@ public:
             request_stream(&request_buf)
             {}
 
+    ~ClientHandler();
+
     boost::asio::ip::tcp::socket &socket() {
         return socket_;
     }
@@ -60,6 +62,7 @@ private:
     boost::asio::io_service::strand write_strand_;
     boost::asio::streambuf in_packet_;
     std::deque<std::string> send_packet_queue;
+    std::thread action_handler;
 
     std::string main_folder;
     boost::asio::streambuf request_buf;

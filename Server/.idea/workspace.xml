@@ -13,16 +13,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Client/dir2/dirB2/loremipsum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir2/loremipsumNEW" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir2/loremipsumX" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir3/dirB2/loremipsum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir3/dirB2/loremipsumNEW" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir3/loremipsum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Client/dir3/loremipsumNEW" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/bin/Client" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/bin/Client" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirA/dirB2/dirC/loremipsum" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dir1/dirB2/dirC/loremipsum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirA/dirB2/loremipsum" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dir1/dirB2/loremipsum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirA/loremipsumNEW" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dir1/loremipsumNEW" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirA/loremipsumX" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dir1/loremipsumX" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Server" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Server" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dirA/loremipsum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dirA/loremipsumNEW" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,26 +138,26 @@
     <state x="779" y="330" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596996731964" />
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597228502606" />
     <state x="822" y="293" key="FileChooserDialogImpl/72.27.1848.923@72.27.1848.923" timestamp="1597842262605" />
-    <state width="913" height="337" key="GridCell.Tab.0.bottom" timestamp="1597847987645">
+    <state width="913" height="337" key="GridCell.Tab.0.bottom" timestamp="1597849474319">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="913" height="337" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
-    <state width="913" height="337" key="GridCell.Tab.0.center" timestamp="1597847987645">
+    <state width="913" height="337" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597849474319" />
+    <state width="913" height="337" key="GridCell.Tab.0.center" timestamp="1597849474319">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="913" height="337" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
-    <state width="913" height="337" key="GridCell.Tab.0.left" timestamp="1597847987645">
+    <state width="913" height="337" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597849474319" />
+    <state width="913" height="337" key="GridCell.Tab.0.left" timestamp="1597849474319">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820295" />
-    <state width="913" height="337" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
-    <state width="913" height="337" key="GridCell.Tab.0.right" timestamp="1597847987645">
+    <state width="913" height="337" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597849474319" />
+    <state width="913" height="337" key="GridCell.Tab.0.right" timestamp="1597849474319">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="913" height="337" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
+    <state width="913" height="337" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597849474319" />
     <state width="1802" height="340" key="GridCell.Tab.1.bottom" timestamp="1597250542456">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

@@ -9,11 +9,16 @@
 void ClientHandler::start() {
     std::cout << "START CLIENT CONNECTION" << std::endl;
     main_folder = "Client_1";
-    while (true) {
-        read_action();
-    }
+    action_handler = std::thread([this] (){
+        while(true){
+            read_action();
+        }
+    });
 }
 
+ClientHandler::~ClientHandler(){
+    action_handler.join();
+}
 
 
 

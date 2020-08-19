@@ -13,12 +13,12 @@ Client::Client(std::string path, std::string name, std::string password) :
         tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
         socket_.connect(endpoint);
 
-        std::thread fileWatcherThread([this]() {
+        fileWatcherThread = std::thread([this]() {
             std::unordered_map<std::string, Hash> initial_status;
             this->fileWatcher.start(initial_status);
         });
 
-        std::thread actionsConsumer([this]() {
+        actionsConsumer = std::thread([this]() {
             while (true) {
                 std::optional<Action> action = actions.pop();
                 if (action.has_value()) {
@@ -27,9 +27,7 @@ Client::Client(std::string path, std::string name, std::string password) :
             }
         });
 
-        fileWatcherThread.join();
-        actions.terminate();
-        actionsConsumer.join();
+
 
         /*
         Action action;
@@ -89,6 +87,11 @@ Client::Client(std::string path, std::string name, std::string password) :
 
 }
 
+Client::~Client(){
+    fileWatcherThread.join();
+    actions.terminate();
+    actionsConsumer.join();
+}
 
 void Client::send_action(Action action) {
     boost::array<char, MAX_MSG_SIZE> buf;

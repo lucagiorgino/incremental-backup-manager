@@ -34,14 +34,15 @@ struct Action {
 class Client {
 public:
     Client(std::string path, std::string name, std::string password);
-
+    ~Client();
 private:
     Buffer<Action> actions;
     FileWatcher fileWatcher;
     boost::asio::io_context io_context_;
     boost::asio::ip::tcp::resolver resolver_;
     boost::asio::ip::tcp::socket socket_;
-
+    std::thread fileWatcherThread;
+    std::thread actionsConsumer;
 
     void send_action(Action action);
     void send_file(const std::string& filename);
