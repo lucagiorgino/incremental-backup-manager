@@ -5,7 +5,7 @@ Client::Client(std::string path, std::string name, std::string password) :
         socket_(io_context_),
         fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
                     [this](const std::string &path, FileStatus fileStatus) {
-                        std::cout << "AAAAAASADASDASD" << std::endl;
+                        //std::cout << "AAAAAASADASDASD" << std::endl;
                         /*std::cout << "action " << path << std::endl;
                                     Action action;
                                     action.path = path;
