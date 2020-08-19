@@ -12,7 +12,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="" />
+    <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/bin/Client" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/bin/Client" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Server" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Server" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dirA/loremipsum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dirA/loremipsumNEW" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,6 +68,11 @@
       </method>
     </configuration>
     <configuration name="Server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Server" TARGET_NAME="Server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Server" RUN_TARGET_NAME="Server">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -108,26 +124,26 @@
     <state x="779" y="330" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596996731964" />
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597228502606" />
     <state x="822" y="293" key="FileChooserDialogImpl/72.27.1848.923@72.27.1848.923" timestamp="1597842262605" />
-    <state width="878" height="296" key="GridCell.Tab.0.bottom" timestamp="1597676876510">
+    <state width="913" height="337" key="GridCell.Tab.0.bottom" timestamp="1597847987645">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="763" height="292" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597842881541" />
-    <state width="763" height="292" key="GridCell.Tab.0.center" timestamp="1597842881541">
+    <state width="913" height="337" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
+    <state width="913" height="337" key="GridCell.Tab.0.center" timestamp="1597847987645">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="763" height="292" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597842881541" />
-    <state width="763" height="292" key="GridCell.Tab.0.left" timestamp="1597842881540">
+    <state width="913" height="337" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
+    <state width="913" height="337" key="GridCell.Tab.0.left" timestamp="1597847987645">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820295" />
-    <state width="763" height="292" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597842881540" />
-    <state width="763" height="292" key="GridCell.Tab.0.right" timestamp="1597842881541">
+    <state width="913" height="337" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
+    <state width="913" height="337" key="GridCell.Tab.0.right" timestamp="1597847987645">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
-    <state width="763" height="292" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597842881541" />
+    <state width="913" height="337" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597847987645" />
     <state width="1802" height="340" key="GridCell.Tab.1.bottom" timestamp="1597250542456">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>

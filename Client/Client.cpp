@@ -118,15 +118,24 @@ void Client::send_action(Action action) {
         return;
     }
 
+    std::string a = std::to_string(actionType) + std::to_string(action.path.string().length()) + action.path.string();
+    std::cout << a << "-----" << a.length() << std::endl;
     std::cout << "sending action " << actionType << " - " << action.path.string() << std::endl;
+    std::cout << actionType
+                 << std::setfill('0') << std::setw(sizeof(int)) << action.path.string().length()
+                 << action.path.string() << "\n";
+
+
     request_stream << actionType << "\n"
-                   << (size_t) action.path.string().length() << "\n"
+                   << std::setw(sizeof(int)) <<  std::setfill('0') << action.path.string().length() << "\n"
                    << action.path.string() << "\n";
     std::cout << "SIZEOF request" << request.size() << std::endl;
     size_t len = boost::asio::write(socket_, request);
 
     std::cout << "SIZEOF actiontype" << sizeof(actionType) << "-" << action.path.string().length() << std::endl;
     std::cout<< "SENT " << len << " BYTES" << std::endl;
+
+    //boost::asio::write(socket_, boost::asio::buffer(actionType, sizeof(int)));
 
     if (actionType == ActionType::read_file) {
         send_file(action.path.string());

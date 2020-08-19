@@ -101,20 +101,25 @@ void ClientHandler::packet_send_done(const std::error_code &error) {
 void ClientHandler::read_action() {
     size_t action = 0;
     size_t path_size = 0;
+    std::string path_size_s;
     std::string path;
 
 
     std::cout << "reading action" << std::endl;
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(2));
+    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
     request_stream >> action;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    //request_buf.sgetc();
+    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
     request_stream >> path_size;
-
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size));
+    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
+    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size+1));
+    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
     request_stream >> path;
-
+    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
 
     std::cout << action << " " << path << " " << path_size << std::endl;
     switch (action) {
