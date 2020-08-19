@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.cpp
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 iostream
 -
 filesystem
 -
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 ctime
 -
 iostream
@@ -40,7 +40,15 @@ boost/enable_shared_from_this.hpp
 utility
 -
 
+<<<<<<< HEAD
 /home/cosimo/Desktop/ProgettoPDS/Server/Server.h
+=======
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.cpp
+Server.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
+
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
+>>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
 thread
 -
 vector
@@ -50,6 +58,7 @@ boost/asio.hpp
 iostream
 -
 
+<<<<<<< HEAD
 /home/cosimo/Desktop/ProgettoPDS/Server/main.cpp
 iostream
 -
@@ -57,4 +66,13 @@ Server.h
 /home/cosimo/Desktop/ProgettoPDS/Server/Server.h
 ClientHandler.h
 /home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+=======
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/main.cpp
+iostream
+-
+Server.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
+ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
+>>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
 

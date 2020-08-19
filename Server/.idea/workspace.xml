@@ -12,6 +12,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/bin/Client" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/bin/Client" afterDir="false" />
@@ -22,6 +23,9 @@
       <change beforePath="$PROJECT_DIR$/dirA/loremipsum" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dirA/loremipsumNEW" beforeDir="false" />
     </list>
+=======
+    <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="" />
+>>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,9 +69,9 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
@@ -94,8 +98,13 @@
       <workItem from="1596996701019" duration="2999000" />
       <workItem from="1597228490015" duration="5311000" />
       <workItem from="1597240884592" duration="6637000" />
+<<<<<<< HEAD
       <workItem from="1597670202548" duration="10750000" />
       <workItem from="1597842336287" duration="807000" />
+=======
+      <workItem from="1597670202548" duration="7246000" />
+      <workItem from="1597842245442" duration="21000" />
+>>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
     </task>
     <servers />
   </component>
@@ -111,12 +120,22 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2649" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1596815036961" />
+<<<<<<< HEAD
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597842351126">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="779" y="330" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596996731964" />
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597842351126" />
     <state width="763" height="292" key="GridCell.Tab.0.bottom" timestamp="1597842881541">
+=======
+    <state x="822" y="293" width="424" height="491" key="FileChooserDialogImpl" timestamp="1597842262605">
+      <screen x="72" y="27" width="1848" height="923" />
+    </state>
+    <state x="779" y="330" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596996731964" />
+    <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1597228502606" />
+    <state x="822" y="293" key="FileChooserDialogImpl/72.27.1848.923@72.27.1848.923" timestamp="1597842262605" />
+    <state width="878" height="296" key="GridCell.Tab.0.bottom" timestamp="1597676876510">
+>>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1802" height="270" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
