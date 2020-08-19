@@ -5,17 +5,8 @@ Client::Client(std::string path, std::string name, std::string password) :
         socket_(io_context_),
         fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
                     [this](const std::string &path, FileStatus fileStatus) {
-<<<<<<< HEAD
                                     Action action{path, fileStatus};
                                     this->actions.push(action);
-=======
-                        //std::cout << "AAAAAASADASDASD" << std::endl;
-                        /*std::cout << "action " << path << std::endl;
-                                    Action action;
-                                    action.path = path;
-                                    action.fileStatus = fileStatus;
-                                    this->actions.push(action);*/
->>>>>>> a48c354145ee357fb9673a9d72625062a60b2dea
                     }) {
 
     try {
