@@ -39,7 +39,8 @@ public:
             service_(service),
             socket_(service),
             write_strand_(service),
-            request_stream(&request_buf)
+            input_stream(&input_buf),
+            output_stream(&output_buf)
             {}
 
     ~ClientHandler();
@@ -65,8 +66,10 @@ private:
     std::thread action_handler;
 
     std::string main_folder;
-    boost::asio::streambuf request_buf;
-    std::istream request_stream;
+    boost::asio::streambuf input_buf;
+    boost::asio::streambuf output_buf;
+    std::istream input_stream;
+    std::ostream output_stream;
     void read_packet();
 
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);

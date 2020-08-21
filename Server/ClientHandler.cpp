@@ -9,6 +9,45 @@
 void ClientHandler::start() {
     std::cout << "START CLIENT CONNECTION" << std::endl;
     main_folder = "Client_1";
+
+    //Authentication
+    int length;
+    std::string password;
+    std::string username;
+    std::string actual_password;
+    int is_authenticated = 0;
+
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    input_stream >> length;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
+    input_stream >> username;
+
+    const std::filesystem::path user_folder = "../users/" + username;
+    if(!std::filesystem ::exists(user_folder)){
+        //new user
+    }
+
+    const std::filesystem::path password_path = "../users/" + username + "/password";
+    std::ifstream fp(password_path);
+    fp >> actual_password;
+    fp.close();
+
+    while(is_authenticated == 0) {
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+        input_stream >> length;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
+        input_stream >> password;
+
+        is_authenticated = actual_password == password? 1:0;
+
+        std::cout << "password: " << password << ", is_authenticated: " << is_authenticated << std::endl;
+
+        output_stream << is_authenticated << "\n";
+        boost::asio::write(socket_, output_buf);
+    }
+
+    std::cout << "AUTHENTICATION: PASSWORD " << password << ", USERNAME " << username << std::endl;
+
     action_handler = std::thread([this] (){
         while(true){
             read_action();
@@ -112,19 +151,19 @@ void ClientHandler::read_action() {
 
     std::cout << "reading action" << std::endl;
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(2));
-    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
-    request_stream >> action;
-    //request_buf.sgetc();
-    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(int)+1));
-    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
-    request_stream >> path_size;
-    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(path_size+1));
-    std::cout << "REQUEST_BUF before SIZE: " << request_buf.size() << std::endl;
-    request_stream >> path;
-    std::cout << "REQUEST_BUF after SIZE: " << request_buf.size() << std::endl;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
+    input_stream >> action;
+    //input_buf.sgetc();
+    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
+    input_stream >> path_size;
+    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
+    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
+    input_stream >> path;
+    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
 
     std::cout << action << " " << path << " " << path_size << std::endl;
     switch (action) {
@@ -165,8 +204,8 @@ void ClientHandler::action_read_file(std::string path) {
     boost::array<char, MAX_MSG_SIZE> array;
     size_t file_size = 0;
 
-    boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(sizeof(size_t)));
-    request_stream >> file_size;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    input_stream >> file_size;
 
     std::cout << path << " - file size: " << file_size << std::endl;
 
@@ -187,15 +226,15 @@ void ClientHandler::action_read_file(std::string path) {
     /* Empty stream in file */
     while (file_size > 0) {
         size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
-        std::cout << "REQ_BUF BEFORE: " << request_buf.size() << " \\\\\\ ";
-        boost::asio::read(socket_, request_buf, boost::asio::transfer_exactly(size-request_buf.size()), error);
-        std::cout << "REQ_BUF SIZE: " << request_buf.size() << " /// ";
+        std::cout << "REQ_BUF BEFORE: " << input_buf.size() << " \\\\\\ ";
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size - input_buf.size()), error);
+        std::cout << "REQ_BUF SIZE: " << input_buf.size() << " /// ";
 
-        request_stream.read(array.c_array(), size);
+        input_stream.read(array.c_array(), size);
         output_file.write(array.c_array(), (std::streamsize) size);
         file_size -= size;
 
-        std::cout << "READ: " << size << " ... " << file_size << " --- " << request_buf.size() << std::endl;
+        std::cout << "READ: " << size << " ... " << file_size << " --- " << input_buf.size() << std::endl;
 
         if (error) {
             std::cerr << error << std::endl;
@@ -231,7 +270,7 @@ void ClientHandler::action_delete_file(std::string path) {
 void ClientHandler::action_create_folder(std::string path) {
 
     // check if directory is created or not
-    if (!mkdir(path.c_str(), 0777)) {
+    if (std::filesystem::create_directory(path.c_str())) {
         printf("Directory created\n");
     } else {
         printf("Unable to create directory\n");

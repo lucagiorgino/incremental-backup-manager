@@ -33,7 +33,7 @@ struct Action {
 
 class Client {
 public:
-    Client(std::string path, std::string name, std::string password);
+    Client(std::string path, std::string name);
     ~Client();
 private:
     Buffer<Action> actions;

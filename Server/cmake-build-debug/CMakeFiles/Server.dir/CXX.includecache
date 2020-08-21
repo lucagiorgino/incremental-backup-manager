@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.cpp
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 iostream
 -
 filesystem
 -
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 ctime
 -
 iostream

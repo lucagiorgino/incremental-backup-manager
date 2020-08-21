@@ -1,6 +1,7 @@
 #include "Client.h"
 
-Client::Client(std::string path, std::string name, std::string password) :
+
+Client::Client(std::string path, std::string name) :
         resolver_(io_context_),
         socket_(io_context_),
         fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
@@ -10,8 +11,31 @@ Client::Client(std::string path, std::string name, std::string password) :
                     }) {
 
     try {
+        std::string password;
+        int is_authenticated = 0;
+
         tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
         socket_.connect(endpoint);
+
+        //Authentication
+        boost::asio::streambuf request_input;
+        boost::asio::streambuf request_output;
+        std::istream input_stream(&request_input);
+        std::ostream output_stream(&request_output);
+        output_stream << std::setw(sizeof(int)) <<  std::setfill('0') << name.length() << "\n"
+                       << name << "\n";
+        boost::asio::write(socket_, request_output);
+
+        while(is_authenticated == 0){
+            std::cout << "Insert password: ";
+            std::cin >> password;
+            output_stream << password.length() << "\n" << password << "\n";
+            boost::asio::write(socket_, request_output);
+            boost::asio::read(socket_, request_input, boost::asio::transfer_exactly(2));
+            input_stream >> is_authenticated;
+            std::cout << "is_authenticated: " << is_authenticated <<std::endl;
+        }
+
 
         fileWatcherThread = std::thread([this]() {
             std::unordered_map<std::string, Hash> initial_status;
