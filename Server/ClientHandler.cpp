@@ -13,7 +13,6 @@ void ClientHandler::start() {
     //Authentication
     int length;
     std::string password;
-    std::string username;
     std::string actual_password;
     int is_authenticated = 0;
 
@@ -165,7 +164,12 @@ void ClientHandler::read_action() {
     input_stream >> path;
     std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
 
+    path = "../users/" + username + "/backup" + path;
+
     std::cout << action << " " << path << " " << path_size << std::endl;
+
+
+
     switch (action) {
         case read_file:
             action_read_file(path);

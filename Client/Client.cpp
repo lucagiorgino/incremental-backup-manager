@@ -1,18 +1,36 @@
 #include "Client.h"
 
 
-Client::Client(std::string path, std::string name) :
+Client::Client(std::string name) :
         resolver_(io_context_),
-        socket_(io_context_),
-        fileWatcher(path, std::chrono::duration<int, std::milli>(DELAY),
-                    [this](const std::string &path, FileStatus fileStatus) {
-                                    Action action{path, fileStatus};
-                                    this->actions.push(action);
-                    }) {
+        socket_(io_context_), fileWatcher( std::chrono::duration<int, std::milli>(DELAY),
+                                           [this](const std::string &path, FileStatus fileStatus) {
+                                               Action action{path, fileStatus};
+                                               this->actions.push(action);
+                                           }) {
 
     try {
+        std::string path_string;
         std::string password;
         int is_authenticated = 0;
+
+        const std::filesystem::path backup_path = "../path";
+        if(!std::filesystem::exists(backup_path)){
+            // new path
+            std::cout<<"insert existing path to create accout: ";
+            std::cin >> path_string; // un path già esistente
+            std::ofstream fp(backup_path);
+            fp << path_string;
+            fp.close();
+        } else {
+            std::ifstream fp(backup_path);
+            fp >> path_string;
+            fp.close();
+        }
+
+        path = std::filesystem::path(path_string);
+
+        // const std::string &path
 
         tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
         socket_.connect(endpoint);
@@ -39,7 +57,7 @@ Client::Client(std::string path, std::string name) :
 
         fileWatcherThread = std::thread([this]() {
             std::unordered_map<std::string, Hash> initial_status;
-            this->fileWatcher.start(initial_status);
+            this->fileWatcher.start(this->path.string(),initial_status);
         });
 
         actionsConsumer = std::thread([this]() {
@@ -145,17 +163,34 @@ void Client::send_action(Action action) {
         return;
     }
 
-    std::string a = std::to_string(actionType) + std::to_string(action.path.string().length()) + action.path.string();
-    std::cout << a << "-----" << a.length() << std::endl;
-    std::cout << "sending action " << actionType << " - " << action.path.string() << std::endl;
-    std::cout << actionType
-                 << std::setfill('0') << std::setw(sizeof(int)) << action.path.string().length()
-                 << action.path.string() << "\n";
+    // std::string a = std::to_string(actionType) + std::to_string(action.path.string().length()) + action.path.string();
+    // std::cout << a << "-----" << a.length() << std::endl;
+    // std::cout << "sending action " << actionType << " - " << action.path.string() << std::endl;
+    // std::cout << actionType
+    //           << std::setfill('0') << std::setw(sizeof(int)) << action.path.string().length()
+    //             << action.path.string() << "\n";
+
+    // /home/luca/Scrivania/test/dir1/...
+    // client: dir1
+    //
+    // server: ../users/<user>/<directory>/...
 
 
-    request_stream << actionType << "\n"
-                   << std::setw(sizeof(int)) <<  std::setfill('0') << action.path.string().length() << "\n"
-                   << action.path.string() << "\n";
+
+    std::string cleaned_path = action.path.string();
+    size_t pos = cleaned_path.find(path.string() );
+    cleaned_path.erase( pos, path.string().length() );
+    std::cout << "CLEANED PATH: " << cleaned_path  << std::endl;
+
+
+
+    request_stream  << actionType << "\n"
+     //              << std::setw(sizeof(int)) <<  std::setfill('0') << action.path.string().length() << "\n"
+     //              << action.path.string() << "\n";
+                    << std::setw(sizeof(int)) <<  std::setfill('0') << cleaned_path.length() << "\n"
+                    << cleaned_path << "\n";
+
+
     std::cout << "SIZEOF request" << request.size() << std::endl;
     size_t len = boost::asio::write(socket_, request);
 

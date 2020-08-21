@@ -6,12 +6,12 @@
 
 #include <utility>
 
-FileWatcher::FileWatcher(std::string path_to_watch, std::chrono::duration<int, std::milli> delay,
+FileWatcher::FileWatcher( std::chrono::duration<int, std::milli> delay,
                          const std::function<void(std::string, FileStatus)> &action) :
-        path_to_watch{std::move(path_to_watch)}, delay{delay}, action{action} {
+        delay{delay}, action{action} {
 }
 
-void FileWatcher::start(std::unordered_map<std::string, Hash> initial_status) {
+void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, Hash> initial_status) {
     std::cout << "Starting fileWatcher" << std::endl;
     //init_status(std::move(initial_status));
 
@@ -53,7 +53,7 @@ void FileWatcher::stop(){
 }
 
 
-void FileWatcher::init_status(std::unordered_map<std::string, Hash> initial_status){
+void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, Hash> initial_status){
     std::cout << "initializing fileWatcher" << std::endl;
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
         std::cout << file << std::endl;

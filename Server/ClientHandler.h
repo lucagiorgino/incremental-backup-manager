@@ -58,6 +58,8 @@ public:
     }
 
 private:
+    std::string username;
+
     boost::asio::io_service &service_;
     boost::asio::ip::tcp::socket socket_;
     boost::asio::io_service::strand write_strand_;

@@ -31,7 +31,7 @@ public:
      * @param delay
      * @param action
      */
-    FileWatcher(std::string path_to_watch, std::chrono::duration<int, std::milli> delay,
+    FileWatcher(std::chrono::duration<int, std::milli> delay,
                 const std::function<void(std::string, FileStatus)> &action);
 
     /**
@@ -39,7 +39,7 @@ public:
      * Start monitoring all entries in path_to_watch
      * execute action when a difference is found
      */
-    void start(std::unordered_map<std::string, Hash> initial_status);
+    void start(std::string path_to_watch, std::unordered_map<std::string, Hash> initial_status);
     void stop();
 private:
     std::string path_to_watch;
@@ -48,7 +48,7 @@ private:
     std::unordered_map<std::string, std::filesystem::file_time_type> paths_;
     bool running_ = true;
 
-    void init_status(std::unordered_map<std::string, Hash> initial_status);
+    void init_status(std::string path_to_watch,std::unordered_map<std::string, Hash> initial_status);
 
     // Check if "paths_" contains a given key
     // If your compiler supports C++20 use paths_.contains(key) instead of this function

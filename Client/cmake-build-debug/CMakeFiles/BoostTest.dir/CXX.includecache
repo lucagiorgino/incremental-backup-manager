@@ -16,10 +16,6 @@ condition_variable
 optional
 -
 
-/home/luca/Scrivania/ProgettoPDS/Client/Client.cpp
-Client.h
-/home/luca/Scrivania/ProgettoPDS/Client/Client.h
-
 /home/luca/Scrivania/ProgettoPDS/Client/Client.h
 filesystem
 -
@@ -69,4 +65,10 @@ iomanip
 -
 fstream
 -
+
+/home/luca/Scrivania/ProgettoPDS/Client/main.cpp
+iostream
+-
+Client.h
+/home/luca/Scrivania/ProgettoPDS/Client/Client.h
 

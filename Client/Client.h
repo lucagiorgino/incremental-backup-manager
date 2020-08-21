@@ -33,7 +33,7 @@ struct Action {
 
 class Client {
 public:
-    Client(std::string path, std::string name);
+    Client( std::string name);
     ~Client();
 private:
     Buffer<Action> actions;
@@ -43,6 +43,7 @@ private:
     boost::asio::ip::tcp::socket socket_;
     std::thread fileWatcherThread;
     std::thread actionsConsumer;
+    std::filesystem::path path;
 
     void send_action(Action action);
     void send_file(const std::string& filename);
