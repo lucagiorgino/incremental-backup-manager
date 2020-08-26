@@ -19,7 +19,11 @@ Client::Client(std::string name) :
         if(!std::filesystem::exists(backup_path)){
             // new path
             std::cout<<"insert existing path to create accout: ";
-            std::cin >> path_string; // un path già esistente
+            do{
+                std::cin >> path_string; // un path già esistente
+                std::cout<<"path not found, try again: ";
+            } while (!std::filesystem ::exists(path_string));
+
             std::ofstream fp(backup_path);
             fp << path_string;
             fp.close();
@@ -52,10 +56,10 @@ Client::Client(std::string name) :
         if(!is_signedup){
             std::string password1;
             do{
-                std::cout << "You are not signed up. Insert new password: "<<std::endl;
+                std::cout << "You are not signed up. \n Insert new password: ";
                 std::cin >> password;
 
-                std::cout << "Insert new password again: ";
+                std::cout << " Insert new password again: ";
                 std::cin >> password1;
 
             } while (password.compare(password1));
@@ -65,7 +69,7 @@ Client::Client(std::string name) :
             boost::asio::write(socket_, request_output);
             std::cout << "Ok, You are now signed up!"<<std::endl;
         }
-
+        std::cout << "LOG IN" << std::endl;
         while(is_authenticated == 0){
             std::cout << "Insert password: ";
             std::cin >> password;
