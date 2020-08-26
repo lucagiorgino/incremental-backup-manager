@@ -19,10 +19,11 @@ Client::Client(std::string name) :
         if(!std::filesystem::exists(backup_path)){
             // new path
             std::cout<<"insert existing path to create accout: ";
-            do{
-                std::cin >> path_string; // un path già esistente
+            std::cin >> path_string; // un path già esistente
+            while (!std::filesystem ::exists(path_string)) {
                 std::cout<<"path not found, try again: ";
-            } while (!std::filesystem ::exists(path_string));
+                std::cin >> path_string; // un path già esistente
+            }
 
             std::ofstream fp(backup_path);
             fp << path_string;
