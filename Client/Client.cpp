@@ -13,6 +13,7 @@ Client::Client(std::string name) :
         std::string path_string;
         std::string password;
         int is_authenticated = 0;
+        int is_signedup = 0;
 
         const std::filesystem::path backup_path = "../path";
         if(!std::filesystem::exists(backup_path)){
@@ -43,6 +44,27 @@ Client::Client(std::string name) :
         output_stream << std::setw(sizeof(int)) <<  std::setfill('0') << name.length() << "\n"
                        << name << "\n";
         boost::asio::write(socket_, request_output);
+
+        boost::asio::read(socket_, request_input, boost::asio::transfer_exactly(2));
+        input_stream >> is_signedup;
+        std::cout << "is_signedup: " << is_signedup <<std::endl;
+
+        if(!is_signedup){
+            std::string password1;
+            do{
+                std::cout << "You are not signed up. Insert new password: "<<std::endl;
+                std::cin >> password;
+
+                std::cout << "Insert new password again: ";
+                std::cin >> password1;
+
+            } while (password.compare(password1));
+
+
+            output_stream << password.length() << "\n" << password << "\n";
+            boost::asio::write(socket_, request_output);
+            std::cout << "Ok, You are now signed up!"<<std::endl;
+        }
 
         while(is_authenticated == 0){
             std::cout << "Insert password: ";
