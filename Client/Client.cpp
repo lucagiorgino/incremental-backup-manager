@@ -164,10 +164,7 @@ Client::~Client(){
 
 void Client::send_action(Action action) {
     boost::array<char, MAX_MSG_SIZE> buf;
-    /***  DA COMPLETARE, VERIFICARE IL TIPO
-     *    DEGLI ENUM PER LA LETTURA LATO SERVER
-     *    (FARE STATIC CAST A INT? SIZE_T?)
-     *    ***/
+
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
     size_t actionType;
@@ -182,7 +179,7 @@ void Client::send_action(Action action) {
             actionType = isDirectory ? ActionType::ignore : ActionType::read_file;
             break;
         case FileStatus::erased:
-            actionType = isDirectory ? ActionType::delete_folder : ActionType::delete_file;
+            actionType = ActionType::delete_path;
             break;
     }
 
@@ -207,7 +204,7 @@ void Client::send_action(Action action) {
     std::string cleaned_path = action.path.string();
     size_t pos = cleaned_path.find(path.string() );
     cleaned_path.erase( pos, path.string().length() );
-    std::cout << "CLEANED PATH: " << cleaned_path  << std::endl;
+    std::cout << "CLEANED PATH: " << action.path  << std::endl;
 
 
 
@@ -217,11 +214,9 @@ void Client::send_action(Action action) {
                     << std::setw(sizeof(int)) <<  std::setfill('0') << cleaned_path.length() << "\n"
                     << cleaned_path << "\n";
 
-
-    std::cout << "SIZEOF request" << request.size() << std::endl;
     size_t len = boost::asio::write(socket_, request);
 
-    std::cout << "SIZEOF actiontype" << sizeof(actionType) << "-" << action.path.string().length() << std::endl;
+    std::cout << isDirectory << "SIZEOF actiontype" << actionType << "-" << action.path.string().length() << std::endl;
     std::cout<< "SENT " << len << " BYTES" << std::endl;
 
     //boost::asio::write(socket_, boost::asio::buffer(actionType, sizeof(int)));

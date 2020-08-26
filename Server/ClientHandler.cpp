@@ -26,7 +26,7 @@ void ClientHandler::start() {
     const std::filesystem::path password_path = "../users/" + username + "/password";
     const std::filesystem::path backup_folder_path = "../users/" + username + "/backup";
 
-    if(!std::filesystem ::exists(user_folder)){
+    if (!std::filesystem::exists(user_folder)) {
         //new user
         output_stream << is_signedup << "\n";
         boost::asio::write(socket_, output_buf);
@@ -56,13 +56,13 @@ void ClientHandler::start() {
     fp >> actual_password;
     fp.close();
 
-    while(is_authenticated == 0) {
+    while (is_authenticated == 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
         input_stream >> password;
 
-        is_authenticated = actual_password == password? 1:0;
+        is_authenticated = actual_password == password ? 1 : 0;
 
         std::cout << "password: " << password << ", is_authenticated: " << is_authenticated << std::endl;
 
@@ -72,14 +72,14 @@ void ClientHandler::start() {
 
     std::cout << "AUTHENTICATION: PASSWORD " << password << ", USERNAME " << username << std::endl;
 
-    action_handler = std::thread([this] (){
-        while(true){
+    action_handler = std::thread([this]() {
+        while (true) {
             read_action();
         }
     });
 }
 
-ClientHandler::~ClientHandler(){
+ClientHandler::~ClientHandler() {
     action_handler.join();
 }
 
@@ -194,19 +194,15 @@ void ClientHandler::read_action() {
     std::cout << action << " " << path << " " << path_size << std::endl;
 
 
-
     switch (action) {
         case read_file:
             action_read_file(path);
             break;
-        case delete_file:
-            action_delete_file(path);
-            break;
         case create_folder:
             action_create_folder(path);
             break;
-        case delete_folder:
-            action_delete_folder(path);
+        case delete_path:
+            action_delete_path(path);
             break;
         case quit:
             // close connection
@@ -276,21 +272,6 @@ void ClientHandler::action_read_file(std::string path) {
 }
 
 /**
- * Delete file, the client must send in this order:
- * (int) path_size + "\n"
- * (char*path_size) file_path + "\n"
- * @throw boost::asio::error::???????? if delete operation is not successful
- */
-void ClientHandler::action_delete_file(std::string path) {
-    std::error_code errorCode;
-
-    if (!std::filesystem::remove(path, errorCode)) {
-        std::cout << errorCode.message() << std::endl;
-        throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
-    }
-}
-
-/**
  * Create folder, the client must send in this order:
  * (int) path_size + "\n"
  * (char*path_size) folder_path + "\n"
@@ -299,25 +280,29 @@ void ClientHandler::action_delete_file(std::string path) {
 void ClientHandler::action_create_folder(std::string path) {
 
     // check if directory is created or not
-    if (std::filesystem::create_directory(path.c_str())) {
-        printf("Directory created\n");
-    } else {
-        printf("Unable to create directory\n");
-        throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
+    if (!std::filesystem::exists(path.c_str())) {
+        if (std::filesystem::create_directory(path.c_str())) {
+            printf("Directory created\n");
+        } else {
+            printf("Unable to create directory\n");
+            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
+        }
     }
 }
 
 /**
- * Delete folder, the client must send in this order:
+ * Delete path, the client must send in this order:
  * (int) path_size + "\n"
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_folder(std::string path) {
+void ClientHandler::action_delete_path(std::string path) {
     std::error_code errorCode;
 
-    if (!std::filesystem::remove(path, errorCode)) {
-        std::cout << errorCode.message() << std::endl;
-        throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
+    if (std::filesystem::exists(path.c_str())) {
+        if (!std::filesystem::remove_all(path, errorCode)) {
+            std::cout << errorCode.message() << std::endl;
+            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
+        }
     }
 }

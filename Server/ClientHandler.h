@@ -23,7 +23,7 @@
 
 
 enum ActionType {
-    read_file, delete_file, create_folder, delete_folder, quit
+    read_file, create_folder, delete_path, quit
 };
 
 enum ClientStatus {
@@ -78,9 +78,8 @@ private:
 
     void read_action();
     void action_read_file(std::string path);
-    void action_delete_file(std::string path);
     void action_create_folder(std::string path);
-    void action_delete_folder(std::string path);
+    void action_delete_path(std::string path);
 
     void queue_message(std::string msg);
 
