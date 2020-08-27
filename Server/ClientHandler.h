@@ -76,7 +76,7 @@ private:
 
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);
 
-    void read_action();
+    bool read_action();
     void action_read_file(std::string path);
     void action_create_folder(std::string path);
     void action_delete_path(std::string path);

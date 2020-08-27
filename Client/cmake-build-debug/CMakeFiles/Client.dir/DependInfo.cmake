@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/luca/Scrivania/ProgettoPDS/Client/Client.cpp" "/home/luca/Scrivania/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o"
-  "/home/luca/Scrivania/ProgettoPDS/Client/FileWatcher.cpp" "/home/luca/Scrivania/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/FileWatcher.cpp.o"
-  "/home/luca/Scrivania/ProgettoPDS/Client/Hash.cpp" "/home/luca/Scrivania/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/Hash.cpp.o"
-  "/home/luca/Scrivania/ProgettoPDS/Client/main.cpp" "/home/luca/Scrivania/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/Client.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/FileWatcher.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/Hash.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

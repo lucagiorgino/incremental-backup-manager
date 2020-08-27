@@ -1,4 +1,4 @@
-/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir
-/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/BoostTest.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/BoostTest.dir

@@ -15,9 +15,9 @@ int main() {
 
     std::string quit;
     do{
-        std::cout << "Insert \"Q\" to quit: ";
+        std::cout << "Insert \"q\" to quit: " << std::endl;
         std::cin >> quit;
-    }while(quit.compare("Q") != 0);
+    }while(quit.compare("q") != 0 && quit.compare("Q") != 0);
 
     //Client client2{"../dir2", "aldo", "baglio"};
     //Client client3{"../dir3", "aldo", "baglio"};

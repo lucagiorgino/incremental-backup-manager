@@ -73,9 +73,7 @@ void ClientHandler::start() {
     std::cout << "AUTHENTICATION: PASSWORD " << password << ", USERNAME " << username << std::endl;
 
     action_handler = std::thread([this]() {
-        while (true) {
-            read_action();
-        }
+        while (read_action()){}
     });
 }
 
@@ -166,7 +164,7 @@ void ClientHandler::packet_send_done(const std::error_code &error) {
 }
 
 
-void ClientHandler::read_action() {
+bool ClientHandler::read_action() {
     size_t action = 0;
     size_t path_size = 0;
     std::string path_size_s;
@@ -206,12 +204,13 @@ void ClientHandler::read_action() {
             break;
         case quit:
             // close connection
-            break;
+            return false;
         default:
             // throw exception???
             break;
     }
     std::cout << "action" << action << " over" << std::endl;
+    return true;
 }
 
 

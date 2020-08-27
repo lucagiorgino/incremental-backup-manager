@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.cpp" "/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o"
-  "/home/luca/Scrivania/ProgettoPDS/Server/Server.cpp" "/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/Server.cpp.o"
-  "/home/luca/Scrivania/ProgettoPDS/Server/main.cpp" "/home/luca/Scrivania/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/ClientHandler.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/Server.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/main.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/Server.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

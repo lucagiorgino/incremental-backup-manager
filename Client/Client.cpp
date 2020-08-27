@@ -95,7 +95,7 @@ Client::Client(std::string name) :
                 if (action.has_value()) {
                     send_action(action.value());
                 }
-            } while(!action.has_value());
+            } while(action.has_value());
 
             boost::asio::streambuf request;
             std::ostream request_stream(&request);
