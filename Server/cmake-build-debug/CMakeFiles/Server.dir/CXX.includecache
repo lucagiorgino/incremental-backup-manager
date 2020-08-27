@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.cpp
+/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.cpp
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.h
 iostream
 -
 filesystem
 -
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.h
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.h
 ctime
 -
 iostream
@@ -40,7 +40,11 @@ boost/enable_shared_from_this.hpp
 utility
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Server/Server.h
+/home/luca/Scrivania/ProgettoPDS/Server/Server.cpp
+Server.h
+/home/luca/Scrivania/ProgettoPDS/Server/Server.h
+
+/home/luca/Scrivania/ProgettoPDS/Server/Server.h
 thread
 -
 vector
@@ -50,11 +54,11 @@ boost/asio.hpp
 iostream
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Server/main.cpp
+/home/luca/Scrivania/ProgettoPDS/Server/main.cpp
 iostream
 -
 Server.h
-/home/cosimo/Desktop/ProgettoPDS/Server/Server.h
+/home/luca/Scrivania/ProgettoPDS/Server/Server.h
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/luca/Scrivania/ProgettoPDS/Server/ClientHandler.h
 
