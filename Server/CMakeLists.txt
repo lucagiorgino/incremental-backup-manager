@@ -5,9 +5,12 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
 
 set(CMAKE_CXX_STANDARD 20)
-SET(CMAKE_CXX_FLAGS -pthread)
+SET(CMAKE_CXX_FLAGS "-pthread -lcrypto")
 
 message(STATUS "start running cmake...")
+
+link_libraries(crypto)
+
 
 find_package(OpenSSL)
 
@@ -33,4 +36,4 @@ if(Boost_FOUND)
     target_link_libraries(BoostTest ${Boost_LIBRARIES})
 endif()
 
-add_executable(Server main.cpp Server.cpp Server.h ClientHandler.cpp ClientHandler.h)
+add_executable(Server main.cpp Server.cpp Server.h Hash.h Hash.cpp ClientHandler.cpp ClientHandler.h)

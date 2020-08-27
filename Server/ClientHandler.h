@@ -67,15 +67,19 @@ private:
     std::deque<std::string> send_packet_queue;
     std::thread action_handler;
 
-    std::string main_folder;
     boost::asio::streambuf input_buf;
     boost::asio::streambuf output_buf;
     std::istream input_stream;
     std::ostream output_stream;
+
+
     void read_packet();
 
     void read_packet_done(std::error_code const &error, std::size_t bytes_transferred);
 
+
+    void login();
+    void send_file_hash();
     bool read_action();
     void action_read_file(std::string path);
     void action_create_folder(std::string path);

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h
 array
 -
 mutex
@@ -16,11 +16,7 @@ condition_variable
 optional
 -
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.cpp
-Client.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
-
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
 filesystem
 -
 iostream
@@ -34,11 +30,11 @@ fstream
 sstream
 -
 FileWatcher.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
 Buffer.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
+/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
 filesystem
 -
 chrono
@@ -52,9 +48,9 @@ string
 functional
 -
 Hash.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h
 iostream
 -
 sstream
@@ -70,9 +66,9 @@ iomanip
 fstream
 -
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp
+/home/cosimo/Desktop/ProgettoPDS/Client/main.cpp
 iostream
 -
 Client.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
 

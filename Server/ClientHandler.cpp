@@ -3,13 +3,33 @@
 #include <iostream>
 #include <filesystem>
 #include "ClientHandler.h"
+#include "Hash.h"
 
 // ***** PUBLIC *****
 
 void ClientHandler::start() {
     std::cout << "START CLIENT CONNECTION" << std::endl;
-    main_folder = "Client_1";
 
+    login();
+    send_file_hash();
+
+
+    // Read and perform action
+    action_handler = std::thread([this]() {
+        while (read_action()) {}
+    });
+}
+
+ClientHandler::~ClientHandler() {
+    action_handler.join();
+}
+
+
+
+// ***** PRIVATE *****
+
+
+void ClientHandler::login() {
     //Authentication
     int length;
     std::string password;
@@ -32,7 +52,6 @@ void ClientHandler::start() {
         boost::asio::write(socket_, output_buf);
 
         // utente sceglie se registrarsi con quel username o fa quit e chiude il client ( o gli si chiede un nuovo username)
-        // eventuale caso di username già esistente
 
         std::filesystem::create_directory(user_folder);
         std::filesystem::create_directory(backup_folder_path);
@@ -56,6 +75,7 @@ void ClientHandler::start() {
     fp >> actual_password;
     fp.close();
 
+    // Check password
     while (is_authenticated == 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> length;
@@ -72,30 +92,34 @@ void ClientHandler::start() {
 
     std::cout << "AUTHENTICATION: PASSWORD " << password << ", USERNAME " << username << std::endl;
 
-    action_handler = std::thread([this]() {
-        while (read_action()){}
-    });
 }
 
-ClientHandler::~ClientHandler() {
-    action_handler.join();
+void ClientHandler::send_file_hash() {
+    std::string backup_path = "../users/" + username + "/backup";
+
+    for (auto &entry_path : std::filesystem::recursive_directory_iterator(backup_path)) {
+        std::string hash_value;
+        std::string cleaned_path = entry_path.path().string();
+        size_t pos = cleaned_path.find(backup_path);
+        cleaned_path.erase(pos, backup_path.length());
+        if (entry_path.is_directory()) {
+            hash_value = "dir";
+        } else {
+            Hash hash(entry_path.path().string());
+            hash_value = hash.getHash();
+        }
+        output_stream << cleaned_path.length() << "\n"
+                      << cleaned_path << "\n"
+                      << hash_value.length() << "\n"
+                      << hash_value << "\n";
+
+        boost::asio::write(socket_, output_buf);
+    }
+
+    output_stream << -1 << "\n";
+    boost::asio::write(socket_, output_buf);
 }
 
-
-
-// ***** PRIVATE *****
-
-
-/*
-void ClientHandler::read_credential() {
-    std::string data;
-    size_t len;
-
-    boost::asio::read();
-
-
-}
-*/
 
 /**
  *
@@ -174,18 +198,12 @@ bool ClientHandler::read_action() {
     std::cout << "reading action" << std::endl;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
-    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
     input_stream >> action;
     //input_buf.sgetc();
-    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
-    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
     input_stream >> path_size;
-    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
-    std::cout << "REQUEST_BUF before SIZE: " << input_buf.size() << std::endl;
     input_stream >> path;
-    std::cout << "REQUEST_BUF after SIZE: " << input_buf.size() << std::endl;
 
     path = "../users/" + username + "/backup" + path;
 

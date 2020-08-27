@@ -68,10 +68,10 @@ RM = /snap/clion/124/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/andrea/Desktop/Progetto/ProgettoPDS/Server
+CMAKE_SOURCE_DIR = /home/cosimo/Desktop/ProgettoPDS/Server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug
+CMAKE_BINARY_DIR = /home/cosimo/Desktop/ProgettoPDS/Server/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -100,9 +100,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles /home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cosimo/Desktop/ProgettoPDS/Server/cmake-build-debug/CMakeFiles /home/cosimo/Desktop/ProgettoPDS/Server/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrea/Desktop/Progetto/ProgettoPDS/Server/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cosimo/Desktop/ProgettoPDS/Server/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -183,6 +183,33 @@ ClientHandler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/ClientHandler.cpp.s
 .PHONY : ClientHandler.cpp.s
 
+Hash.o: Hash.cpp.o
+
+.PHONY : Hash.o
+
+# target to build an object file
+Hash.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Hash.cpp.o
+.PHONY : Hash.cpp.o
+
+Hash.i: Hash.cpp.i
+
+.PHONY : Hash.i
+
+# target to preprocess a source file
+Hash.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Hash.cpp.i
+.PHONY : Hash.cpp.i
+
+Hash.s: Hash.cpp.s
+
+.PHONY : Hash.s
+
+# target to generate assembly for a file
+Hash.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Hash.cpp.s
+.PHONY : Hash.cpp.s
+
 Server.o: Server.cpp.o
 
 .PHONY : Server.o
@@ -253,6 +280,9 @@ help:
 	@echo "... ClientHandler.o"
 	@echo "... ClientHandler.i"
 	@echo "... ClientHandler.s"
+	@echo "... Hash.o"
+	@echo "... Hash.i"
+	@echo "... Hash.s"
 	@echo "... Server.o"
 	@echo "... Server.i"
 	@echo "... Server.s"

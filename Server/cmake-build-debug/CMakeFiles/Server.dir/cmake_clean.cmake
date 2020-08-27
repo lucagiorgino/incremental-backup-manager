@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "../bin/Server"
   "../bin/Server.pdb"
   "CMakeFiles/Server.dir/ClientHandler.cpp.o"
+  "CMakeFiles/Server.dir/Hash.cpp.o"
   "CMakeFiles/Server.dir/Server.cpp.o"
   "CMakeFiles/Server.dir/main.cpp.o"
 )

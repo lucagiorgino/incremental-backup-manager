@@ -2,7 +2,8 @@
 
 
 Client::Client(std::string name) :
-        resolver_(io_context_),
+        input_stream(&input_buf),
+        output_stream(&output_buf),
         socket_(io_context_), fileWatcher(std::chrono::duration<int, std::milli>(DELAY),
                                           [this](const std::string &path, FileStatus fileStatus) {
                                               Action action{path, fileStatus};
@@ -10,31 +11,23 @@ Client::Client(std::string name) :
                                           }) {
 
     try {
-        std::string path_string;
+        std::string main_path_string;
         std::string password;
         int is_authenticated = 0;
         int is_signedup = 0;
 
         const std::filesystem::path backup_path = "../path";
         if (!std::filesystem::exists(backup_path)) {
-            // new path
-            std::cout << "insert existing path to create accout: ";
-            std::cin >> path_string; // un path già esistente
-            while (!std::filesystem::exists(path_string)) {
-                std::cout << "path not found, try again: ";
-                std::cin >> path_string; // un path già esistente
-            }
+            create_account_backup_folder(main_path_string, backup_path);
 
-            std::ofstream fp(backup_path);
-            fp << path_string;
-            fp.close();
         } else {
+            // read path from file
             std::ifstream fp(backup_path);
-            fp >> path_string;
+            fp >> main_path_string;
             fp.close();
         }
 
-        path = std::filesystem::path(path_string);
+        main_path = std::filesystem::path(main_path_string);
 
         // const std::string &path
 
@@ -42,60 +35,46 @@ Client::Client(std::string name) :
         socket_.connect(endpoint);
 
         //Authentication
-        boost::asio::streambuf request_input;
-        boost::asio::streambuf request_output;
-        std::istream input_stream(&request_input);
-        std::ostream output_stream(&request_output);
+
         output_stream << std::setw(sizeof(int)) << std::setfill('0') << name.length() << "\n"
                       << name << "\n";
-        boost::asio::write(socket_, request_output);
+        boost::asio::write(socket_, output_buf);
 
-        boost::asio::read(socket_, request_input, boost::asio::transfer_exactly(2));
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> is_signedup;
         std::cout << "is_signedup: " << is_signedup << std::endl;
 
         if (!is_signedup) {
-            std::string password1;
-            do {
-                std::cout << "You are not signed up. \n Insert new password: ";
-                std::cin >> password;
-
-                std::cout << " Insert new password again: ";
-                std::cin >> password1;
-
-            } while (password.compare(password1));
-
-
-            output_stream << password.length() << "\n" << password << "\n";
-            boost::asio::write(socket_, request_output);
-            std::cout << "Ok, You are now signed up!" << std::endl;
+            create_account_password();
         }
         std::cout << "LOG IN" << std::endl;
         while (is_authenticated == 0) {
             std::cout << "Insert password: ";
             std::cin >> password;
             output_stream << password.length() << "\n" << password << "\n";
-            boost::asio::write(socket_, request_output);
-            boost::asio::read(socket_, request_input, boost::asio::transfer_exactly(2));
+            boost::asio::write(socket_, output_buf);
+            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
             input_stream >> is_authenticated;
             std::cout << "is_authenticated: " << is_authenticated << std::endl;
         }
 
 
-        fileWatcherThread = std::thread([this]() {
-            std::unordered_map<std::string, Hash> initial_status;
-            this->fileWatcher.start(this->path.string(), initial_status);
+        std::map<std::string, std::string> initial_status = get_init_file_from_server();
+
+
+        fileWatcherThread = std::thread([this, initial_status]() {
+            this->fileWatcher.start(this->main_path.string(), initial_status);
         });
 
         actionsConsumer = std::thread([this]() {
             std::optional<Action> action;
 
-            do{
+            do {
                 action = actions.pop();
                 if (action.has_value()) {
                     send_action(action.value());
                 }
-            } while(action.has_value());
+            } while (action.has_value());
 
             boost::asio::streambuf request;
             std::ostream request_stream(&request);
@@ -114,6 +93,63 @@ Client::Client(std::string name) :
     }
 }
 
+void Client::create_account_password() {
+    std::string password;
+    std::string password1;
+    do {
+        std::cout << "You are not signed up. \n Insert new password: ";
+        std::cin >> password;
+
+        std::cout << " Insert new password again: ";
+        std::cin >> password1;
+
+    } while (password.compare(password1));
+
+
+    output_stream << password.length() << "\n" << password << "\n";
+    boost::asio::write(socket_, output_buf);
+    std::cout << "Ok, You are now signed up!" << std::endl;
+}
+
+void Client::create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) const {
+    // new path
+    std::cout << "insert existing path to create accout: ";
+    std::cin >> path_string;
+    while (!std::filesystem::exists(path_string)) {
+        std::cout << "path not found, try again: ";
+        std::cin >> path_string;
+    }
+
+    std::ofstream fp(backup_path);
+    fp << path_string;
+    fp.close();
+}
+
+std::map<std::string, std::string> Client::get_init_file_from_server() {
+    std::map<std::string, std::string> init_map;
+    int size;
+    std::string path;
+    std::string hash;
+
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    input_stream >> size;
+    while (size != -1) {
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
+        input_stream >> path;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+        input_stream >> size;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
+        input_stream >> hash;
+
+        init_map.insert(main_path.string() + path, hash);
+
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+        input_stream >> size;
+    }
+
+    return init_map;
+}
+
 Client::~Client() {
     fileWatcher.stop();
     fileWatcherThread.join();
@@ -121,6 +157,7 @@ Client::~Client() {
     actions.terminate();
     actionsConsumer.join();
 }
+
 
 void Client::send_action(Action action) {
     boost::array<char, MAX_MSG_SIZE> buf;
@@ -147,23 +184,9 @@ void Client::send_action(Action action) {
         return;
     }
 
-    // std::string a = std::to_string(actionType) + std::to_string(action.path.string().length()) + action.path.string();
-    // std::cout << a << "-----" << a.length() << std::endl;
-    // std::cout << "sending action " << actionType << " - " << action.path.string() << std::endl;
-    // std::cout << actionType
-    //           << std::setfill('0') << std::setw(sizeof(int)) << action.path.string().length()
-    //             << action.path.string() << "\n";
-
-    // /home/luca/Scrivania/test/dir1/...
-    // client: dir1
-    //
-    // server: ../users/<user>/<directory>/...
-
-
-
     std::string cleaned_path = action.path.string();
-    size_t pos = cleaned_path.find(path.string());
-    cleaned_path.erase(pos, path.string().length());
+    size_t pos = cleaned_path.find(main_path.string());
+    cleaned_path.erase(pos, main_path.string().length());
     std::cout << "CLEANED PATH: " << action.path << std::endl;
 
 
@@ -194,10 +217,8 @@ void Client::send_file(const std::string &filename) {
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
     // send file size to server
-    boost::asio::streambuf request;
-    std::ostream request_stream(&request);
-    request_stream << file_size;
-    boost::asio::write(socket_, request);
+    output_stream << file_size;
+    boost::asio::write(socket_, output_buf);
     std::cout << "start sending file content." << file_size << "bytes\n";
     for (;;) {
         if (source_file.eof() == false) {

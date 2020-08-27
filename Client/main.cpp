@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Client.h"
 int main() {
-
     std::string machine_id;
     const std::filesystem::path machine_id_path = "/etc/machine-id";
     std::ifstream fp(machine_id_path);
@@ -22,5 +21,6 @@ int main() {
     //Client client2{"../dir2", "aldo", "baglio"};
     //Client client3{"../dir3", "aldo", "baglio"};
     std::cout << "TERMINATED" << std::endl;
+
     return 0;
 }

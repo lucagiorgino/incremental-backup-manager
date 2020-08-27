@@ -39,14 +39,24 @@ private:
     Buffer<Action> actions;
     FileWatcher fileWatcher;
     boost::asio::io_context io_context_;
-    boost::asio::ip::tcp::resolver resolver_;
     boost::asio::ip::tcp::socket socket_;
     std::thread fileWatcherThread;
     std::thread actionsConsumer;
-    std::filesystem::path path;
+    std::filesystem::path main_path;
+
+    boost::asio::streambuf input_buf;
+    boost::asio::streambuf output_buf;
+    std::istream input_stream;
+    std::ostream output_stream;
+
 
     void send_action(Action action);
     void send_file(const std::string& filename);
+
+    void create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) const;
+
+    void create_account_password();
+    std::map<std::string, std::string> get_init_file_from_server();
 };
 
 #endif //CLIENT_CLIENT_H

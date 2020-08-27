@@ -3,6 +3,10 @@
 
 CMakeFiles/Server.dir/ClientHandler.cpp.o: ../ClientHandler.cpp
 CMakeFiles/Server.dir/ClientHandler.cpp.o: ../ClientHandler.h
+CMakeFiles/Server.dir/ClientHandler.cpp.o: ../Hash.h
+
+CMakeFiles/Server.dir/Hash.cpp.o: ../Hash.cpp
+CMakeFiles/Server.dir/Hash.cpp.o: ../Hash.h
 
 CMakeFiles/Server.dir/Server.cpp.o: ../Server.cpp
 CMakeFiles/Server.dir/Server.cpp.o: ../Server.h

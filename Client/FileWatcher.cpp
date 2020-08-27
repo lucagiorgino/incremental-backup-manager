@@ -11,9 +11,9 @@ FileWatcher::FileWatcher( std::chrono::duration<int, std::milli> delay,
         delay{delay}, action{action} {
 }
 
-void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, Hash> initial_status) {
+void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, std::string> initial_status) {
     std::cout << "Starting fileWatcher" << std::endl;
-    //init_status(std::move(initial_status));
+    init_status(path_to_watch, std::move(initial_status));
 
     while (running_) {
         // Wait for "delay" milliseconds
@@ -52,8 +52,8 @@ void FileWatcher::stop(){
     running_ = false;
 }
 
-
-void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, Hash> initial_status){
+// GESTIRE HASH DIRECTORY PLPLPLPLPLPLPLPLPLPLPLPLP
+void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
     std::cout << "initializing fileWatcher" << std::endl;
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
         std::cout << file << std::endl;
