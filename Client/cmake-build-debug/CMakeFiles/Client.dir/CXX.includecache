@@ -16,6 +16,12 @@ condition_variable
 optional
 -
 
+/home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp
+Client.h
+/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
+unordered_map
+-
+
 /home/cosimo/Desktop/ProgettoPDS/Client/Client.h
 filesystem
 -
@@ -65,10 +71,4 @@ iomanip
 -
 fstream
 -
-
-/home/cosimo/Desktop/ProgettoPDS/Client/main.cpp
-iostream
--
-Client.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
 

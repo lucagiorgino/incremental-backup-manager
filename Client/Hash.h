@@ -22,6 +22,7 @@ public:
     bool operator==( const Hash& input);
 
     void printHash();
+    std::string getHash();
 };
 
 

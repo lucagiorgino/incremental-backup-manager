@@ -48,39 +48,38 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
     }
 }
 
-void FileWatcher::stop(){
-    running_ = false;
-}
-
-// GESTIRE HASH DIRECTORY PLPLPLPLPLPLPLPLPLPLPLPLP
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
     std::cout << "initializing fileWatcher" << std::endl;
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
-        std::cout << file << std::endl;
         if (initial_status.contains(file.path().string())) {
-            // True -> add file to paths_ with last write time
-            Hash hash = Hash(file.path());
+
+            std::string hash_str = file.is_directory() ? "dir" : Hash(file.path()).getHash();
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
-            if (!(initial_status[file.path()] == hash)) {
+            if (initial_status[file.path()] != hash_str) {
+                std::cout << "modify: " << file.path() << std::endl;
                 action(file.path().string(), FileStatus::modified);
             }
-            initial_status.erase(initial_status.find(file.path()));
+            initial_status.erase(file.path().string());
         } else {
             // False -> file has been created
-            std::cout << "else" << std::endl;
+            std::cout << "create: " << file.path() << std::endl;
             action(file.path().string(), FileStatus::created);
         }
-        // File exist in server but not in client -> file has been erased
-        for (const auto &it : initial_status) {
-            action(it.first, FileStatus::erased);
-        }
-
         // Add file to pats_ with last_writ_time as value
         paths_[file.path().string()] = std::filesystem::last_write_time(file);
     }
+    // File exist in server but not in client -> file has been erased
+    for (const auto &it : initial_status) {
+        std::cout << "erase: " << it.first << std::endl;
+        action(it.first, FileStatus::erased);
+    }
+
     std::cout << "fileWatcher initialized" << std::endl;
 }
 
+void FileWatcher::stop(){
+    running_ = false;
+}
 
 // deprecated
 bool FileWatcher::contains(const std::string &key) {

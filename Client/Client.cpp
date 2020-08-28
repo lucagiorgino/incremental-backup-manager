@@ -1,5 +1,5 @@
 #include "Client.h"
-
+#include <unordered_map>
 
 Client::Client(std::string name) :
         input_stream(&input_buf),
@@ -59,7 +59,7 @@ Client::Client(std::string name) :
         }
 
 
-        std::map<std::string, std::string> initial_status = get_init_file_from_server();
+        std::unordered_map<std::string, std::string> initial_status = get_init_file_from_server();
 
 
         fileWatcherThread = std::thread([this, initial_status]() {
@@ -125,23 +125,24 @@ void Client::create_account_backup_folder(std::string &path_string, const std::f
     fp.close();
 }
 
-std::map<std::string, std::string> Client::get_init_file_from_server() {
-    std::map<std::string, std::string> init_map;
+std::unordered_map<std::string, std::string> Client::get_init_file_from_server() {
+    std::unordered_map<std::string, std::string> init_map;
     int size;
     std::string path;
     std::string hash;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
     input_stream >> size;
-    while (size != -1) {
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
+    while (size != 0) {
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
         input_stream >> path;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
         input_stream >> size;
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
         input_stream >> hash;
 
-        init_map.insert(main_path.string() + path, hash);
+        std::cout << "init_status insert: " << main_path.string() + path << " -- " << hash << std::endl;
+        init_map.insert({main_path.string() + path, hash});
 
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
         input_stream >> size;
@@ -187,8 +188,6 @@ void Client::send_action(Action action) {
     std::string cleaned_path = action.path.string();
     size_t pos = cleaned_path.find(main_path.string());
     cleaned_path.erase(pos, main_path.string().length());
-    std::cout << "CLEANED PATH: " << action.path << std::endl;
-
 
     request_stream << actionType << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
@@ -196,8 +195,7 @@ void Client::send_action(Action action) {
 
     size_t len = boost::asio::write(socket_, request);
 
-    std::cout << isDirectory << "SIZEOF actiontype" << actionType << "-" << action.path.string().length() << std::endl;
-    std::cout << "SENT " << len << " BYTES" << std::endl;
+    std::cout << "actiontype: " << actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
     //boost::asio::write(socket_, boost::asio::buffer(actionType, sizeof(int)));
 
@@ -219,7 +217,6 @@ void Client::send_file(const std::string &filename) {
     // send file size to server
     output_stream << file_size;
     boost::asio::write(socket_, output_buf);
-    std::cout << "start sending file content." << file_size << "bytes\n";
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
@@ -228,7 +225,6 @@ void Client::send_file(const std::string &filename) {
                 throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
             }
             boost::system::error_code error;
-            std::cout << "Sending " << source_file.gcount() << " bytes" << std::endl;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),
                                                             source_file.gcount()),
                                boost::asio::transfer_all(), error);

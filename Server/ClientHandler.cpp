@@ -8,7 +8,7 @@
 // ***** PUBLIC *****
 
 void ClientHandler::start() {
-    std::cout << "START CLIENT CONNECTION" << std::endl;
+    std::cout << "Starting new client connection" << std::endl;
 
     login();
     send_file_hash();
@@ -36,6 +36,8 @@ void ClientHandler::login() {
     std::string actual_password;
     int is_authenticated = 0;
     int is_signedup = 0;
+
+    std::cout << "login" << std::endl;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
     input_stream >> length;
@@ -84,18 +86,18 @@ void ClientHandler::login() {
 
         is_authenticated = actual_password == password ? 1 : 0;
 
-        std::cout << "password: " << password << ", is_authenticated: " << is_authenticated << std::endl;
-
         output_stream << is_authenticated << "\n";
         boost::asio::write(socket_, output_buf);
     }
 
-    std::cout << "AUTHENTICATION: PASSWORD " << password << ", USERNAME " << username << std::endl;
+    std::cout << "Login completed, welcome" << username << std::endl;
 
 }
 
 void ClientHandler::send_file_hash() {
     std::string backup_path = "../users/" + username + "/backup";
+
+    std::cout << "Sending initial status...";
 
     for (auto &entry_path : std::filesystem::recursive_directory_iterator(backup_path)) {
         std::string hash_value;
@@ -108,16 +110,19 @@ void ClientHandler::send_file_hash() {
             Hash hash(entry_path.path().string());
             hash_value = hash.getHash();
         }
-        output_stream << cleaned_path.length() << "\n"
+
+        output_stream << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
                       << cleaned_path << "\n"
-                      << hash_value.length() << "\n"
+                      << std::setw(sizeof(int)) << std::setfill('0') << hash_value.length() << "\n"
                       << hash_value << "\n";
 
         boost::asio::write(socket_, output_buf);
     }
 
-    output_stream << -1 << "\n";
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << 0 << "\n";
     boost::asio::write(socket_, output_buf);
+
+    std::cout << " OK" << std::endl;
 }
 
 
@@ -199,16 +204,14 @@ bool ClientHandler::read_action() {
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
     input_stream >> action;
-    //input_buf.sgetc();
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> path_size;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
     input_stream >> path;
 
     path = "../users/" + username + "/backup" + path;
 
-    std::cout << action << " " << path << " " << path_size << std::endl;
-
+    std::cout << "Executing action " << action << " " << path << " " << path_size << "...";
 
     switch (action) {
         case read_file:
@@ -227,7 +230,7 @@ bool ClientHandler::read_action() {
             // throw exception???
             break;
     }
-    std::cout << "action" << action << " over" << std::endl;
+    std::cout << " OK" << std::endl;
     return true;
 }
 
@@ -249,8 +252,6 @@ void ClientHandler::action_read_file(std::string path) {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(size_t)));
     input_stream >> file_size;
 
-    std::cout << path << " - file size: " << file_size << std::endl;
-
     size_t pos = path.find_last_of("\\");
     if (pos != std::string::npos)
         path = path.substr(pos + 1);
@@ -261,22 +262,16 @@ void ClientHandler::action_read_file(std::string path) {
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
 
-
-    std::cout << "Reading file " << path << std::endl;
     boost::system::error_code error;
 
     /* Empty stream in file */
     while (file_size > 0) {
         size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
-        std::cout << "REQ_BUF BEFORE: " << input_buf.size() << " \\\\\\ ";
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size - input_buf.size()), error);
-        std::cout << "REQ_BUF SIZE: " << input_buf.size() << " /// ";
 
         input_stream.read(array.c_array(), size);
         output_file.write(array.c_array(), (std::streamsize) size);
         file_size -= size;
-
-        std::cout << "READ: " << size << " ... " << file_size << " --- " << input_buf.size() << std::endl;
 
         if (error) {
             std::cerr << error << std::endl;
@@ -284,7 +279,7 @@ void ClientHandler::action_read_file(std::string path) {
         }
     }
 
-    std::cout << "received " << output_file.tellp() << " bytes.\n";
+    std::cout << "received " << output_file.tellp() << " bytes...";
     output_file.close();
 }
 

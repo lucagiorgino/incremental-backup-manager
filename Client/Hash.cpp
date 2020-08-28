@@ -70,4 +70,10 @@ void Hash::printHash(){
     std::cout << std::endl;
 }
 
+std::string Hash::getHash(){
+    std::stringstream stream;
+    for(int i = 0; i < md_len; i++)
+        stream << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(md_value[i]);
+    return stream.str();
+}
 

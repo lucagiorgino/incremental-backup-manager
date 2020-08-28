@@ -49,7 +49,6 @@ public:
 private:
     void handle_new_connection(shared_handler_t handler, std::error_code const &error) {
         if(error) { return; }
-        std::cout << "Starting new connection\n";
         handler->start();
 
         auto new_handler = std::make_shared<ConnectionHandler>(io_service_);
