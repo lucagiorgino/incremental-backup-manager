@@ -17,6 +17,7 @@ void ClientHandler::start() {
     // Read and perform action
     action_handler = std::thread([this]() {
         while (read_action()) {}
+        std::cout << "Connection terminated." << std::endl;
     });
 }
 
@@ -207,11 +208,12 @@ bool ClientHandler::read_action() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> path_size;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
-    input_stream >> path;
+    input_stream.ignore();
+    std::getline(input_stream, path);
 
     path = "../users/" + username + "/backup" + path;
 
-    std::cout << "Executing action " << action << " " << path << " " << path_size << "...";
+    std::cout << "Executing action " << action << " " << path <<"...";
 
     switch (action) {
         case read_file:

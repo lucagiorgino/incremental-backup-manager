@@ -135,7 +135,8 @@ std::unordered_map<std::string, std::string> Client::get_init_file_from_server()
     input_stream >> size;
     while (size != 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
-        input_stream >> path;
+        input_stream.ignore();
+        std::getline(input_stream, path);
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
         input_stream >> size;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
