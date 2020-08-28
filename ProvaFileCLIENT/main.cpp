@@ -1,5 +1,5 @@
 #include <iostream>
-#include "client/FileWatcher.h"
+#include "client/fileWatcherTest.h"
 #include "client/Client.h"
 
 
@@ -32,6 +32,7 @@ int main() {
     // Start monitoring a folder for changes and (in case of changes)
     // run a user provided lambda function
     //fw.start();
+    std::string path = "../dirA";
+    FileWatcherTest fileWatcherTest{path};
 
-    Client client{"./", "gigi", "password"};
 }

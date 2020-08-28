@@ -21,7 +21,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-add_executable(BoostTest main.cpp)
+add_executable(BoostTest main.cpp client/fileWatcherTest.h)
 
 if(Boost_FOUND)
     target_link_libraries(BoostTest ${Boost_LIBRARIES})

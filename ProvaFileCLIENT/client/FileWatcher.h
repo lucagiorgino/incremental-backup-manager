@@ -28,12 +28,13 @@ public:
     std::string path_to_watch;
     // Time interval at which we check the base folder for changes
     std::chrono::duration<int, std::milli> delay;
-/*
+
     // Keep a record of files from the base directory and their last modification time
     FileWatcher(std::string path_to_watch, std::chrono::duration<int, std::milli> delay,
-                std::unordered_map<std::string, HASH> server_paths, const std::function<void(std::string, FileStatus)> &action) :
+                const std::function<void(std::string, FileStatus)> &action) :
             path_to_watch{path_to_watch}, delay{delay}, action(action) {
         //*** Da modificare: inizializzare con valori presi dal server
+        /*
         for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
             if (server_paths.contains(file) != server_paths.end()) {
                 HASH hash = HASH(file);
@@ -52,8 +53,8 @@ public:
             }
 
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
-        }
-    }*/
+        }*/
+    }
 
     // Monitor "path_to_watch" for changes and in case of a change execute the user supplied "action" function
     void start() {

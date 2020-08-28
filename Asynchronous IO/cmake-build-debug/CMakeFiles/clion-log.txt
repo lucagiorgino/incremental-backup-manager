@@ -1,9 +1,0 @@
-/snap/clion/123/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/cosimo/Desktop/ProgettoPDS/Asynchronous IO"
--- start running cmake...
--- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
--- Boost_INCLUDE_DIRS: /usr/include
--- Boost_LIBRARIES: Boost::system;Boost::filesystem
--- Boost_VERSION: 1.71.0
--- Configuring done
--- Generating done
--- Build files have been written to: /home/cosimo/Desktop/ProgettoPDS/Asynchronous IO/cmake-build-debug
