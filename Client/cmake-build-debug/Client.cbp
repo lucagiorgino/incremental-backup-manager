@@ -5,41 +5,41 @@
 		<Option title="Client"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\;CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Client">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Client/bin/Client" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/bin"/>
+				<Option output="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin/Client" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,15 +53,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 Client"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 Client"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Client/fast">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Client/bin/Client" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/bin"/>
+				<Option output="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin/Client" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -75,15 +75,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 Client/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 Client/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="BoostTest">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Client/bin/BoostTest" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/bin"/>
+				<Option output="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin/BoostTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -100,15 +100,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 BoostTest"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 BoostTest"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="BoostTest/fast">
-				<Option output="/home/cosimo/Desktop/ProgettoPDS/Client/bin/BoostTest" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/cosimo/Desktop/ProgettoPDS/Client/bin"/>
+				<Option output="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin/BoostTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -125,79 +125,79 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 BoostTest/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 BoostTest/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/andrea/Desktop/Progetto/ProgettoPDS/Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.cpp">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/Client.h">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.cpp">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/Hash.cpp">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.cpp">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h">
 			<Option target="Client"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/main.cpp">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp">
 			<Option target="Client"/>
 			<Option target="BoostTest"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/CMakeLists.txt">
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/BoostDetectToolset-1.71.0.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/BoostDetectToolset-1.71.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfigVersion.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Boost-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_headers-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-shared.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-static.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_system-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/boost_filesystem-config-version.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/boost_filesystem-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/boost_filesystem-config.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/boost_filesystem-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/libboost_filesystem-variant-shared.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/libboost_filesystem-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
 		</Unit>
-		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Client/../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/libboost_filesystem-variant-static.cmake">
-			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/../../../../../../usr/lib/x86_64-linux-gnu/cmake/boost_filesystem-1.71.0/libboost_filesystem-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\boost_filesystem-1.71.0\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
