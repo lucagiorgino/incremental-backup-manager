@@ -1,0 +1,7 @@
+/snap/clion/123/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/cosimo/Desktop/ProgettoPDS/testOpenSSL
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/cosimo/Desktop/ProgettoPDS/testOpenSSL/cmake-build-debug
+
+Problems were encountered while collecting compiler information:
+	c++: error: unrecognized command line option '-pthread;-lcrypto'

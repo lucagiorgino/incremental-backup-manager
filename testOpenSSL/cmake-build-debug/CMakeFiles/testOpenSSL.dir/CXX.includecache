@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cosimo/Desktop/ProgettoPDS/testOpenSSL/main.cpp
+iostream
+-
+sstream
+-
+string
+-
+cstring
+-
+openssl/evp.h
+-
+iomanip
+-
+fstream
+-
+
