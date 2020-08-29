@@ -7,6 +7,7 @@ CMakeFiles/Client.dir/Client.cpp.o
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
+ /home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 CMakeFiles/Client.dir/FileWatcher.cpp.o
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.cpp
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
@@ -19,4 +20,5 @@ CMakeFiles/Client.dir/main.cpp.o
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
+ /home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
  /home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp

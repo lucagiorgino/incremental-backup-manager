@@ -153,6 +153,9 @@
 		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h">
 			<Option target="Client"/>
 		</Unit>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h">
+			<Option target="Client"/>
+		</Unit>
 		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp">
 			<Option target="Client"/>
 			<Option target="BoostTest"/>

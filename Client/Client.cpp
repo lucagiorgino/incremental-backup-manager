@@ -72,7 +72,9 @@ Client::Client(std::string name) :
             do {
                 action = actions.pop();
                 if (action.has_value()) {
-                    send_action(action.value());
+                    int index = responses.send(action.value());
+                    send_action(action.value(), index);
+                    std::cout << "[****************] Generating response " << index << std::endl;
                 }
             } while (action.has_value());
 
@@ -85,6 +87,40 @@ Client::Client(std::string name) :
                            << path << "\n";
 
             boost::asio::write(socket_, request);
+        });
+
+        responseConsumer = std::thread([this]() {
+
+            int index;
+            int response_type = -1;
+            while(response_type != ResponseType::finish){
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+                input_stream >> index;
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+                input_stream >> response_type;
+
+                std::cout << "[****************] Receiving response " << index << ", type " << response_type << std::endl;
+                std::optional<Action> a = responses.get_action(index);
+                if(a.has_value()) {
+                    Action ac = a.value();
+                    std::cout << "[****************] Response " << ac.path.string() << ", type " << static_cast<int>(ac.fileStatus) << std::endl;
+                }
+
+                switch (response_type) {
+                    case ResponseType::completed :
+                        responses.completed(index);
+                        break;
+                    case ResponseType::receive :
+                        responses.receive(index);
+                        break;
+                    case ResponseType::err :
+                        responses.signal_error(index);
+                        break;
+                    default:
+                        break;
+                }
+            };
+
         });
 
     } catch (std::exception &exception) {
@@ -161,7 +197,7 @@ Client::~Client() {
 }
 
 
-void Client::send_action(Action action) {
+void Client::send_action(Action action, int index) {
     boost::array<char, MAX_MSG_SIZE> buf;
 
     boost::asio::streambuf request;
@@ -191,10 +227,11 @@ void Client::send_action(Action action) {
     cleaned_path.erase(pos, main_path.string().length());
 
     request_stream << actionType << "\n"
+                   << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n";
 
-    size_t len = boost::asio::write(socket_, request);
+    boost::asio::write(socket_, request);
 
     std::cout << "actiontype: " << actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 

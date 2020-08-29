@@ -18,6 +18,8 @@ void ClientHandler::start() {
     action_handler = std::thread([this]() {
         while (read_action()) {}
         std::cout << "Connection terminated." << std::endl;
+
+        send_response_to_client(0, ResponseType::finish);
     });
 }
 
@@ -200,11 +202,13 @@ bool ClientHandler::read_action() {
     std::string path_size_s;
     std::string path;
 
-
+    int index;
     std::cout << "reading action" << std::endl;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
     input_stream >> action;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+    input_stream >> index;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> path_size;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
@@ -213,17 +217,20 @@ bool ClientHandler::read_action() {
 
     path = "../users/" + username + "/backup" + path;
 
+    //Signal that the action is received
+    send_response_to_client(index, ResponseType::receive);
+
     std::cout << "Executing action " << action << " " << path <<"...";
 
     switch (action) {
         case read_file:
-            action_read_file(path);
+            action_read_file(path, index);
             break;
         case create_folder:
-            action_create_folder(path);
+            action_create_folder(path, index);
             break;
         case delete_path:
-            action_delete_path(path);
+            action_delete_path(path, index);
             break;
         case quit:
             // close connection
@@ -236,6 +243,14 @@ bool ClientHandler::read_action() {
     return true;
 }
 
+void ClientHandler::send_response_to_client(int index, int response_type){
+
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << index << "\n";
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << response_type << "\n";
+    boost::asio::write(socket_, output_buf);
+
+    std::cout << "[****************] Sending response " << index << ", type " << response_type << std::endl;
+}
 
 /**
  * Read file from socket_, the client must send in this order:
@@ -247,7 +262,7 @@ bool ClientHandler::read_action() {
  * a new file named file_path
  * @throw ????????????
  */
-void ClientHandler::action_read_file(std::string path) {
+void ClientHandler::action_read_file(std::string path, int index) {
     boost::array<char, MAX_MSG_SIZE> array;
     size_t file_size = 0;
 
@@ -283,6 +298,8 @@ void ClientHandler::action_read_file(std::string path) {
 
     std::cout << "received " << output_file.tellp() << " bytes...";
     output_file.close();
+
+    send_response_to_client(index, ResponseType::completed);
 }
 
 /**
@@ -291,7 +308,7 @@ void ClientHandler::action_read_file(std::string path) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if create operation is not successful
  */
-void ClientHandler::action_create_folder(std::string path) {
+void ClientHandler::action_create_folder(std::string path, int index) {
 
     // check if directory is created or not
     if (!std::filesystem::exists(path.c_str())) {
@@ -302,6 +319,8 @@ void ClientHandler::action_create_folder(std::string path) {
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
+
+    send_response_to_client(index, ResponseType::completed);
 }
 
 /**
@@ -310,7 +329,7 @@ void ClientHandler::action_create_folder(std::string path) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_path(std::string path) {
+void ClientHandler::action_delete_path(std::string path, int index) {
     std::error_code errorCode;
 
     if (std::filesystem::exists(path.c_str())) {
@@ -319,4 +338,6 @@ void ClientHandler::action_delete_path(std::string path) {
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
+
+    send_response_to_client(index, ResponseType::completed);
 }

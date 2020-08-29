@@ -42,10 +42,6 @@ boost/enable_shared_from_this.hpp
 utility
 -
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Hash.cpp
-Hash.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Hash.h
-
 /home/andrea/Desktop/Progetto/ProgettoPDS/Server/Hash.h
 iostream
 -
@@ -63,10 +59,6 @@ fstream
 -
 sstream
 -
-
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.cpp
-Server.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
 
 /home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
 thread

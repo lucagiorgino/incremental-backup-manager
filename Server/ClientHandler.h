@@ -30,6 +30,10 @@ enum ClientStatus {
     starting, active, terminating
 };
 
+enum ResponseType{
+    receive, completed, err, finish
+};
+
 class ClientHandler
         : public std::enable_shared_from_this<ClientHandler> // pattern that allows to inject behaviours via
     // a shared pointer to himself and pass or bind it
@@ -81,9 +85,10 @@ private:
     void login();
     void send_file_hash();
     bool read_action();
-    void action_read_file(std::string path);
-    void action_create_folder(std::string path);
-    void action_delete_path(std::string path);
+    void action_read_file(std::string path, int index);
+    void action_create_folder(std::string path, int index);
+    void action_delete_path(std::string path, int index);
+    void send_response_to_client(int index, int respose_type);
 
     void queue_message(std::string msg);
 

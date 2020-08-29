@@ -6,6 +6,7 @@ CMakeFiles/Client.dir/Client.cpp.o: ../Client.cpp
 CMakeFiles/Client.dir/Client.cpp.o: ../Client.h
 CMakeFiles/Client.dir/Client.cpp.o: ../FileWatcher.h
 CMakeFiles/Client.dir/Client.cpp.o: ../Hash.h
+CMakeFiles/Client.dir/Client.cpp.o: ../ResponseBuffer.h
 
 CMakeFiles/Client.dir/FileWatcher.cpp.o: ../FileWatcher.cpp
 CMakeFiles/Client.dir/FileWatcher.cpp.o: ../FileWatcher.h
@@ -18,5 +19,6 @@ CMakeFiles/Client.dir/main.cpp.o: ../Buffer.h
 CMakeFiles/Client.dir/main.cpp.o: ../Client.h
 CMakeFiles/Client.dir/main.cpp.o: ../FileWatcher.h
 CMakeFiles/Client.dir/main.cpp.o: ../Hash.h
+CMakeFiles/Client.dir/main.cpp.o: ../ResponseBuffer.h
 CMakeFiles/Client.dir/main.cpp.o: ../main.cpp
 

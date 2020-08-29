@@ -22,7 +22,7 @@ int main() {
         std::cout << "DB opened successfully" << std::endl;
     }
 
-    std::string sql = "SELECT * FROM tabella;";
+    std::string sql = "select * from sqlite_master;";
     int rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrorMsg);
 
     std::cout << std::endl << "Return value: " << rc << std::endl;

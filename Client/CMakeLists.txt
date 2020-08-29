@@ -31,4 +31,4 @@ if(Boost_FOUND)
     target_link_libraries(BoostTest ${Boost_LIBRARIES})
 endif()
 
-add_executable(Client main.cpp Client.cpp Client.h Buffer.h FileWatcher.cpp FileWatcher.h Hash.cpp Hash.h)
+add_executable(Client main.cpp Client.cpp Client.h Buffer.h FileWatcher.cpp FileWatcher.h Hash.cpp Hash.h ResponseBuffer.h)

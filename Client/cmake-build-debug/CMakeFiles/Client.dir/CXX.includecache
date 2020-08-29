@@ -39,12 +39,8 @@ FileWatcher.h
 /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 Buffer.h
 /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h
-
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.cpp
-FileWatcher.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
-utility
--
+ResponseBuffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 
 /home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 filesystem
@@ -59,10 +55,6 @@ string
 -
 functional
 -
-Hash.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
-
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.cpp
 Hash.h
 /home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
 
@@ -82,9 +74,15 @@ iomanip
 fstream
 -
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp
-iostream
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
+array
 -
-Client.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
+mutex
+-
+optional
+-
+filesystem
+-
+map
+-
 
