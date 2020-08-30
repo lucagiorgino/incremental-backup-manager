@@ -18,8 +18,6 @@ void ClientHandler::start() {
     action_handler = std::thread([this]() {
         while (read_action()) {}
         std::cout << "Connection terminated." << std::endl;
-
-        send_response_to_client(0, ResponseType::finish);
     });
 }
 
@@ -217,10 +215,13 @@ bool ClientHandler::read_action() {
 
     path = "../users/" + username + "/backup" + path;
 
+    if(action == ActionType::quit)
+        send_response_to_client(0, ResponseType::finish);
+    else
     //Signal that the action is received
-    send_response_to_client(index, ResponseType::receive);
+        send_response_to_client(index, ResponseType::receive);
 
-    std::cout << "Executing action " << action << " " << path <<"...";
+    std::cout << "[" << index << "] " << "Executing action " << action << " " << path <<"..." << std::endl;
 
     switch (action) {
         case read_file:
@@ -296,7 +297,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
         }
     }
 
-    std::cout << "received " << output_file.tellp() << " bytes...";
+    std::cout << "received " << output_file.tellp() << " bytes..." << std::endl;
     output_file.close();
 
     send_response_to_client(index, ResponseType::completed);

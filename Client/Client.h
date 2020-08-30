@@ -57,7 +57,7 @@ private:
     std::ostream output_stream;
 
 
-    void send_action(Action action, int index);
+    void send_action(Action action);
     void send_file(const std::string& filename);
 
     void create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) const;

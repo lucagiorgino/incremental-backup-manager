@@ -60,21 +60,3 @@ fstream
 sstream
 -
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
-thread
--
-vector
--
-boost/asio.hpp
--
-iostream
--
-
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/main.cpp
-iostream
--
-Server.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Server.h
-ClientHandler.h
-/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
-

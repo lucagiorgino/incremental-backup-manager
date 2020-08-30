@@ -72,9 +72,7 @@ Client::Client(std::string name) :
             do {
                 action = actions.pop();
                 if (action.has_value()) {
-                    int index = responses.send(action.value());
-                    send_action(action.value(), index);
-                    std::cout << "[****************] Generating response " << index << std::endl;
+                    send_action(action.value());
                 }
             } while (action.has_value());
 
@@ -83,6 +81,7 @@ Client::Client(std::string name) :
 
             std::string path = "0000";
             request_stream << ActionType::quit << "\n"
+                           << std::setw(sizeof(int)) << std::setfill('0') << 0 << "\n"
                            << std::setw(sizeof(int)) << std::setfill('0') << path.length() << "\n"
                            << path << "\n";
 
@@ -94,16 +93,16 @@ Client::Client(std::string name) :
             int index;
             int response_type = -1;
             while(response_type != ResponseType::finish){
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
                 input_stream >> index;
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
                 input_stream >> response_type;
 
-                std::cout << "[****************] Receiving response " << index << ", type " << response_type << std::endl;
+                std::cout << "[****************] Receiving response " << index << ", type of response " << response_type << std::endl;
                 std::optional<Action> a = responses.get_action(index);
                 if(a.has_value()) {
                     Action ac = a.value();
-                    std::cout << "[****************] Response " << ac.path.string() << ", type " << static_cast<int>(ac.fileStatus) << std::endl;
+                    std::cout << "[****************] Response " << ac.path.string() << ", type of action " << static_cast<int>(ac.fileStatus) << std::endl;
                 }
 
                 switch (response_type) {
@@ -194,10 +193,11 @@ Client::~Client() {
 
     actions.terminate();
     actionsConsumer.join();
+    responseConsumer.join();
 }
 
 
-void Client::send_action(Action action, int index) {
+void Client::send_action(Action action) {
     boost::array<char, MAX_MSG_SIZE> buf;
 
     boost::asio::streambuf request;
@@ -221,6 +221,9 @@ void Client::send_action(Action action, int index) {
     if (actionType == ActionType::ignore) {
         return;
     }
+
+    int index = responses.send(action);
+    std::cout << "[****************] Generating response " << index << std::endl;
 
     std::string cleaned_path = action.path.string();
     size_t pos = cleaned_path.find(main_path.string());
