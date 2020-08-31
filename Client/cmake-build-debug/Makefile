@@ -237,6 +237,33 @@ Hash.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/Hash.cpp.s
 .PHONY : Hash.cpp.s
 
+ResponseBuffer.o: ResponseBuffer.cpp.o
+
+.PHONY : ResponseBuffer.o
+
+# target to build an object file
+ResponseBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/ResponseBuffer.cpp.o
+.PHONY : ResponseBuffer.cpp.o
+
+ResponseBuffer.i: ResponseBuffer.cpp.i
+
+.PHONY : ResponseBuffer.i
+
+# target to preprocess a source file
+ResponseBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/ResponseBuffer.cpp.i
+.PHONY : ResponseBuffer.cpp.i
+
+ResponseBuffer.s: ResponseBuffer.cpp.s
+
+.PHONY : ResponseBuffer.s
+
+# target to generate assembly for a file
+ResponseBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/ResponseBuffer.cpp.s
+.PHONY : ResponseBuffer.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -286,6 +313,9 @@ help:
 	@echo "... Hash.o"
 	@echo "... Hash.i"
 	@echo "... Hash.s"
+	@echo "... ResponseBuffer.o"
+	@echo "... ResponseBuffer.i"
+	@echo "... ResponseBuffer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

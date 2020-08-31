@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 using boost::asio::ip::tcp;
 
@@ -27,22 +28,13 @@ enum ActionType {
     read_file, create_folder, delete_path, quit, ignore
 };
 
-enum ResponseType{
-    receive, completed, err, finish
-};
-
-struct Action {
-    fs::path path;
-    FileStatus fileStatus;
-};
-
 class Client {
 public:
     Client( std::string name);
     ~Client();
 private:
     Buffer<Action> actions;
-    ResponseBuffer<Action> responses;
+    ResponseBuffer responses;
     FileWatcher fileWatcher;
     boost::asio::io_context io_context_;
     boost::asio::ip::tcp::socket socket_;

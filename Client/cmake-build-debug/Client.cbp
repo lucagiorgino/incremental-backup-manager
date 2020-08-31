@@ -132,6 +132,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Action.h">
+			<Option target="Client"/>
+		</Unit>
 		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h">
 			<Option target="Client"/>
 		</Unit>
@@ -151,6 +154,9 @@
 			<Option target="Client"/>
 		</Unit>
 		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h">
+			<Option target="Client"/>
+		</Unit>
+		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.cpp">
 			<Option target="Client"/>
 		</Unit>
 		<Unit filename="/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h">

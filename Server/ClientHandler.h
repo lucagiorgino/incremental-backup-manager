@@ -31,7 +31,7 @@ enum ClientStatus {
 };
 
 enum ResponseType{
-    receive, completed, err, finish
+    created, sent, received, completed, error, finish
 };
 
 class ClientHandler

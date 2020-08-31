@@ -7,64 +7,26 @@
 #include <optional>
 #include <filesystem>
 #include <map>
+#include <ctime>
+#include "Action.h"
 
 #define MAX_SIZE 10
 
-enum status{sent, received, error};
-
-template <typename T>
 class ResponseBuffer{
-    struct Message{
-        T action;
-        status st;
-    };
-    std::map<int, Message> responseMap;
+    std::map<int, Action> responseMap;
     std::mutex lock;
     int current_index = 0;
 
 public:
-    int send(T item){
-        Message m;
-        m.action = item;
-        m.st = status::sent;
+    int send(Action item);
 
-        std::unique_lock lg(lock);
-        int index = current_index++;
-        responseMap[index] = m;
+    void receive(int index);
 
-        return index;
-    }
+    Action signal_error(int index);
 
-    void receive(int index){
-        std::unique_lock lg(lock);
-        Message m = responseMap[index];
-        m.st = status::received;
-        responseMap[index] = m;
-    }
+    void completed(int index);
 
-    T signal_error(int index){
-        std::unique_lock lg(lock);
-        Message m = responseMap[index];
-        m.st = status::error;
-        responseMap[index] = m;
-
-        return m.action;
-    }
-
-    void completed(int index){
-        std::unique_lock lg(lock);
-        responseMap.erase(index);
-    }
-
-    std::optional<T> get_action(int index){
-        std::unique_lock lg(lock);
-        auto it = responseMap.find(index);
-        if(it == responseMap.end())
-            return std::nullopt;
-
-        Message m = responseMap[index];
-        return m.action;
-    }
+    std::optional<Action> get_action(int index);
 };
 
 

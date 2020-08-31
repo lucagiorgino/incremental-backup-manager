@@ -1,12 +1,15 @@
 #include "Client.h"
 #include <unordered_map>
+#include <ctime>
+#include "ResponseBuffer.h"
+#include "Action.h"
 
 Client::Client(std::string name) :
         input_stream(&input_buf),
         output_stream(&output_buf),
         socket_(io_context_), fileWatcher(std::chrono::duration<int, std::milli>(DELAY),
                                           [this](const std::string &path, FileStatus fileStatus) {
-                                              Action action{path, fileStatus};
+                                              Action action{path, fileStatus, ResponseType::created, std::time(nullptr)};
                                               this->actions.push(action);
                                           }) {
 
@@ -103,16 +106,18 @@ Client::Client(std::string name) :
                 if(a.has_value()) {
                     Action ac = a.value();
                     std::cout << "[****************] Response " << ac.path.string() << ", type of action " << static_cast<int>(ac.fileStatus) << std::endl;
+                    if(response_type == ResponseType::completed)
+                        std::cout << std::endl;
                 }
 
                 switch (response_type) {
                     case ResponseType::completed :
                         responses.completed(index);
                         break;
-                    case ResponseType::receive :
+                    case ResponseType::received :
                         responses.receive(index);
                         break;
-                    case ResponseType::err :
+                    case ResponseType::error :
                         responses.signal_error(index);
                         break;
                     default:
@@ -256,14 +261,17 @@ void Client::send_file(const std::string &filename) {
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
     // send file size to server
-    output_stream << file_size;
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
-            if (source_file.gcount() <= 0) {
+            if (source_file.gcount() < 0) {
                 std::cout << "read file error " << std::endl;
                 throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
+            }
+            else if(source_file.gcount() == 0) {
+                break;
             }
             boost::system::error_code error;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),

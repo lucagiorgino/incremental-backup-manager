@@ -219,7 +219,7 @@ bool ClientHandler::read_action() {
         send_response_to_client(0, ResponseType::finish);
     else
     //Signal that the action is received
-        send_response_to_client(index, ResponseType::receive);
+        send_response_to_client(index, ResponseType::received);
 
     std::cout << "[" << index << "] " << "Executing action " << action << " " << path <<"..." << std::endl;
 
@@ -265,18 +265,22 @@ void ClientHandler::send_response_to_client(int index, int response_type){
  */
 void ClientHandler::action_read_file(std::string path, int index) {
     boost::array<char, MAX_MSG_SIZE> array;
-    size_t file_size = 0;
+    int file_size = 0;
 
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> file_size;
 
-    size_t pos = path.find_last_of("\\");
-    if (pos != std::string::npos)
-        path = path.substr(pos + 1);
+
+    std::cout << "{prova} file size: " << file_size << std::endl;
+
+
+
+
     // Modify for different scenarios of new/already existent files
     std::ofstream output_file(path.c_str(), std::ios_base::binary);
     if (!output_file) {
         std::cout << "failed to open " << path << std::endl;
+        send_response_to_client(index, ResponseType::error);
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
 
@@ -293,6 +297,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
 
         if (error) {
             std::cerr << error << std::endl;
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
@@ -317,6 +322,7 @@ void ClientHandler::action_create_folder(std::string path, int index) {
             printf("Directory created\n");
         } else {
             printf("Unable to create directory\n");
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
@@ -336,6 +342,7 @@ void ClientHandler::action_delete_path(std::string path, int index) {
     if (std::filesystem::exists(path.c_str())) {
         if (!std::filesystem::remove_all(path, errorCode)) {
             std::cout << errorCode.message() << std::endl;
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
