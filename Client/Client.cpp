@@ -1,12 +1,15 @@
 #include "Client.h"
 #include <unordered_map>
+#include <ctime>
+#include "ResponseBuffer.h"
+#include "Action.h"
 
 Client::Client(std::string name) :
         input_stream(&input_buf),
         output_stream(&output_buf),
         socket_(io_context_), fileWatcher(std::chrono::duration<int, std::milli>(DELAY),
                                           [this](const std::string &path, FileStatus fileStatus) {
-                                              Action action{path, fileStatus};
+                                              Action action{path, fileStatus, ResponseType::created, std::time(nullptr)};
                                               this->actions.push(action);
                                           }) {
 
@@ -81,10 +84,47 @@ Client::Client(std::string name) :
 
             std::string path = "0000";
             request_stream << ActionType::quit << "\n"
+                           << std::setw(sizeof(int)) << std::setfill('0') << 0 << "\n"
                            << std::setw(sizeof(int)) << std::setfill('0') << path.length() << "\n"
                            << path << "\n";
 
             boost::asio::write(socket_, request);
+        });
+
+        responseConsumer = std::thread([this]() {
+
+            int index;
+            int response_type = -1;
+            while(response_type != ResponseType::finish){
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                input_stream >> index;
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                input_stream >> response_type;
+
+                std::cout << "[****************] Receiving response " << index << ", type of response " << response_type << std::endl;
+                std::optional<Action> a = responses.get_action(index);
+                if(a.has_value()) {
+                    Action ac = a.value();
+                    std::cout << "[****************] Response " << ac.path.string() << ", type of action " << static_cast<int>(ac.fileStatus) << std::endl;
+                    if(response_type == ResponseType::completed)
+                        std::cout << std::endl;
+                }
+
+                switch (response_type) {
+                    case ResponseType::completed :
+                        responses.completed(index);
+                        break;
+                    case ResponseType::received :
+                        responses.receive(index);
+                        break;
+                    case ResponseType::error :
+                        responses.signal_error(index);
+                        break;
+                    default:
+                        break;
+                }
+            };
+
         });
 
     } catch (std::exception &exception) {
@@ -135,7 +175,8 @@ std::unordered_map<std::string, std::string> Client::get_init_file_from_server()
     input_stream >> size;
     while (size != 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
-        input_stream >> path;
+        input_stream.ignore();
+        std::getline(input_stream, path);
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
         input_stream >> size;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
@@ -157,6 +198,7 @@ Client::~Client() {
 
     actions.terminate();
     actionsConsumer.join();
+    responseConsumer.join();
 }
 
 
@@ -185,15 +227,19 @@ void Client::send_action(Action action) {
         return;
     }
 
+    int index = responses.send(action);
+    std::cout << "[****************] Generating response " << index << std::endl;
+
     std::string cleaned_path = action.path.string();
     size_t pos = cleaned_path.find(main_path.string());
     cleaned_path.erase(pos, main_path.string().length());
 
     request_stream << actionType << "\n"
+                   << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n";
 
-    size_t len = boost::asio::write(socket_, request);
+    boost::asio::write(socket_, request);
 
     std::cout << "actiontype: " << actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
@@ -215,14 +261,17 @@ void Client::send_file(const std::string &filename) {
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
     // send file size to server
-    output_stream << file_size;
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
-            if (source_file.gcount() <= 0) {
+            if (source_file.gcount() < 0) {
                 std::cout << "read file error " << std::endl;
                 throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
+            }
+            else if(source_file.gcount() == 0) {
+                break;
             }
             boost::system::error_code error;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),

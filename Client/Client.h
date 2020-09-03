@@ -8,11 +8,13 @@
 
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 using boost::asio::ip::tcp;
 
 #include "FileWatcher.h"
 #include "Buffer.h"
+#include "ResponseBuffer.h"
 
 #define DELAY 2000
 #define MAX_MSG_SIZE 1024
@@ -26,22 +28,19 @@ enum ActionType {
     read_file, create_folder, delete_path, quit, ignore
 };
 
-struct Action {
-    fs::path path;
-    FileStatus fileStatus;
-};
-
 class Client {
 public:
     Client( std::string name);
     ~Client();
 private:
     Buffer<Action> actions;
+    ResponseBuffer responses;
     FileWatcher fileWatcher;
     boost::asio::io_context io_context_;
     boost::asio::ip::tcp::socket socket_;
     std::thread fileWatcherThread;
     std::thread actionsConsumer;
+    std::thread responseConsumer;
     std::filesystem::path main_path;
 
     boost::asio::streambuf input_buf;

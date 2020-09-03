@@ -17,6 +17,7 @@ void ClientHandler::start() {
     // Read and perform action
     action_handler = std::thread([this]() {
         while (read_action()) {}
+        std::cout << "Connection terminated." << std::endl;
     });
 }
 
@@ -125,103 +126,44 @@ void ClientHandler::send_file_hash() {
     std::cout << " OK" << std::endl;
 }
 
-
-/**
- *
- */
-void ClientHandler::read_packet() {
-    boost::asio::async_read_until(socket_,
-                                  in_packet_,
-                                  "\0", // terminator
-                                  [me = shared_from_this()] // this shared pointer enable to manage the lifetime
-                                          // of the instance by creating a new reference
-                                          (std::error_code const &ec,
-                                           std::size_t bytes_transferred) {
-                                      std::cout << "CH: calling read packet done\n";
-                                      me->read_packet_done(ec, bytes_transferred);
-                                  });
-}
-
-void ClientHandler::read_packet_done(std::error_code const &error, std::size_t bytes_transferred) {
-    if (error) {
-        std::cerr << error << std::endl;
-        return;
-    }
-
-    std::istream stream(&in_packet_);
-    std::string packet_string;
-    stream >> packet_string;
-    //std::getline(stream, packet_string, '\0');
-    std::cout << "CH: message reading: " << packet_string << std::endl;
-    // do something with it
-    send(packet_string);
-    // ex
-
-    read_packet();
-}
-
-void ClientHandler::queue_message(std::string msg) {
-    bool write_in_progress = !send_packet_queue.empty(); // only 1 thread per time can access this thanks to strand
-    send_packet_queue.push_back(std::move(msg));
-
-    if (!write_in_progress) {
-        start_packet_send();
-    }
-}
-
-void ClientHandler::start_packet_send() {
-    send_packet_queue.front() += "\0";
-    std::cout << "CH: start packet sending: " << send_packet_queue.front() << send_packet_queue.front().length()
-              << std::endl;
-    boost::asio::async_write(socket_,
-                             boost::asio::buffer(send_packet_queue.front(), send_packet_queue.front().length()),
-                             write_strand_.wrap([me = shared_from_this()]
-                                                        (std::error_code const &ec, std::size_t size) {
-                                                    me->packet_send_done(ec);
-                                                }
-                             ));
-}
-
-void ClientHandler::packet_send_done(const std::error_code &error) {
-    std::cout << "CH: sending done" << std::endl;
-    if (!error) {
-        send_packet_queue.pop_front();
-        if (!send_packet_queue.empty()) {
-            start_packet_send();
-        }
-    }
-}
-
-
 bool ClientHandler::read_action() {
     size_t action = 0;
     size_t path_size = 0;
     std::string path_size_s;
     std::string path;
 
-
+    int index;
     std::cout << "reading action" << std::endl;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
     input_stream >> action;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+    input_stream >> index;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> path_size;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
-    input_stream >> path;
+    input_stream.ignore();
+    std::getline(input_stream, path);
 
     path = "../users/" + username + "/backup" + path;
 
-    std::cout << "Executing action " << action << " " << path << " " << path_size << "...";
+    if(action == ActionType::quit)
+        send_response_to_client(0, ResponseType::finish);
+    else
+    //Signal that the action is received
+        send_response_to_client(index, ResponseType::received);
+
+    std::cout << "[" << index << "] " << "Executing action " << action << " " << path <<"..." << std::endl;
 
     switch (action) {
         case read_file:
-            action_read_file(path);
+            action_read_file(path, index);
             break;
         case create_folder:
-            action_create_folder(path);
+            action_create_folder(path, index);
             break;
         case delete_path:
-            action_delete_path(path);
+            action_delete_path(path, index);
             break;
         case quit:
             // close connection
@@ -234,6 +176,14 @@ bool ClientHandler::read_action() {
     return true;
 }
 
+void ClientHandler::send_response_to_client(int index, int response_type){
+
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << index << "\n";
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << response_type << "\n";
+    boost::asio::write(socket_, output_buf);
+
+    std::cout << "[****************] Sending response " << index << ", type " << response_type << std::endl;
+}
 
 /**
  * Read file from socket_, the client must send in this order:
@@ -245,20 +195,24 @@ bool ClientHandler::read_action() {
  * a new file named file_path
  * @throw ????????????
  */
-void ClientHandler::action_read_file(std::string path) {
+void ClientHandler::action_read_file(std::string path, int index) {
     boost::array<char, MAX_MSG_SIZE> array;
-    size_t file_size = 0;
+    int file_size = 0;
 
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(size_t)));
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> file_size;
 
-    size_t pos = path.find_last_of("\\");
-    if (pos != std::string::npos)
-        path = path.substr(pos + 1);
+
+    std::cout << "{prova} file size: " << file_size << std::endl;
+
+
+
+
     // Modify for different scenarios of new/already existent files
     std::ofstream output_file(path.c_str(), std::ios_base::binary);
     if (!output_file) {
         std::cout << "failed to open " << path << std::endl;
+        send_response_to_client(index, ResponseType::error);
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
 
@@ -275,12 +229,15 @@ void ClientHandler::action_read_file(std::string path) {
 
         if (error) {
             std::cerr << error << std::endl;
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
 
-    std::cout << "received " << output_file.tellp() << " bytes...";
+    std::cout << "received " << output_file.tellp() << " bytes..." << std::endl;
     output_file.close();
+
+    send_response_to_client(index, ResponseType::completed);
 }
 
 /**
@@ -289,7 +246,7 @@ void ClientHandler::action_read_file(std::string path) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if create operation is not successful
  */
-void ClientHandler::action_create_folder(std::string path) {
+void ClientHandler::action_create_folder(std::string path, int index) {
 
     // check if directory is created or not
     if (!std::filesystem::exists(path.c_str())) {
@@ -297,9 +254,12 @@ void ClientHandler::action_create_folder(std::string path) {
             printf("Directory created\n");
         } else {
             printf("Unable to create directory\n");
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
+
+    send_response_to_client(index, ResponseType::completed);
 }
 
 /**
@@ -308,13 +268,16 @@ void ClientHandler::action_create_folder(std::string path) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_path(std::string path) {
+void ClientHandler::action_delete_path(std::string path, int index) {
     std::error_code errorCode;
 
     if (std::filesystem::exists(path.c_str())) {
         if (!std::filesystem::remove_all(path, errorCode)) {
             std::cout << errorCode.message() << std::endl;
+            send_response_to_client(index, ResponseType::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
+
+    send_response_to_client(index, ResponseType::completed);
 }
