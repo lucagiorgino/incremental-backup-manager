@@ -62,7 +62,6 @@ private:
     std::vector<std::thread> thread_pool_;
     boost::asio::io_service io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
-
 };
 
 #endif //SERVER_SERVER_H

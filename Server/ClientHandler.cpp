@@ -140,12 +140,9 @@ bool ClientHandler::read_action() {
     input_stream.ignore();
     std::getline(input_stream, path);
 
-    path = "../users/" + username + "/backup" + path;
-
     if(action == ActionType::quit)
         send_response_to_client(0, ResponseType::finish);
     else
-    //Signal that the action is received
         send_response_to_client(index, ResponseType::received);
 
     std::cout << "[" << index << "] " << "Executing action " << action << " " << path <<"..." << std::endl;
@@ -191,7 +188,8 @@ void ClientHandler::send_response_to_client(int index, int response_type){
  * @throw ????????????
  */
 void ClientHandler::action_read_file(std::string path, int index) {
-    boost::array<char, MAX_MSG_SIZE> array;
+    boost::array<char, MAX_MSG_SIZE> array{};
+    boost::system::error_code err;
     int file_size = 0;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
@@ -199,17 +197,37 @@ void ClientHandler::action_read_file(std::string path, int index) {
 
     std::cout << "{prova} file size: " << file_size << std::endl;
 
+    std::string file;
+
+    while (file_size > 0) {
+        size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size - input_buf.size()), err);
+
+        input_stream.read(array.c_array(), size);
+        file += array.c_array();
+        file_size -= size;
+
+        if (err) {
+            std::cerr << err << std::endl;
+            send_response_to_client(index, ResponseType::error);
+            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
+        }
+    }
+
+    db.addAction(username, path, "0", file, file_size, read_file);
+
     // Modify for different scenarios of new/already existent files
+    /*
     std::ofstream output_file(path.c_str(), std::ios_base::binary);
     if (!output_file) {
         std::cout << "failed to open " << path << std::endl;
         send_response_to_client(index, ResponseType::error);
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
     }
-
-    boost::system::error_code error;
+    */
 
     /* Empty stream in file */
+    /*
     while (file_size > 0) {
         size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size - input_buf.size()), error);
@@ -227,7 +245,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
 
     std::cout << "received " << output_file.tellp() << " bytes..." << std::endl;
     output_file.close();
-
+    */
     send_response_to_client(index, ResponseType::completed);
 }
 
@@ -239,17 +257,9 @@ void ClientHandler::action_read_file(std::string path, int index) {
  */
 void ClientHandler::action_create_folder(std::string path, int index) {
 
-    // check if directory is created or not
-    if (!std::filesystem::exists(path.c_str())) {
-        if (std::filesystem::create_directory(path.c_str())) {
-            printf("Directory created\n");
-        } else {
-            printf("Unable to create directory\n");
-            send_response_to_client(index, ResponseType::error);
-            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
-        }
-    }
-
+    // try
+    db.addAction(username, path, "0", NULL, 0, create_folder);
+    // catch
     send_response_to_client(index, ResponseType::completed);
 }
 
@@ -261,14 +271,9 @@ void ClientHandler::action_create_folder(std::string path, int index) {
  */
 void ClientHandler::action_delete_path(std::string path, int index) {
     std::error_code errorCode;
-
-    if (std::filesystem::exists(path.c_str())) {
-        if (!std::filesystem::remove_all(path, errorCode)) {
-            std::cout << errorCode.message() << std::endl;
-            send_response_to_client(index, ResponseType::error);
-            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
-        }
-    }
+    // try
+    db.addAction(username, path, "0", NULL, 0, delete_path);
+    // catch
 
     send_response_to_client(index, ResponseType::completed);
 }
