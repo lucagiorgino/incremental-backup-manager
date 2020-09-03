@@ -1,1 +1,0 @@
-/usr/bin/c++  -lcrypto -pthread -g   CMakeFiles/testOpenSSL.dir/main.cpp.o  -o ../bin/testOpenSSL  -lcrypto 

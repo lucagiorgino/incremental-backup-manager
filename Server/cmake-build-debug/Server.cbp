@@ -138,6 +138,12 @@
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h">
 			<Option target="Server"/>
 		</Unit>
+		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Server/Database.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Server/Database.h">
+			<Option target="Server"/>
+		</Unit>
 		<Unit filename="/home/cosimo/Desktop/ProgettoPDS/Server/Hash.cpp">
 			<Option target="Server"/>
 		</Unit>

@@ -45,9 +45,8 @@ void ClientHandler::login() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> username;
 
-    const std::filesystem::path user_folder = "../users/" + username;
-    const std::filesystem::path password_path = "../users/" + username + "/password";
-    const std::filesystem::path backup_folder_path = "../users/" + username + "/backup";
+
+
 
     if (!std::filesystem::exists(user_folder)) {
         //new user
@@ -202,11 +201,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> file_size;
 
-
     std::cout << "{prova} file size: " << file_size << std::endl;
-
-
-
 
     // Modify for different scenarios of new/already existent files
     std::ofstream output_file(path.c_str(), std::ios_base::binary);
@@ -281,3 +276,5 @@ void ClientHandler::action_delete_path(std::string path, int index) {
 
     send_response_to_client(index, ResponseType::completed);
 }
+
+// ***** SQL CALLBACK *****

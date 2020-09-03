@@ -36,4 +36,4 @@ if(Boost_FOUND)
     target_link_libraries(BoostTest ${Boost_LIBRARIES})
 endif()
 
-add_executable(Server main.cpp Server.cpp Server.h Hash.h Hash.cpp ClientHandler.cpp ClientHandler.h)
+add_executable(Server main.cpp Server.cpp Server.h Hash.h Hash.cpp ClientHandler.cpp ClientHandler.h Database.h Database.cpp)

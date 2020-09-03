@@ -1,4 +1,0 @@
-/home/andrea/Desktop/ProvaFileSERVER/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/andrea/Desktop/ProvaFileSERVER/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/andrea/Desktop/ProvaFileSERVER/cmake-build-debug/CMakeFiles/Asynchronous_IO.dir
-/home/andrea/Desktop/ProvaFileSERVER/cmake-build-debug/CMakeFiles/BoostTest.dir

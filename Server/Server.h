@@ -5,11 +5,11 @@
 #ifndef SERVER_SERVER_H
 #define SERVER_SERVER_H
 
-
 #include <thread>
 #include <vector>
 #include <boost/asio.hpp>
 #include <iostream>
+#include <sqlite3.h>
 
 template<typename ConnectionHandler>
 class Server {
@@ -17,10 +17,10 @@ class Server {
 public:
     Server(int thread_count = 1) :
             thread_count_(thread_count),
-            acceptor_(io_service_) {}
+            acceptor_(io_service_){}
 
     void start_server(uint16_t port) {
-        auto handler = std::make_shared<ConnectionHandler>(io_service_); // make shared on the type that is going to handle the connection
+        auto handler = std::make_shared<ConnectionHandler>(io_service_);
 
         std::cout << "Server starting...\n";
         // set up the acceptor to listen on the tcp port
@@ -48,13 +48,13 @@ public:
 
 private:
     void handle_new_connection(shared_handler_t handler, std::error_code const &error) {
-        if(error) { return; }
+        if (error) { return; }
         handler->start();
 
-        auto new_handler = std::make_shared<ConnectionHandler>(io_service_);
+        auto new_handler = std::make_shared<ConnectionHandler>(io_service_, db);
 
-        acceptor_.async_accept( new_handler->socket(),
-                                [=, this](auto ec) { handle_new_connection(new_handler, ec); }
+        acceptor_.async_accept(new_handler->socket(),
+                               [=, this](auto ec) { handle_new_connection(new_handler, ec); }
         );
     }
 

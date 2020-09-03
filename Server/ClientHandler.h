@@ -13,14 +13,18 @@
 #include <sstream>
 #include <boost/array.hpp>
 
+#include <sqlite3.h>
 #include <memory>
 #include <deque>
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <utility>
 
+#include "Database.h"
+
 #define MAX_MSG_SIZE 1024
 
+const std::filesystem::path db_path = "../database";
 
 enum ActionType {
     read_file, create_folder, delete_path, quit
@@ -39,12 +43,13 @@ class ClientHandler
     // a shared pointer to himself and pass or bind it
 {
 public:
-    ClientHandler(boost::asio::io_service &service) :
+    ClientHandler(boost::asio::io_service &service, Database &db) :
             service_(service),
             socket_(service),
             write_strand_(service),
             input_stream(&input_buf),
-            output_stream(&output_buf)
+            output_stream(&output_buf),
+            db(db_path)
             {}
 
     ~ClientHandler();
@@ -67,6 +72,7 @@ private:
     boost::asio::streambuf output_buf;
     std::istream input_stream;
     std::ostream output_stream;
+    Database db;
 
     void login();
     void send_file_hash();
