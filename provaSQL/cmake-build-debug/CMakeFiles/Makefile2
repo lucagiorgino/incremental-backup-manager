@@ -55,19 +55,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /opt/clion-2020.2.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/124/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /opt/clion-2020.2.1/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/124/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL
+CMAKE_SOURCE_DIR = /home/cosimo/Desktop/ProgettoPDS/provaSQL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/cmake-build-debug
+CMAKE_BINARY_DIR = /home/cosimo/Desktop/ProgettoPDS/provaSQL/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -94,14 +94,14 @@ clean: CMakeFiles/provaSQL.dir/clean
 CMakeFiles/provaSQL.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/provaSQL.dir/build.make CMakeFiles/provaSQL.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/provaSQL.dir/build.make CMakeFiles/provaSQL.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target provaSQL"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/cosimo/Desktop/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target provaSQL"
 .PHONY : CMakeFiles/provaSQL.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/provaSQL.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cosimo/Desktop/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/provaSQL.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cosimo/Desktop/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/provaSQL.dir/rule
 
 # Convenience name for target.
