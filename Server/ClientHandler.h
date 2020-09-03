@@ -43,7 +43,7 @@ class ClientHandler
     // a shared pointer to himself and pass or bind it
 {
 public:
-    ClientHandler(boost::asio::io_service &service, Database &db) :
+    ClientHandler(boost::asio::io_service &service) :
             service_(service),
             socket_(service),
             write_strand_(service),

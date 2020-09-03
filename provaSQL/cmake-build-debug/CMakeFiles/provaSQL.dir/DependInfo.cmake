@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/cosimo/Desktop/ProgettoPDS/provaSQL/main.cpp" "/home/cosimo/Desktop/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/main.cpp.o"
+  "/home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/main.cpp" "/home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

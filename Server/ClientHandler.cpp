@@ -45,37 +45,33 @@ void ClientHandler::login() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> username;
 
+    const std::filesystem::path user_folder = "../users/" + username;
+    const std::filesystem::path password_path = "../users/" + username + "/password";
+    const std::filesystem::path backup_folder_path = "../users/" + username + "/backup";
 
+    std::optional<std::string> password_db = db.passwordFromUsername(username);
+    if(password_db.has_value()) {
+        is_signedup = 1;
+        actual_password = password_db.value();
 
-
-    if (!std::filesystem::exists(user_folder)) {
+        output_stream << is_signedup << "\n";
+        boost::asio::write(socket_, output_buf);
+    }
+    else{
         //new user
         output_stream << is_signedup << "\n";
         boost::asio::write(socket_, output_buf);
 
         // utente sceglie se registrarsi con quel username o fa quit e chiude il client ( o gli si chiede un nuovo username)
 
-        std::filesystem::create_directory(user_folder);
-        std::filesystem::create_directory(backup_folder_path);
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
         input_stream >> password;
 
-        std::ofstream fp(password_path);
-        fp << password;
-        fp.close();
-    } else {
-        is_signedup = 1;
-
-        output_stream << is_signedup << "\n";
-        boost::asio::write(socket_, output_buf);
+        db.createNewUser(username, password);
+        actual_password = password;
     }
-
-
-    std::ifstream fp(password_path);
-    fp >> actual_password;
-    fp.close();
 
     // Check password
     while (is_authenticated == 0) {

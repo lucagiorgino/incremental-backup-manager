@@ -10,6 +10,7 @@ SET(CMAKE_CXX_FLAGS "-pthread -lcrypto")
 message(STATUS "start running cmake...")
 
 link_libraries(crypto)
+link_libraries(sqlite3)
 
 
 find_package(OpenSSL)

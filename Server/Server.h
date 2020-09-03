@@ -51,7 +51,7 @@ private:
         if (error) { return; }
         handler->start();
 
-        auto new_handler = std::make_shared<ConnectionHandler>(io_service_, db);
+        auto new_handler = std::make_shared<ConnectionHandler>(io_service_);
 
         acceptor_.async_accept(new_handler->socket(),
                                [=, this](auto ec) { handle_new_connection(new_handler, ec); }
@@ -64,6 +64,5 @@ private:
     boost::asio::ip::tcp::acceptor acceptor_;
 
 };
-
 
 #endif //SERVER_SERVER_H

@@ -22,6 +22,7 @@ int main() {
     } else {
         std::cout << "DB opened successfully" << std::endl;
     }
+
     std::ifstream file("../22.mp3", std::ios_base::binary);
     file.seekg(0, std::ifstream::end);
     std::streamsize size = file.tellg();
