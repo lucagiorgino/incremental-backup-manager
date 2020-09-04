@@ -71,7 +71,7 @@ void Database::createNewUser(std::string username, std::string password) {
     }
     sqlite3_finalize(stmt);
 
-    std::string table_name = remove_non_alphanumeric(username);
+    std::string table_name = tablename_from_username(username);
 
     // create user's table
     sql = "CREATE TABLE " + table_name + "("
@@ -94,7 +94,7 @@ void Database::createNewUser(std::string username, std::string password) {
 
 
 int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action) {
-    std::string table = remove_non_alphanumeric(tablename);
+    std::string table = tablename_from_username(tablename);
 
     std::string sql = "insert into " + table + "(filename, timestamp, file, size, action)"
                       "values(?, ?, ? ,?, ?)";
@@ -135,7 +135,7 @@ int Database::addAction(std::string tablename, std::string filename, std::string
 
 
 // ****** UTILS ******
-static std::string remove_non_alphanumeric(std::string s){
+static std::string tablename_from_username(std::string s){
     s.erase(remove_if(s.begin(), s.end(), [](char c) { return !isalnum(c); } ), s.end());
-    return s;
+    return "_" + s;
 }

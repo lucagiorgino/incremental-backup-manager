@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Action.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Action.h
 ctime
 -
 FileWatcher.h
-/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h
 array
 -
 mutex
@@ -22,19 +22,19 @@ condition_variable
 optional
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Client.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.cpp
 Client.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
 unordered_map
 -
 ctime
 -
 ResponseBuffer.h
-/home/cosimo/Desktop/ProgettoPDS/Client/ResponseBuffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 Action.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Action.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Action.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
 filesystem
 -
 iostream
@@ -50,19 +50,19 @@ sstream
 ctime
 -
 FileWatcher.h
-/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 Buffer.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Buffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Buffer.h
 ResponseBuffer.h
-/home/cosimo/Desktop/ProgettoPDS/Client/ResponseBuffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.cpp
 FileWatcher.h
-/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 utility
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Client/FileWatcher.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/FileWatcher.h
 filesystem
 -
 chrono
@@ -76,13 +76,13 @@ string
 functional
 -
 Hash.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Hash.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.cpp
 Hash.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/Hash.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Hash.h
 iostream
 -
 sstream
@@ -98,9 +98,9 @@ iomanip
 fstream
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Client/ResponseBuffer.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.cpp
 ResponseBuffer.h
-/home/cosimo/Desktop/ProgettoPDS/Client/ResponseBuffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 iostream
 -
 map
@@ -108,9 +108,9 @@ map
 optional
 -
 Action.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Action.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Action.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/ResponseBuffer.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/ResponseBuffer.h
 array
 -
 mutex
@@ -124,11 +124,11 @@ map
 ctime
 -
 Action.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Action.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Action.h
 
-/home/cosimo/Desktop/ProgettoPDS/Client/main.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/main.cpp
 iostream
 -
 Client.h
-/home/cosimo/Desktop/ProgettoPDS/Client/Client.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Client/Client.h
 

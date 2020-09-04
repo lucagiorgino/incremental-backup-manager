@@ -22,6 +22,6 @@ private:
     sqlite3* db;
 };
 
-static std::string remove_non_alphanumeric(std::string s);
+static std::string tablename_from_username(std::string s);
 
 #endif //SERVER_DATABASE_H

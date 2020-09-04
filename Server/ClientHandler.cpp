@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <filesystem>
+#include <ctime>
 #include "ClientHandler.h"
 #include "Hash.h"
 
@@ -198,14 +199,15 @@ void ClientHandler::action_read_file(std::string path, int index) {
     std::cout << "{prova} file size: " << file_size << std::endl;
 
     std::string file;
+    int file_size_tmp = file_size;
 
-    while (file_size > 0) {
-        size_t size = file_size > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size;
+    while (file_size_tmp > 0) {
+        size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size - input_buf.size()), err);
 
         input_stream.read(array.c_array(), size);
         file += array.c_array();
-        file_size -= size;
+        file_size_tmp -= size;
 
         if (err) {
             std::cerr << err << std::endl;
@@ -214,7 +216,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
         }
     }
 
-    db.addAction(username, path, "0", file, file_size, read_file);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), file, file_size, read_file);
 
     // Modify for different scenarios of new/already existent files
     /*
@@ -258,7 +260,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
 void ClientHandler::action_create_folder(std::string path, int index) {
 
     // try
-    db.addAction(username, path, "0", NULL, 0, create_folder);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, create_folder);
     // catch
     send_response_to_client(index, ResponseType::completed);
 }
@@ -272,7 +274,7 @@ void ClientHandler::action_create_folder(std::string path, int index) {
 void ClientHandler::action_delete_path(std::string path, int index) {
     std::error_code errorCode;
     // try
-    db.addAction(username, path, "0", NULL, 0, delete_path);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, delete_path);
     // catch
 
     send_response_to_client(index, ResponseType::completed);

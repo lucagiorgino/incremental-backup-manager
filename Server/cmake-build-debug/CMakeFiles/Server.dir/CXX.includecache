@@ -6,19 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.cpp
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.cpp
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 iostream
 -
 filesystem
 -
+ctime
+-
 ClientHandler.h
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 Hash.h
-/home/cosimo/Desktop/ProgettoPDS/Server/Hash.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Hash.h
 
-/home/cosimo/Desktop/ProgettoPDS/Server/ClientHandler.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/ClientHandler.h
 ctime
 -
 iostream
@@ -44,9 +46,9 @@ boost/enable_shared_from_this.hpp
 utility
 -
 Database.h
-/home/cosimo/Desktop/ProgettoPDS/Server/Database.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Database.h
 
-/home/cosimo/Desktop/ProgettoPDS/Server/Database.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Database.h
 sqlite3.h
 -
 string
@@ -58,7 +60,7 @@ optional
 chrono
 -
 
-/home/cosimo/Desktop/ProgettoPDS/Server/Hash.h
+/home/andrea/Desktop/Progetto/ProgettoPDS/Server/Hash.h
 iostream
 -
 sstream
