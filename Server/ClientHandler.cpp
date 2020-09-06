@@ -195,7 +195,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
     input_stream >> file_size;
-
+    input_stream.ignore();
     std::cout << "{prova} file size: " << file_size << std::endl;
 
     std::string file;
