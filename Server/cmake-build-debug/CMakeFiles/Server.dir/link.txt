@@ -1,1 +1,0 @@
-/usr/bin/c++  -pthread -lcrypto -g   CMakeFiles/Server.dir/main.cpp.o CMakeFiles/Server.dir/Server.cpp.o CMakeFiles/Server.dir/Hash.cpp.o CMakeFiles/Server.dir/ClientHandler.cpp.o CMakeFiles/Server.dir/Database.cpp.o  -o ../bin/Server  -lcrypto -lsqlite3 

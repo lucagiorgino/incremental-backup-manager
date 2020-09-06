@@ -1,1 +1,0 @@
-/usr/bin/c++  -pthread -lcrypto -g   CMakeFiles/BoostTest.dir/main.cpp.o  -o ../bin/BoostTest  -lcrypto /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 
