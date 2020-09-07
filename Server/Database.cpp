@@ -143,26 +143,17 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     int err;
     std::string table_name = tablename_from_username(username);
 
-    std::string sql = "SELECT filename, hash FROM ? as t1 "
+    std::string sql = "SELECT filename, hash FROM " + table_name + " as t1 "
                       "WHERE action <> " + std::to_string(delete_code);
     sql +=            " AND timestamp = ( "
-                      "                    SELECT MAX(timestamp) FROM ? as t2 "
+                      "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
                       "                    WHERE t1.filename = t2.filename "
                       "                ) "
                       " ORDER BY filename";
     sqlite3_stmt *stmt = nullptr;
-    std::optional<std::string> result;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if (sqlite3_bind_text(stmt, 1, table_name.data(), table_name.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if (sqlite3_bind_text(stmt, 2, table_name.data(), table_name.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
 
