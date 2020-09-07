@@ -46,10 +46,6 @@ void ClientHandler::login() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> username;
 
-    const std::filesystem::path user_folder = "../users/" + username;
-    const std::filesystem::path password_path = "../users/" + username + "/password";
-    const std::filesystem::path backup_folder_path = "../users/" + username + "/backup";
-
     std::optional<std::string> password_db = db.passwordFromUsername(username);
     if(password_db.has_value()) {
         is_signedup = 1;
@@ -92,26 +88,15 @@ void ClientHandler::login() {
 }
 
 void ClientHandler::send_file_hash() {
-    std::string backup_path = "../users/" + username + "/backup";
-
     std::cout << "Sending initial status...";
+    std::map<std::string, std::string> init_map = db.getInitailizationEntries(username, delete_path);
 
-    for (auto &entry_path : std::filesystem::recursive_directory_iterator(backup_path)) {
-        std::string hash_value;
-        std::string cleaned_path = entry_path.path().string();
-        size_t pos = cleaned_path.find(backup_path);
-        cleaned_path.erase(pos, backup_path.length());
-        if (entry_path.is_directory()) {
-            hash_value = "dir";
-        } else {
-            Hash hash(entry_path.path().string());
-            hash_value = hash.getHash();
-        }
+    for (auto entry_path : init_map) {
 
-        output_stream << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
-                      << cleaned_path << "\n"
-                      << std::setw(sizeof(int)) << std::setfill('0') << hash_value.length() << "\n"
-                      << hash_value << "\n";
+        output_stream << std::setw(sizeof(int)) << std::setfill('0') << entry_path.first.length() << "\n"
+                      << entry_path.first << "\n"
+                      << std::setw(sizeof(int)) << std::setfill('0') << entry_path.second.length() << "\n"
+                      << entry_path.second << "\n";
 
         boost::asio::write(socket_, output_buf);
     }
@@ -216,7 +201,21 @@ void ClientHandler::action_read_file(std::string path, int index) {
         }
     }
 
-    db.addAction(username, path, std::to_string(std::time(nullptr)), file, file_size, read_file);
+
+    /*
+     * TODO: for now the hash is computed saving the blob into a file,
+     * the hash function should be modified to accept somehow a blob
+     * */
+
+    std::ofstream fp("../provaprovaprova");
+    fp << file;
+    fp.close();
+    Hash hash("../provaprovaprova");
+    std::string hash_value = hash.getHash();
+    /*
+     * END of this version of hash computation
+     * */
+    db.addAction(username, path, std::to_string(std::time(nullptr)), file, file_size, read_file, hash_value);
 
     // Modify for different scenarios of new/already existent files
     /*
@@ -260,7 +259,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
 void ClientHandler::action_create_folder(std::string path, int index) {
 
     // try
-    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, create_folder);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, create_folder, "dir");
     // catch
     send_response_to_client(index, ResponseType::completed);
 }
@@ -274,7 +273,7 @@ void ClientHandler::action_create_folder(std::string path, int index) {
 void ClientHandler::action_delete_path(std::string path, int index) {
     std::error_code errorCode;
     // try
-    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, delete_path);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, delete_path, "");
     // catch
 
     send_response_to_client(index, ResponseType::completed);

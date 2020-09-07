@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <map>
 #include "Database.h"
 
 
@@ -80,6 +81,7 @@ void Database::createNewUser(std::string username, std::string password) {
           "file BLOB,"
           "size INT,"
           "action INT,"
+          "hash TEXT,"
           "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
     if(sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK){
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
@@ -93,11 +95,11 @@ void Database::createNewUser(std::string username, std::string password) {
 }
 
 
-int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action) {
+int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action, std::string hash) {
     std::string table = tablename_from_username(tablename);
 
-    std::string sql = "insert into " + table + "(filename, timestamp, file, size, action)"
-                      "values(?, ?, ? ,?, ?)";
+    std::string sql = "insert into " + table + "(filename, timestamp, file, size, action, hash)"
+                      "values(?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
@@ -125,6 +127,10 @@ int Database::addAction(std::string tablename, std::string filename, std::string
         std::cout << "SQLITE bind action error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
+    if(sqlite3_bind_text(stmt, 6, hash.data(), hash.size(), nullptr) != SQLITE_OK){
+        std::cout << "SQLITE bind hash error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
     if(sqlite3_step(stmt) != SQLITE_DONE){
         std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
@@ -133,6 +139,45 @@ int Database::addAction(std::string tablename, std::string filename, std::string
     return 0;
 }
 
+std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code){
+    int err;
+    std::string table_name = tablename_from_username(username);
+
+    std::string sql = "SELECT filename, hash FROM ? as t1 "
+                      "WHERE action <> " + std::to_string(delete_code);
+    sql +=            " AND timestamp = ( "
+                      "                    SELECT MAX(timestamp) FROM ? as t2 "
+                      "                    WHERE t1.filename = t2.filename "
+                      "                ) "
+                      " ORDER BY filename";
+    sqlite3_stmt *stmt = nullptr;
+    std::optional<std::string> result;
+
+    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
+    if (sqlite3_bind_text(stmt, 1, table_name.data(), table_name.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
+    if (sqlite3_bind_text(stmt, 2, table_name.data(), table_name.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
+
+    std::string filename, hash;
+    std::map<std::string, std::string> result_map;
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        std::string filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        std::string hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+        result_map.insert(std::pair<std::string, std::string>(filename, hash));
+    }
+
+    sqlite3_finalize(stmt);
+
+    return result_map;
+}
 
 // ****** UTILS ******
 static std::string tablename_from_username(std::string s){
