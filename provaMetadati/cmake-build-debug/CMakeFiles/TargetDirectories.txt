@@ -1,0 +1,3 @@
+/home/andrea/Desktop/Progetto/ProgettoPDS/provaMetadati/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/provaMetadati/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/andrea/Desktop/Progetto/ProgettoPDS/provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir

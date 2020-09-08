@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/andrea/Desktop/Progetto/ProgettoPDS/provaMetadati/main.cpp
+iostream
+-
+filesystem
+-
+boost/filesystem.hpp
+-
+
