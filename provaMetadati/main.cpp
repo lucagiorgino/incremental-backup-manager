@@ -6,7 +6,8 @@
 int main() {
 
     std::filesystem::path std_file("../boh");
-    boost::filesystem::path file(std_file);
+    boost::filesystem::path file;
+    file = std_file;
     std::time_t time;
     boost::system::error_code err;
 

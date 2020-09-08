@@ -75,13 +75,15 @@ void Database::createNewUser(std::string username, std::string password) {
     std::string table_name = tablename_from_username(username);
 
     // create user's table
-    sql = "CREATE TABLE " + table_name + "("
-          "filename TEXT NOT NULL,"
-          "timestamp TEXT NOT NULL,"
+    sql = "CREATE TABLE " + table_name + "( "
+          "filename TEXT NOT NULL, "
+          "timestamp TEXT NOT NULL, "
           "file BLOB,"
           "size INT,"
           "action INT,"
-          "hash TEXT,"
+          "hash TEXT, "
+          "last_write_time TEXT, "
+          "permissions TEXT, "
           "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
     if(sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK){
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
@@ -95,11 +97,11 @@ void Database::createNewUser(std::string username, std::string password) {
 }
 
 
-int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action, std::string hash) {
+int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action, std::string hash, std::string last_write_time, std::string permissions) {
     std::string table = tablename_from_username(tablename);
 
-    std::string sql = "insert into " + table + "(filename, timestamp, file, size, action, hash)"
-                      "values(?, ?, ?, ?, ?, ?)";
+    std::string sql = "insert into " + table + "(filename, timestamp, file, size, action, hash, last_write_time, permissions)"
+                      "values(?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
@@ -129,6 +131,14 @@ int Database::addAction(std::string tablename, std::string filename, std::string
     }
     if(sqlite3_bind_text(stmt, 6, hash.data(), hash.size(), nullptr) != SQLITE_OK){
         std::cout << "SQLITE bind hash error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
+    if(sqlite3_bind_text(stmt, 7, last_write_time.data(), last_write_time.size(), nullptr) != SQLITE_OK){
+        std::cout << "SQLITE bind last_write_time error: " << sqlite3_errmsg(db) << std::endl;
+        // throw exception...
+    }
+    if(sqlite3_bind_text(stmt, 8, permissions.data(), permissions.size(), nullptr) != SQLITE_OK){
+        std::cout << "SQLITE bind permissions error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
     if(sqlite3_step(stmt) != SQLITE_DONE){

@@ -1,6 +1,7 @@
 #include "Client.h"
 #include <unordered_map>
 #include <ctime>
+#include <boost/filesystem.hpp>
 #include "ResponseBuffer.h"
 #include "Action.h"
 
@@ -54,7 +55,8 @@ Client::Client(std::string name) :
         while (is_authenticated == 0) {
             std::cout << "Insert password: ";
             std::cin >> password;
-            output_stream << password.length() << "\n" << password << "\n";
+            output_stream << std::setw(sizeof(int)) << std::setfill('0') << password.length() << "\n"
+                          << password << "\n";
             boost::asio::write(socket_, output_buf);
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
             input_stream >> is_authenticated;
@@ -82,11 +84,15 @@ Client::Client(std::string name) :
             boost::asio::streambuf request;
             std::ostream request_stream(&request);
 
-            std::string path = "0000";
+            std::string padding = "0000";
             request_stream << ActionType::quit << "\n"
                            << std::setw(sizeof(int)) << std::setfill('0') << 0 << "\n"
-                           << std::setw(sizeof(int)) << std::setfill('0') << path.length() << "\n"
-                           << path << "\n";
+                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << padding << "\n"
+                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << padding << "\n"
+                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << padding << "\n";
 
             boost::asio::write(socket_, request);
         });
@@ -234,10 +240,41 @@ void Client::send_action(Action action) {
     size_t pos = cleaned_path.find(main_path.string());
     cleaned_path.erase(pos, main_path.string().length());
 
+    std::string last_write_time = " ";
+    std::string file_permissions = " ";
+
+    if( (actionType == ActionType::create_folder) || (actionType == ActionType::read_file) ) {
+
+        boost::filesystem::path boost_file{main_path};
+        std::time_t std_last_write_time;
+        boost::system::error_code err;
+
+        //Read last write time
+        std_last_write_time = boost::filesystem::last_write_time(boost_file, err);
+        if(err) {
+            std::cout << "Error reading last write time: " << err << std::endl;
+            // throw exception...
+        }
+        last_write_time = std::to_string(std_last_write_time);
+
+        //Read permissions
+        boost::filesystem::file_status boost_file_status = boost::filesystem::status(boost_file, err);
+        if(err) {
+            std::cout << "Error reading permissions: " << err << std::endl;
+            // throw exception...
+        }
+        boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
+        file_permissions = std::to_string(boost_file_permissions);
+    }
+
     request_stream << actionType << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
-                   << cleaned_path << "\n";
+                   << cleaned_path << "\n"
+                   << std::setw(sizeof(int)) << std::setfill('0') << last_write_time.length() << "\n"
+                   << last_write_time << "\n"
+                   << std::setw(sizeof(int)) << std::setfill('0') << file_permissions.length() << "\n"
+                   << file_permissions << "\n";
 
     boost::asio::write(socket_, request);
 

@@ -72,7 +72,7 @@ void ClientHandler::login() {
 
     // Check password
     while (is_authenticated == 0) {
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
         input_stream >> password;
@@ -83,7 +83,7 @@ void ClientHandler::login() {
         boost::asio::write(socket_, output_buf);
     }
 
-    std::cout << "Login completed, welcome" << username << std::endl;
+    std::cout << "Login completed, welcome " << username << std::endl;
 
 }
 
@@ -110,8 +110,13 @@ void ClientHandler::send_file_hash() {
 bool ClientHandler::read_action() {
     size_t action = 0;
     size_t path_size = 0;
+    size_t last_write_time_size = 0;
+    size_t permissions_size = 0;
     std::string path_size_s;
     std::string path;
+    std::string last_write_time;
+    std::string permissions;
+
 
     int index;
     std::cout << "reading action" << std::endl;
@@ -125,23 +130,33 @@ bool ClientHandler::read_action() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_size + 1));
     input_stream.ignore();
     std::getline(input_stream, path);
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+    input_stream >> last_write_time_size;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(last_write_time_size + 1));
+    input_stream.ignore();
+    std::getline(input_stream, last_write_time);
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+    input_stream >> permissions_size;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(permissions_size + 1));
+    input_stream.ignore();
+    std::getline(input_stream, permissions);
 
     if(action == ActionType::quit)
         send_response_to_client(0, ResponseType::finish);
     else
         send_response_to_client(index, ResponseType::received);
 
-    std::cout << "[" << index << "] " << "Executing action " << action << " " << path <<"..." << std::endl;
+    std::cout << "[" << index << "] " << "Executing action " << action << " " << path << " " << last_write_time << " " << permissions << "..." << std::endl;
 
     switch (action) {
         case read_file:
-            action_read_file(path, index);
+            action_read_file(path, index, last_write_time, permissions);
             break;
         case create_folder:
-            action_create_folder(path, index);
+            action_create_folder(path, index, last_write_time, permissions);
             break;
         case delete_path:
-            action_delete_path(path, index);
+            action_delete_path(path, index, last_write_time, permissions);
             break;
         case quit:
             // close connection
@@ -173,7 +188,7 @@ void ClientHandler::send_response_to_client(int index, int response_type){
  * a new file named file_path
  * @throw ????????????
  */
-void ClientHandler::action_read_file(std::string path, int index) {
+void ClientHandler::action_read_file(std::string path, int index, std::string last_write_time, std::string permissions) {
     boost::array<char, MAX_MSG_SIZE> array{};
     boost::system::error_code err;
     int file_size = 0;
@@ -215,7 +230,7 @@ void ClientHandler::action_read_file(std::string path, int index) {
     /*
      * END of this version of hash computation
      * */
-    db.addAction(username, path, std::to_string(std::time(nullptr)), file, file_size, read_file, hash_value);
+    db.addAction(username, path, std::to_string(std::time(nullptr)), file, file_size, read_file, hash_value, last_write_time, permissions);
 
     // Modify for different scenarios of new/already existent files
     /*
@@ -256,10 +271,10 @@ void ClientHandler::action_read_file(std::string path, int index) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if create operation is not successful
  */
-void ClientHandler::action_create_folder(std::string path, int index) {
+void ClientHandler::action_create_folder(std::string path, int index, std::string last_write_time, std::string permissions) {
 
     // try
-    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, create_folder, "dir");
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, create_folder, "dir", last_write_time, permissions);
     // catch
     send_response_to_client(index, ResponseType::completed);
 }
@@ -270,10 +285,10 @@ void ClientHandler::action_create_folder(std::string path, int index) {
  * (char*path_size) folder_path + "\n"
  * @throw boost::asio::error::???????? if delete operation is not successful
  */
-void ClientHandler::action_delete_path(std::string path, int index) {
+void ClientHandler::action_delete_path(std::string path, int index, std::string last_write_time, std::string permissions) {
     std::error_code errorCode;
     // try
-    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, delete_path, "");
+    db.addAction(username, path, std::to_string(std::time(nullptr)), "", 0, delete_path, "", last_write_time, permissions);
     // catch
 
     send_response_to_client(index, ResponseType::completed);

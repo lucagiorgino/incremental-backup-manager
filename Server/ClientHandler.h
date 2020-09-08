@@ -77,9 +77,9 @@ private:
     void login();
     void send_file_hash();
     bool read_action();
-    void action_read_file(std::string path, int index);
-    void action_create_folder(std::string path, int index);
-    void action_delete_path(std::string path, int index);
+    void action_read_file(std::string path, int index, std::string last_write_time, std::string permissions);
+    void action_create_folder(std::string path, int index, std::string last_write_time, std::string permissions);
+    void action_delete_path(std::string path, int index, std::string last_write_time, std::string permissions);
     void send_response_to_client(int index, int respose_type);
 };
 
