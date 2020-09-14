@@ -32,10 +32,12 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
     if (sqlite3_bind_text(stmt, 1, username.data(), username.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
     if (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -62,11 +64,11 @@ void Database::createNewUser(std::string username, std::string password) {
         std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
-    if(sqlite3_bind_text(stmt, 2, password.data(), password.size(), nullptr) != SQLITE_OK){
+    if (sqlite3_bind_text(stmt, 2, password.data(), password.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind password error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
-    if(sqlite3_step(stmt) != SQLITE_DONE){
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
@@ -76,20 +78,20 @@ void Database::createNewUser(std::string username, std::string password) {
 
     // create user's table
     sql = "CREATE TABLE " + table_name + "( "
-          "filename TEXT NOT NULL, "
-          "timestamp TEXT NOT NULL, "
-          "file BLOB,"
-          "size INT,"
-          "action INT,"
-          "hash TEXT, "
-          "last_write_time TEXT, "
-          "permissions TEXT, "
-          "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
-    if(sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK){
+                                         "filename TEXT NOT NULL, "
+                                         "timestamp TEXT NOT NULL, "
+                                         "file BLOB,"
+                                         "size INT,"
+                                         "action INT,"
+                                         "hash TEXT, "
+                                         "last_write_time TEXT, "
+                                         "permissions TEXT, "
+                                         "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
+    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
-    if(sqlite3_step(stmt) != SQLITE_DONE){
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
         // throw exception...
     }
@@ -97,79 +99,104 @@ void Database::createNewUser(std::string username, std::string password) {
 }
 
 
-int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size, int action, std::string hash, std::string last_write_time, std::string permissions) {
+int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size,
+                        int action, std::string hash, std::string last_write_time, std::string permissions) {
     std::string table = tablename_from_username(tablename);
+    std::string sql;
+    bool does_key_exist = checkKeyExist(table, filename, timestamp);
 
-    std::string sql = "insert into " + table + "(filename, timestamp, file, size, action, hash, last_write_time, permissions)"
-                      "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    if (does_key_exist) {
+        sql = "update " + table + " "
+                                  "set file=?, size=?, action=?, hash=?, last_write_time=?, permissions=? "
+                                  "where filename=? and timestamp=?;";
+    } else {
+        sql = "insert into " + table + "(file, size, action, hash, last_write_time, permissions, filename, timestamp) "
+                                       "values(?, ?, ?, ?, ?, ?, ?, ?)";
+    }
+
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if (sqlite3_bind_text(stmt, 1, filename.data(), filename.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind filename error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if(sqlite3_bind_text(stmt, 2, timestamp.data(), timestamp.size(), nullptr) != SQLITE_OK){
-        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if(sqlite3_bind_blob(stmt, 3, file.data(), file.size(), nullptr) != SQLITE_OK){
+
+    if (sqlite3_bind_blob(stmt, 1, file.data(), file.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind file error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_bind_int(stmt, 4,  size) != SQLITE_OK){
+    if (sqlite3_bind_int(stmt, 2, size) != SQLITE_OK) {
         std::cout << "SQLITE bind size error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_bind_int(stmt, 5, action) != SQLITE_OK){
+    if (sqlite3_bind_int(stmt, 3, action) != SQLITE_OK) {
         std::cout << "SQLITE bind action error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_bind_text(stmt, 6, hash.data(), hash.size(), nullptr) != SQLITE_OK){
+    if (sqlite3_bind_text(stmt, 4, hash.data(), hash.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind hash error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_bind_text(stmt, 7, last_write_time.data(), last_write_time.size(), nullptr) != SQLITE_OK){
+    if (sqlite3_bind_text(stmt, 5, last_write_time.data(), last_write_time.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind last_write_time error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_bind_text(stmt, 8, permissions.data(), permissions.size(), nullptr) != SQLITE_OK){
+    if (sqlite3_bind_text(stmt, 6, permissions.data(), permissions.size(), nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind permissions error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
-    if(sqlite3_step(stmt) != SQLITE_DONE){
+    if (sqlite3_bind_text(stmt, 7, filename.data(), filename.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind filename error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+    if (sqlite3_bind_text(stmt, 8, timestamp.data(), timestamp.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+
+
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
     sqlite3_finalize(stmt);
     return 0;
 }
 
-std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code){
+std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code) {
     int err;
     std::string table_name = tablename_from_username(username);
 
     std::string sql = "SELECT filename, hash FROM " + table_name + " as t1 "
-                      "WHERE action <> " + std::to_string(delete_code);
-    sql +=            " AND timestamp = ( "
-                      "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
-                      "                    WHERE t1.filename = t2.filename "
-                      "                ) "
-                      " ORDER BY filename";
+                                                                   "WHERE action <> " + std::to_string(delete_code);
+    sql += " AND timestamp = ( "
+           "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
+                                                                            "                    WHERE t1.filename = t2.filename "
+                                                                            "                ) "
+                                                                            " ORDER BY filename";
     sqlite3_stmt *stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
         // throw exception...
     }
 
     std::string filename, hash;
     std::map<std::string, std::string> result_map;
-    while(sqlite3_step(stmt) == SQLITE_ROW){
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
         std::string filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
         std::string hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
         result_map.insert(std::pair<std::string, std::string>(filename, hash));
@@ -180,8 +207,61 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     return result_map;
 }
 
+
+/**
+ * Check if key (filename, timestamp) is already present in the table
+ * @param table
+ * @param filename
+ * @param timestamp
+ * @return bool (true if key exist, false otherwise)
+ */
+bool Database::checkKeyExist(const std::string &table, std::string filename, std::string timestamp) {
+    sqlite3_stmt *stmt = nullptr;
+    bool result;
+
+    std::string sql = "select filename, timestamp "
+                      "from " + table + " "
+                                        "where filename=? and timestamp=?;";
+
+
+    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+    if (sqlite3_bind_text(stmt, 1, filename.data(), filename.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind filename error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+    if (sqlite3_bind_text(stmt, 2, timestamp.data(), timestamp.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+
+
+    int return_code = sqlite3_step(stmt);
+    if (return_code != SQLITE_DONE && return_code != SQLITE_ROW) {
+        std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+
+    if (return_code == SQLITE_DONE) { // no result
+        result = false;
+    } else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) { // result is NULL
+        result = false;
+    } else { // some valid result
+        result = true;
+    }
+
+    sqlite3_finalize(stmt);
+    return result;
+}
+
 // ****** UTILS ******
-static std::string tablename_from_username(std::string s){
-    s.erase(remove_if(s.begin(), s.end(), [](char c) { return !isalnum(c); } ), s.end());
+static std::string tablename_from_username(std::string s) {
+    s.erase(remove_if(s.begin(), s.end(), [](char c) { return !isalnum(c); }), s.end());
     return "_" + s;
 }

@@ -2,3 +2,7 @@ Client/cmake-build-debug
 Client/bin
 Server/cmake-build-debug
 Server/bin
+provaSQL/cmake-build-debug
+provaSQL/bin
+provaMetadati/cmake-build-debug
+provaMetadati/bin

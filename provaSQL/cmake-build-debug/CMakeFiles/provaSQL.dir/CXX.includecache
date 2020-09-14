@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/andrea/Desktop/Progetto/ProgettoPDS/provaSQL/main.cpp
+/home/cosimo/Desktop/ProgettoPDS/provaSQL/main.cpp
 iostream
 -
 sqlite3.h

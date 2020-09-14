@@ -11,12 +11,16 @@
 #include <optional>
 #include <chrono>
 
-class Database{
+class Database {
 public:
     Database(std::filesystem::path path);
+
     ~Database();
+
     std::optional<std::string> passwordFromUsername(std::string username);
+
     void createNewUser(std::string username, std::string password);
+
     int addAction(std::string tablename,
                   std::string filename,
                   std::string timestamp,
@@ -26,9 +30,13 @@ public:
                   std::string hash,
                   std::string last_write_time,
                   std::string permissions);
+
     std::map<std::string, std::string> getInitailizationEntries(std::string username, int delete_code);
+
 private:
-    sqlite3* db;
+    sqlite3 *db;
+
+    bool checkKeyExist(const std::string& table, std::string filename, std::string timestamp);
 };
 
 static std::string tablename_from_username(std::string s);
