@@ -14,7 +14,8 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
-
+#include <mutex>
+#include <condition_variable>
 #include "Hash.h"
 
 // Define available file changes
@@ -41,7 +42,15 @@ public:
      */
     void start(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status);
     void stop();
+    void pause();
+    void restart();
+
 private:
+
+    std::mutex mutex;
+    std::condition_variable cv;
+    bool pause_execution = false;
+
     std::string path_to_watch;
     std::chrono::duration<int, std::milli> delay;       // Time interval at which we check the base folder for changes
     std::function<void(std::string, FileStatus)> action;

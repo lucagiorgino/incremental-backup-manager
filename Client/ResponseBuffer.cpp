@@ -7,7 +7,7 @@
 int ResponseBuffer::send(Action item){
     std::unique_lock lg(lock);
     int index = current_index++;
-    item.st  = ResponseType::sent;
+    item.st  = ActionStatus::sent;
     responseMap[index] = item;
 
     return index;
@@ -15,12 +15,12 @@ int ResponseBuffer::send(Action item){
 
 void ResponseBuffer::receive(int index){
     std::unique_lock lg(lock);
-    responseMap[index].st = ResponseType::received;
+    responseMap[index].st = ActionStatus::received;
 }
 
 Action ResponseBuffer::signal_error(int index){
     std::unique_lock lg(lock);
-    responseMap[index].st = ResponseType::error;
+    responseMap[index].st = ActionStatus::error;
     Action m = responseMap[index];
 
     std::cout << "Error during action: " << m.path.string() << ", timestamp " << std::asctime(std::localtime(&m.timestamp)) << std::endl;

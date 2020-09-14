@@ -4,13 +4,14 @@
 #include <boost/filesystem.hpp>
 #include "ResponseBuffer.h"
 #include "Action.h"
+#include "boost/date_time/gregorian/gregorian.hpp"
 
 Client::Client(std::string name) :
         input_stream(&input_buf),
         output_stream(&output_buf),
         socket_(io_context_), fileWatcher(std::chrono::duration<int, std::milli>(DELAY),
                                           [this](const std::string &path, FileStatus fileStatus) {
-                                              Action action{path, fileStatus, ResponseType::created, std::time(nullptr)};
+                                              Action action{path, fileStatus, ActionStatus::created, std::time(nullptr)};
                                               this->actions.push(action);
                                           }) {
 
@@ -101,7 +102,7 @@ Client::Client(std::string name) :
 
             int index;
             int response_type = -1;
-            while(response_type != ResponseType::finish){
+            while(response_type != ActionStatus::finish){
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
                 input_stream >> index;
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
@@ -112,18 +113,18 @@ Client::Client(std::string name) :
                 if(a.has_value()) {
                     Action ac = a.value();
                     std::cout << "[****************] Response " << ac.path.string() << ", type of action " << static_cast<int>(ac.fileStatus) << std::endl;
-                    if(response_type == ResponseType::completed)
+                    if(response_type == ActionStatus::completed)
                         std::cout << std::endl;
                 }
 
                 switch (response_type) {
-                    case ResponseType::completed :
+                    case ActionStatus::completed :
                         responses.completed(index);
                         break;
-                    case ResponseType::received :
+                    case ActionStatus::received :
                         responses.receive(index);
                         break;
-                    case ResponseType::error :
+                    case ActionStatus::error :
                         responses.signal_error(index);
                         break;
                     default:
@@ -208,66 +209,67 @@ Client::~Client() {
 }
 
 
+
 void Client::send_action(Action action) {
+
     boost::array<char, MAX_MSG_SIZE> buf;
 
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
-    size_t actionType;
-
-    bool isDirectory = fs::is_directory(action.path);
-
-    switch (action.fileStatus) {
-        case FileStatus::created:
-            actionType = isDirectory ? ActionType::create_folder : ActionType::read_file;
-            break;
-        case FileStatus::modified:
-            actionType = isDirectory ? ActionType::ignore : ActionType::read_file;
-            break;
-        case FileStatus::erased:
-            actionType = ActionType::delete_path;
-            break;
-    }
-
-    if (actionType == ActionType::ignore) {
-        return;
-    }
 
     int index = responses.send(action);
     std::cout << "[****************] Generating response " << index << std::endl;
 
-    std::string cleaned_path = action.path.string();
-    size_t pos = cleaned_path.find(main_path.string());
-    cleaned_path.erase(pos, main_path.string().length());
-
+    std::string cleaned_path = " ";;
     std::string last_write_time = " ";
     std::string file_permissions = " ";
 
-    if( (actionType == ActionType::create_folder) || (actionType == ActionType::read_file) ) {
+    switch ( action.actionType) {
 
-        boost::filesystem::path boost_file{main_path};
-        std::time_t std_last_write_time;
-        boost::system::error_code err;
+        case ActionType::restore :
 
-        //Read last write time
-        std_last_write_time = boost::filesystem::last_write_time(boost_file, err);
-        if(err) {
-            std::cout << "Error reading last write time: " << err << std::endl;
-            // throw exception...
-        }
-        last_write_time = std::to_string(std_last_write_time);
+            break;
+        case ActionType::ignore :
+            return;
+            break;
+        default :
 
-        //Read permissions
-        boost::filesystem::file_status boost_file_status = boost::filesystem::status(boost_file, err);
-        if(err) {
-            std::cout << "Error reading permissions: " << err << std::endl;
-            // throw exception...
-        }
-        boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
-        file_permissions = std::to_string(boost_file_permissions);
+            cleaned_path = action.path.string();
+            size_t pos = cleaned_path.find(main_path.string());
+            cleaned_path.erase(pos, main_path.string().length());
+
+            if( (action.actionType == ActionType::create_folder) || (action.actionType == ActionType::read_file) ) {
+
+                boost::filesystem::path boost_file{main_path};
+                std::time_t std_last_write_time;
+                boost::system::error_code err;
+
+                //Read last write time
+                std_last_write_time = boost::filesystem::last_write_time(boost_file, err);
+                if(err) {
+                    std::cout << "Error reading last write time: " << err << std::endl;
+                    // throw exception...
+                }
+                last_write_time = std::to_string(std_last_write_time);
+
+                //Read permissions
+                boost::filesystem::file_status boost_file_status = boost::filesystem::status(boost_file, err);
+                if(err) {
+                    std::cout << "Error reading permissions: " << err << std::endl;
+                    // throw exception...
+                }
+                boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
+                file_permissions = std::to_string(boost_file_permissions);
+            }
+
+            break;
     }
 
-    request_stream << actionType << "\n"
+
+
+
+
+    request_stream << action.actionType << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n"
@@ -278,11 +280,11 @@ void Client::send_action(Action action) {
 
     boost::asio::write(socket_, request);
 
-    std::cout << "actiontype: " << actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
+    std::cout << "actiontype: " << action.actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
     //boost::asio::write(socket_, boost::asio::buffer(actionType, sizeof(int)));
 
-    if (actionType == ActionType::read_file) {
+    if (action.actionType == ActionType::read_file) {
         send_file(action.path.string());
     }
 }
@@ -325,4 +327,29 @@ void Client::send_file(const std::string &filename) {
     source_file.close();
 }
 
+
+void Client::restore() {
+    fileWatcher.pause();
+
+    bool correct_date = false;
+    std::string date_string;
+
+    while(!correct_date){
+        try{
+            std::cout << "Insert date (YYYY-MM-DD): ";
+            std::cin >> date_string;
+            boost::gregorian::date d{boost::gregorian::from_simple_string(date_string)};
+            std::cout << "Date: " << boost::gregorian::to_iso_extended_string(d) << std::endl;
+            correct_date = true;
+        } catch (std::exception& e) {
+            std::cout << " Error: " << e.what() << std::endl;
+        }
+    }
+
+    // controllo inserimento data
+
+    Action action{ ActionType::restore };
+
+    fileWatcher.restart();
+}
 
