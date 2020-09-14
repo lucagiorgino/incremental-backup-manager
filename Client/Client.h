@@ -24,14 +24,13 @@ namespace fs = std::filesystem;
 using boost::asio::ip::tcp;
 
 
-enum ActionType {
-    read_file, create_folder, delete_path, quit, ignore
-};
 
 class Client {
 public:
     Client( std::string name);
     ~Client();
+    void restore();
+
 private:
     Buffer<Action> actions;
     ResponseBuffer responses;
@@ -56,6 +55,8 @@ private:
 
     void create_account_password();
     std::unordered_map<std::string, std::string> get_init_file_from_server();
+
+
 };
 
 #endif //CLIENT_CLIENT_H

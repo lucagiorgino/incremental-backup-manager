@@ -27,7 +27,7 @@
 const std::filesystem::path db_path = "../database";
 
 enum ActionType {
-    read_file, create_folder, delete_path, quit
+    read_file, create_folder, delete_path, restore, quit
 };
 
 enum ClientStatus {

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Client.h"
+#include <boost/algorithm/string.hpp>
 
 std::string get_machine_id();
 
@@ -9,11 +10,15 @@ int main() {
 
     Client client1{ machine_id };
 
-    std::string quit;
+    std::string command;
     do{
-        std::cout << "Insert \"q\" to quit: " << std::endl;
-        std::cin >> quit;
-    }while(quit != "q" && quit != "Q");
+        std::cout << "Insert \"q\" to quit, \"r\"  to restore" << std::endl;
+        std::cin >> command;
+        command = boost::algorithm::to_lower_copy(command);
+        if (  command == "r" ) {
+            client1.restore();
+        }
+    }while(command != "q");
 
     std::cout << "TERMINATED" << std::endl;
 

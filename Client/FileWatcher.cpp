@@ -16,8 +16,12 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
     init_status(path_to_watch, std::move(initial_status));
 
     while (running_) {
-        // Wait for "delay" milliseconds
+
+        // Wait for "delay" milliseconds, not for synchronizing
         std::this_thread::sleep_for(delay);
+
+        std::unique_lock ul(mutex);
+        cv.wait(ul, [this]() { return !this->pause_execution; });
 
         auto it = paths_.begin();
         while (it != paths_.end()) {
@@ -46,6 +50,17 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
             }
         }
     }
+}
+
+void FileWatcher::pause () {
+    std::unique_lock ul(mutex);
+    pause_execution = true;
+}
+
+void FileWatcher::restart () {
+    std::unique_lock ul(mutex);
+    pause_execution = false;
+    cv.notify_all();
 }
 
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
