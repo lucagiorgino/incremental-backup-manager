@@ -116,12 +116,11 @@ bool ClientHandler::read_action() {
     std::string last_write_time;
     std::string permissions;
 
-
     int index;
     std::cout << "reading action_type" << std::endl;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
-    input_stream >> action;
+    input_stream >> action_type;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> index;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));

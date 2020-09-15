@@ -16,8 +16,8 @@ Client::Client(std::string name) :
                                           }) {
 
     try {
-
         login(name);
+
         std::unordered_map<std::string, std::string> initial_status = get_init_file_from_server();
 
         fileWatcherThread = std::thread([this, initial_status]() {
@@ -57,14 +57,13 @@ Client::Client(std::string name) :
             int action_status = -1;
             while(action_status != ActionStatus::finish){
 
-
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
                 input_stream >> responseType;
                 std::cout << "RESPONSE TYPE "<< responseType << " ";
                 if (responseType == ResponseType::ack) {
-                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
                     input_stream >> index;
-                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
                     input_stream >> action_status;
 
                     std::cout << "[****************] Receiving response " << index << ", type of response " << action_status << std::endl;
@@ -90,8 +89,8 @@ Client::Client(std::string name) :
                             break;
                     }
                 } else if ( responseType == ResponseType::restore_start ){
-                        std::cout << "starting action RESTORE" << std::endl;
-                        action_restore();
+                    std::cout << "starting action RESTORE" << std::endl;
+                    action_restore();
                 }
             }
 
@@ -129,7 +128,7 @@ void Client::login(std::string name) {
 
     //Authentication
 
-    output_stream << std::setw(sizeof(int)) << std::setfill('0') << name.length() << "\n"
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << name.length() << "\n"
                   << name << "\n";
     boost::asio::write(socket_, output_buf);
 
@@ -144,7 +143,7 @@ void Client::login(std::string name) {
     while (is_authenticated == 0) {
         std::cout << "Insert password: ";
         std::cin >> password;
-        output_stream << std::setw(sizeof(int)) << std::setfill('0') << password.length() << "\n"
+        output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
                       << password << "\n";
         boost::asio::write(socket_, output_buf);
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
@@ -289,7 +288,7 @@ void Client::send_action(Action action) {
 
     std::cout << "actiontype: " << action.actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
-    //boost::asio::write(socket_, boost::asio::buffer(actionType, sizeof(int)));
+    //boost::asio::write(socket_, boost::asio::buffer(actionType, INT_MAX_N_DIGIT));
 
     if (action.actionType == ActionType::read_file) {
         send_file(action.path.string());
@@ -307,10 +306,8 @@ void Client::send_file(const std::string &filename) {
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
     // send file size to server
-    std::cout << "FILE SIZE: " << file_size << std::endl;
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
-
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
@@ -321,7 +318,6 @@ void Client::send_file(const std::string &filename) {
             else if(source_file.gcount() == 0) {
                 break;
             }
-
             boost::system::error_code error;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),
                                                             source_file.gcount()),
@@ -362,7 +358,7 @@ void Client::action_restore() {
         }
     }
 
-    output_stream << std::setw(sizeof(int)) << std::setfill('0') << date_string.length() << "\n"
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date_string.length() << "\n"
                   << date_string << "\n";
     boost::asio::write(socket_, output_buf);
 
