@@ -41,7 +41,7 @@ Client::Client(std::string name) :
 
         //Authentication
 
-        output_stream << std::setw(sizeof(int)) << std::setfill('0') << name.length() << "\n"
+        output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << name.length() << "\n"
                       << name << "\n";
         boost::asio::write(socket_, output_buf);
 
@@ -56,7 +56,7 @@ Client::Client(std::string name) :
         while (is_authenticated == 0) {
             std::cout << "Insert password: ";
             std::cin >> password;
-            output_stream << std::setw(sizeof(int)) << std::setfill('0') << password.length() << "\n"
+            output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
                           << password << "\n";
             boost::asio::write(socket_, output_buf);
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
@@ -87,12 +87,12 @@ Client::Client(std::string name) :
 
             std::string padding = "0000";
             request_stream << ActionType::quit << "\n"
-                           << std::setw(sizeof(int)) << std::setfill('0') << 0 << "\n"
-                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n"
+                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n"
-                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n"
-                           << std::setw(sizeof(int)) << std::setfill('0') << padding.length() << "\n"
+                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n";
 
             boost::asio::write(socket_, request);
@@ -103,9 +103,9 @@ Client::Client(std::string name) :
             int index;
             int response_type = -1;
             while(response_type != ActionStatus::finish){
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
                 input_stream >> index;
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
                 input_stream >> response_type;
 
                 std::cout << "[****************] Receiving response " << index << ", type of response " << response_type << std::endl;
@@ -178,13 +178,13 @@ std::unordered_map<std::string, std::string> Client::get_init_file_from_server()
     std::string path;
     std::string hash;
 
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> size;
     while (size != 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
         input_stream.ignore();
         std::getline(input_stream, path);
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> size;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size+1));
         input_stream >> hash;
@@ -192,7 +192,7 @@ std::unordered_map<std::string, std::string> Client::get_init_file_from_server()
         std::cout << "init_status insert: " << main_path.string() + path << " -- " << hash << std::endl;
         init_map.insert({main_path.string() + path, hash});
 
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> size;
     }
 
@@ -300,8 +300,10 @@ void Client::send_file(const std::string &filename) {
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
     // send file size to server
+    std::cout << "FILE SIZE: " << file_size << std::endl;
     output_stream << std::setw(sizeof(int)) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
+
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
@@ -312,6 +314,7 @@ void Client::send_file(const std::string &filename) {
             else if(source_file.gcount() == 0) {
                 break;
             }
+
             boost::system::error_code error;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),
                                                             source_file.gcount()),

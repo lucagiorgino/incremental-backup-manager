@@ -23,6 +23,8 @@
 #include "Database.h"
 
 #define MAX_MSG_SIZE 1024
+const int INT_MAX_N_DIGIT = std::floor(std::log10(std::exp2(8*sizeof(int))));
+
 
 const std::filesystem::path db_path = "../database";
 
