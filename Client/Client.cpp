@@ -237,7 +237,8 @@ void Client::send_action(Action action) {
     std::string file_permissions = " ";
 
     switch ( action.actionType) {
-
+        case ActionType::restore:
+            break;
         case ActionType::ignore :
             return;
             break;
@@ -344,7 +345,7 @@ void Client::action_restore() {
     // controllo inserimento data
     bool correct_date = false;
     std::string date_string;
-
+/*
     while(!correct_date){
         try{
             std::cout << "Insert date (YYYY-MM-DD): ";
@@ -357,7 +358,8 @@ void Client::action_restore() {
             std::cout << " Error: " << e.what() << std::endl;
         }
     }
-
+    */
+    date_string = "Provaprovaprovaporova";
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date_string.length() << "\n"
                   << date_string << "\n";
     boost::asio::write(socket_, output_buf);

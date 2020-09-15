@@ -142,7 +142,7 @@ bool ClientHandler::read_action() {
     if (action_type == ActionType::quit)
         send_response_to_client(ResponseType::ack,0, ActionStatus::finish);
     else
-        send_response_to_client(ResponseType::ack,index, ActionStatus::received);
+        send_response_to_client(ResponseType::ack, index, ActionStatus::received);
 
     std::cout << "[" << index << "] " << "Executing action_type " << action_type << " " << path << " " << last_write_time << " "
               << permissions << "..." << std::endl;
@@ -292,19 +292,19 @@ void ClientHandler::action_delete_path(std::string path, int index, std::string 
 void ClientHandler::action_restore(int index) {
 
 
-    send_response_to_client(ResponseType::restore_start,index, ActionStatus::received);
+    send_response_to_client(ResponseType::restore_start, index, ActionStatus::received);
 
     int length;
     std::string date_string;
 
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int) + 1));
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> length;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> date_string;
 
     std::cout << "****************" << date_string << std::endl;
 
-    send_response_to_client(ResponseType::ack,index, ActionStatus::completed);
+    send_response_to_client(ResponseType::ack, index, ActionStatus::completed);
 }
 
 // ***** SQL CALLBACK *****
