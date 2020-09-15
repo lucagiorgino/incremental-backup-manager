@@ -28,6 +28,10 @@ const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
 
 const std::filesystem::path db_path = "../database";
 
+enum ResponseType {
+    ack, restore_start
+};
+
 enum ActionType {
     read_file, create_folder, delete_path, restore, quit
 };
@@ -36,7 +40,7 @@ enum ClientStatus {
     starting, active, terminating
 };
 
-enum ResponseType{
+enum ActionStatus{
     created, sent, received, completed, error, finish
 };
 
@@ -82,7 +86,8 @@ private:
     void action_read_file(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
     void action_create_folder(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
     void action_delete_path(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
-    void send_response_to_client(int index, int respose_type);
+    void action_restore(int index);
+    void send_response_to_client(ResponseType r,int index, int action_status);
 };
 
 

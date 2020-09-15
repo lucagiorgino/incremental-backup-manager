@@ -4,7 +4,7 @@
 #include <optional>
 #include "Action.h"
 
-int ResponseBuffer::send(Action item){
+int ResponseBuffer::add(Action item){
     std::unique_lock lg(lock);
     int index = current_index++;
     item.st  = ActionStatus::sent;
@@ -40,5 +40,8 @@ std::optional<Action> ResponseBuffer::get_action(int index){
         return std::nullopt;
 
     Action m = responseMap[index];
-    return std::optional<Action>{{m.path, m.fileStatus, m.st, m.timestamp}};
+    if (m.actionType == ActionType::restore)
+        return std::optional<Action>{{m.actionType}};
+    else
+        return std::optional<Action>{{m.path, m.fileStatus, m.st, m.timestamp}};
 }

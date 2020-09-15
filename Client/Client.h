@@ -31,7 +31,8 @@ class Client {
 public:
     Client( std::string name);
     ~Client();
-    void restore();
+    void command_restore();
+    void action_restore();
 
 private:
     Buffer<Action> actions;
@@ -53,6 +54,7 @@ private:
     void send_action(Action action);
     void send_file(const std::string& filename);
 
+    void login(std::string name);
     void create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) const;
 
     void create_account_password();
