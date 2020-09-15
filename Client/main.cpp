@@ -16,7 +16,7 @@ int main() {
         std::cin >> command;
         command = boost::algorithm::to_lower_copy(command);
         if (  command == "r" ) {
-            client1.restore();
+            client1.command_restore();
         }
     }while(command != "q");
 

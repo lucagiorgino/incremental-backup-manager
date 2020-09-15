@@ -7,6 +7,11 @@
 
 namespace fs = std::filesystem;
 
+
+enum ResponseType {
+    ack, restore_start
+};
+
 enum ActionStatus{
     created, sent, received, completed, error, finish
 };
@@ -37,12 +42,12 @@ public:
         }
     }
 
-    Action(size_t actionType): actionType(actionType){};
+    Action(ActionType actionType): actionType(actionType) {};
 
 
     Action(){};
 
-    size_t actionType;
+    ActionType actionType;
     fs::path path;
     FileStatus fileStatus;
     ActionStatus st;

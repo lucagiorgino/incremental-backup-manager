@@ -16,57 +16,9 @@ Client::Client(std::string name) :
                                           }) {
 
     try {
-        std::string main_path_string;
-        std::string password;
-        int is_authenticated = 0;
-        int is_signedup = 0;
-
-        const std::filesystem::path backup_path = "../path";
-        if (!std::filesystem::exists(backup_path)) {
-            create_account_backup_folder(main_path_string, backup_path);
-
-        } else {
-            // read path from file
-            std::ifstream fp(backup_path);
-            fp >> main_path_string;
-            fp.close();
-        }
-
-        main_path = std::filesystem::path(main_path_string);
-
-        // const std::string &path
-
-        tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
-        socket_.connect(endpoint);
-
-        //Authentication
-
-        output_stream << std::setw(sizeof(int)) << std::setfill('0') << name.length() << "\n"
-                      << name << "\n";
-        boost::asio::write(socket_, output_buf);
-
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
-        input_stream >> is_signedup;
-        std::cout << "is_signedup: " << is_signedup << std::endl;
-
-        if (!is_signedup) {
-            create_account_password();
-        }
-        std::cout << "LOG IN" << std::endl;
-        while (is_authenticated == 0) {
-            std::cout << "Insert password: ";
-            std::cin >> password;
-            output_stream << std::setw(sizeof(int)) << std::setfill('0') << password.length() << "\n"
-                          << password << "\n";
-            boost::asio::write(socket_, output_buf);
-            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
-            input_stream >> is_authenticated;
-            std::cout << "is_authenticated: " << is_authenticated << std::endl;
-        }
-
+        login(name);
 
         std::unordered_map<std::string, std::string> initial_status = get_init_file_from_server();
-
 
         fileWatcherThread = std::thread([this, initial_status]() {
             this->fileWatcher.start(this->main_path.string(), initial_status);
@@ -100,43 +52,103 @@ Client::Client(std::string name) :
 
         responseConsumer = std::thread([this]() {
 
+            int responseType;
             int index;
-            int response_type = -1;
-            while(response_type != ActionStatus::finish){
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
-                input_stream >> index;
-                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
-                input_stream >> response_type;
+            int action_status = -1;
+            while(action_status != ActionStatus::finish){
 
-                std::cout << "[****************] Receiving response " << index << ", type of response " << response_type << std::endl;
-                std::optional<Action> a = responses.get_action(index);
-                if(a.has_value()) {
-                    Action ac = a.value();
-                    std::cout << "[****************] Response " << ac.path.string() << ", type of action " << static_cast<int>(ac.fileStatus) << std::endl;
-                    if(response_type == ActionStatus::completed)
-                        std::cout << std::endl;
-                }
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                input_stream >> responseType;
+                std::cout << "RESPONSE TYPE "<< responseType << " ";
+                if (responseType == ResponseType::ack) {
+                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                    input_stream >> index;
+                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(sizeof(int)+1));
+                    input_stream >> action_status;
 
-                switch (response_type) {
-                    case ActionStatus::completed :
-                        responses.completed(index);
-                        break;
-                    case ActionStatus::received :
-                        responses.receive(index);
-                        break;
-                    case ActionStatus::error :
-                        responses.signal_error(index);
-                        break;
-                    default:
-                        break;
+                    std::cout << "[****************] Receiving response " << index << ", type of response " << action_status << std::endl;
+                    std::optional<Action> a = responses.get_action(index);
+                    if(a.has_value()) {
+                        Action ac = a.value();
+                        std::cout << "[****************] Response " << static_cast<int>(ac.actionType) << " path: "<< ac.path.string() << ", file status " << static_cast<int>(ac.fileStatus) << std::endl;
+                        if(action_status == ActionStatus::completed)
+                            std::cout << std::endl;
+                    }
+
+                    switch (action_status) {
+                        case ActionStatus::completed :
+                            responses.completed(index);
+                            break;
+                        case ActionStatus::received :
+                            responses.receive(index);
+                            break;
+                        case ActionStatus::error :
+                            responses.signal_error(index);
+                            break;
+                        default:
+                            break;
+                    }
+                } else if ( responseType == ResponseType::restore_start ){
+                        std::cout << "starting action RESTORE" << std::endl;
+                        action_restore();
                 }
-            };
+            }
 
         });
 
     } catch (std::exception &exception) {
         std::cerr << exception.what() << std::endl;
         throw exception;
+    }
+}
+
+void Client::login(std::string name) {
+    std::string main_path_string;
+    std::string password;
+    int is_authenticated = 0;
+    int is_signedup = 0;
+
+    const std::filesystem::path backup_path = "../path";
+    if (!std::filesystem::exists(backup_path)) {
+        create_account_backup_folder(main_path_string, backup_path);
+
+    } else {
+        // read path from file
+        std::ifstream fp(backup_path);
+        fp >> main_path_string;
+        fp.close();
+    }
+
+    main_path = std::filesystem::path(main_path_string);
+
+    // const std::string &path
+
+    tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
+    socket_.connect(endpoint);
+
+    //Authentication
+
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << name.length() << "\n"
+                  << name << "\n";
+    boost::asio::write(socket_, output_buf);
+
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+    input_stream >> is_signedup;
+    std::cout << "is_signedup: " << is_signedup << std::endl;
+
+    if (!is_signedup) {
+        create_account_password();
+    }
+    std::cout << "LOG IN" << std::endl;
+    while (is_authenticated == 0) {
+        std::cout << "Insert password: ";
+        std::cin >> password;
+        output_stream << std::setw(sizeof(int)) << std::setfill('0') << password.length() << "\n"
+                      << password << "\n";
+        boost::asio::write(socket_, output_buf);
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
+        input_stream >> is_authenticated;
+        std::cout << "is_authenticated: " << is_authenticated << std::endl;
     }
 }
 
@@ -217,7 +229,7 @@ void Client::send_action(Action action) {
     boost::asio::streambuf request;
     std::ostream request_stream(&request);
 
-    int index = responses.send(action);
+    int index = responses.add(action);
     std::cout << "[****************] Generating response " << index << std::endl;
 
     std::string cleaned_path = " ";;
@@ -226,9 +238,6 @@ void Client::send_action(Action action) {
 
     switch ( action.actionType) {
 
-        case ActionType::restore :
-
-            break;
         case ActionType::ignore :
             return;
             break;
@@ -265,10 +274,6 @@ void Client::send_action(Action action) {
             break;
     }
 
-
-
-
-
     request_stream << action.actionType << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
@@ -277,6 +282,7 @@ void Client::send_action(Action action) {
                    << last_write_time << "\n"
                    << std::setw(sizeof(int)) << std::setfill('0') << file_permissions.length() << "\n"
                    << file_permissions << "\n";
+
 
     boost::asio::write(socket_, request);
 
@@ -328,9 +334,14 @@ void Client::send_file(const std::string &filename) {
 }
 
 
-void Client::restore() {
+void Client::command_restore() {
     fileWatcher.pause();
+    Action action{ ActionType::restore };
+    actions.push(action);
+}
 
+void Client::action_restore() {
+    // controllo inserimento data
     bool correct_date = false;
     std::string date_string;
 
@@ -340,16 +351,16 @@ void Client::restore() {
             std::cin >> date_string;
             boost::gregorian::date d{boost::gregorian::from_simple_string(date_string)};
             std::cout << "Date: " << boost::gregorian::to_iso_extended_string(d) << std::endl;
+            date_string = boost::gregorian::to_iso_extended_string(d);
             correct_date = true;
         } catch (std::exception& e) {
             std::cout << " Error: " << e.what() << std::endl;
         }
     }
 
-    // controllo inserimento data
-
-    Action action{ ActionType::restore };
+    output_stream << std::setw(sizeof(int)) << std::setfill('0') << date_string.length() << "\n"
+                  << date_string << "\n";
+    boost::asio::write(socket_, output_buf);
 
     fileWatcher.restart();
 }
-

@@ -18,7 +18,7 @@ class ResponseBuffer{
     int current_index = 0;
 
 public:
-    int send(Action item);
+    int add(Action item);
 
     void receive(int index);
 
