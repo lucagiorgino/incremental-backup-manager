@@ -71,7 +71,7 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
             std::string hash_str = file.is_directory() ? "dir" : Hash(file.path()).getHash();
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
             if (initial_status[file.path()] != hash_str) {
-                std::cout << "modify: " << file.path() << std::endl;
+                std::cout << "modify: " << file.path() << "hash: " << hash_str << std::endl;
                 action(file.path().string(), FileStatus::modified);
             }
             initial_status.erase(file.path().string());

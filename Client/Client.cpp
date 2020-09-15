@@ -270,12 +270,12 @@ void Client::send_action(Action action) {
 
 
     request_stream << action.actionType << "\n"
-                   << std::setw(sizeof(int)) << std::setfill('0') << index << "\n"
-                   << std::setw(sizeof(int)) << std::setfill('0') << cleaned_path.length() << "\n"
+                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n"
+                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n"
-                   << std::setw(sizeof(int)) << std::setfill('0') << last_write_time.length() << "\n"
+                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << last_write_time.length() << "\n"
                    << last_write_time << "\n"
-                   << std::setw(sizeof(int)) << std::setfill('0') << file_permissions.length() << "\n"
+                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_permissions.length() << "\n"
                    << file_permissions << "\n";
 
     boost::asio::write(socket_, request);
@@ -301,7 +301,7 @@ void Client::send_file(const std::string &filename) {
     source_file.seekg(0);
     // send file size to server
     std::cout << "FILE SIZE: " << file_size << std::endl;
-    output_stream << std::setw(sizeof(int)) << std::setfill('0') << file_size << "\n";
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
 
     for (;;) {

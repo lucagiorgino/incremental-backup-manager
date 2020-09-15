@@ -211,9 +211,9 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 
     while (file_size_tmp > 0) {
         size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
-        //std::cout << "FS: " << file_size_tmp;
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
-        //std::cout << " ... OK - " << l << std::endl;
+        std::cout << "FS: " << file_size_tmp;
+        int l = boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
+        std::cout << " ... OK - " << l << " - CURSIZE: " << file.length() << std::endl;
 
         array[size] = '\0';
         input_stream.read(array.c_array(), size);

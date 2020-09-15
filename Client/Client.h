@@ -19,7 +19,7 @@ using boost::asio::ip::tcp;
 #define DELAY 2000
 #define MAX_MSG_SIZE 1024
 
-const int INT_MAX_N_DIGIT = std::floor(std::log10(std::exp2(8*sizeof(int))));
+const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
 
 namespace fs = std::filesystem;
 
