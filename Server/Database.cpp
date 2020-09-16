@@ -240,11 +240,11 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         File f;
         f.filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-        f.file = std::move(reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1)));
+        f.file_content = std::move(reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1)));
         f.size = sqlite3_column_int(stmt, 2);
         hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-        f.last_write_time = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
-        f.permissions = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5));
+        f.last_write_time = std::stoi(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4)));
+        f.permissions = std::stoi(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5)));
 
         hash == "dir" ? f.is_directory = 1 : f.is_directory = 0;
 

@@ -13,7 +13,8 @@
 
 struct File{
     int size, is_directory;
-    std::string filename, file, last_write_time, permissions;
+    std::string filename, file_content;
+    int last_write_time, permissions;
 };
 
 class Database {

@@ -363,7 +363,7 @@ void Client::command_restore() {
     actions.push(action);
 }
 
-void Client::action_restore(std::string date, std::string path) {
+void Client::action_restore(std::string date, std::string user_path) {
     int file_number;
     std::filesystem::path tmp_dir{"../tmp_restore_dir"};
 
@@ -377,7 +377,8 @@ void Client::action_restore(std::string date, std::string path) {
     std::filesystem::create_directory(tmp_dir);
 
     int size, is_directory, read_length;
-    std::string filename, file, last_write_time, permissions;
+    std::string filename;
+    int last_write_time, permissions;
     for(int i=0; i< file_number; i++){
         //save single file in tmp_dir
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -385,25 +386,61 @@ void Client::action_restore(std::string date, std::string path) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
         input_stream >> filename;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-        input_stream >> read_length;
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
         input_stream >> last_write_time;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-        input_stream >> read_length;
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
         input_stream >> permissions;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> is_directory;
 
+        std::filesystem::path file_path{tmp_dir.string() + filename};
+
         if(is_directory == 1){
             //Directory
+            std::filesystem::create_directory(file_path);
+            // check directory creata?
         }
         else{
             //File
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-            input_stream >> size;
+            boost::array<char, MAX_MSG_SIZE+1> array{};
+
+            std::ofstream of{file_path};
+            std::string buf;
+            size_t file_size_tmp;
+            while (size > 0) {
+                file_size_tmp = size > MAX_MSG_SIZE ? MAX_MSG_SIZE : size;
+
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(file_size_tmp));
+                input_stream.read(array.c_array(), size);
+
+                of << array.c_array();
+                size-=file_size_tmp;
+            }
+        }
+
+        boost::filesystem::path boost_file_path;
+        boost_file_path = file_path;
+        boost::system::error_code err;
+
+        std::time_t time(last_write_time);
+        boost::filesystem::last_write_time(boost_file_path, time,err);
+        if(err) {
+            std::cout << "Errore scrittura permessi: " << err << std::endl;
+            // throw ?
+        }
+
+        boost::filesystem::perms permessi = static_cast<boost::filesystem::perms>(permissions);
+
+        boost::filesystem::permissions(boost_file_path, permessi, err);
+        if(err) {
+            std::cout << "Errore scrittura permessi: " << err << std::endl;
+            // throw ?
         }
     }
+
+
+    std::filesystem::remove_all(user_path);
+    std::filesystem::rename(tmp_dir,user_path);
 
     fileWatcher.restart();
 }
