@@ -3,6 +3,7 @@
 #include <iostream>
 #include <filesystem>
 #include <ctime>
+#include "boost/date_time/gregorian/gregorian.hpp"
 #include "ClientHandler.h"
 #include "Hash.h"
 
@@ -147,11 +148,15 @@ bool ClientHandler::read_action() {
     std::cout << "[" << index << "] " << "Executing action_type " << action_type << " " << path << " " << last_write_time << " "
               << permissions << "..." << std::endl;
 
+    /*
     time_t t = time(nullptr);
     tm *tPtr = localtime(&t);
     std::string current_date = std::to_string((tPtr->tm_year) + 1900) + "-" +
                                std::to_string((tPtr->tm_mon)) + "-" +
                                std::to_string((tPtr->tm_mday) + 1);
+                               */
+    boost::gregorian::date d{boost::gregorian::day_clock::local_day()};
+    std::string current_date = boost::gregorian::to_iso_extended_string(d);
 
     switch (action_type) {
         case read_file:
