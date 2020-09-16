@@ -401,8 +401,11 @@ void Client::action_restore(std::string date, std::string user_path) {
         }
         else{
             //File
-            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             boost::array<char, MAX_MSG_SIZE+1> array{};
+
+            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+            input_stream >> size;
+            input_stream.ignore();
 
             std::ofstream of{file_path};
             std::string buf;
@@ -414,6 +417,7 @@ void Client::action_restore(std::string date, std::string user_path) {
                 input_stream.read(array.c_array(), size);
 
                 of << array.c_array();
+                array.assign(0);
                 size-=file_size_tmp;
             }
         }

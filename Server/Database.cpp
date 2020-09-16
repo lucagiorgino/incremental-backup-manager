@@ -165,7 +165,6 @@ int Database::addAction(std::string tablename, std::string filename, std::string
     }
 
 
-
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_finalize(stmt);
@@ -214,12 +213,12 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
     std::string table_name = tablename_from_username(username);
 
     std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions FROM " + table_name + " as t1 "
-                                                                   "WHERE action <> " + std::to_string(delete_code);
+                                                                                                             "WHERE action <> " +
+                      std::to_string(delete_code);
     sql += " AND timestamp = ( "
            "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
-                                                                            "                    WHERE t1.filename = t2.filename "
-                                                                            "                ) "
-                                                                            " AND timestamp <= ? "
+                                                                            " WHERE t1.filename = t2.filename "
+                                                                            "   AND timestamp <= ?) "
                                                                             " ORDER BY filename";
     sqlite3_stmt *stmt = nullptr;
 
@@ -239,14 +238,20 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
     std::string hash;
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         File f;
+        f.is_directory = 1;
+        f.file_content = "";
+
         f.filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-        f.file_content = std::move(reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1)));
         f.size = sqlite3_column_int(stmt, 2);
         hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+
         f.last_write_time = std::stoi(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4)));
         f.permissions = std::stoi(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5)));
 
-        hash == "dir" ? f.is_directory = 1 : f.is_directory = 0;
+        if(hash != "dir"){
+            f.is_directory = 0;
+            f.file_content = reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1));
+        }
 
         result_map.insert(std::pair<std::string, File>(f.filename, f));
     }

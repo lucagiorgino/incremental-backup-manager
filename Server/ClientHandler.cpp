@@ -331,7 +331,10 @@ void ClientHandler::action_restore(int index) {
             size_t file_size_tmp;
             int count=0;
             std::string tmp;
-            while (size > 0) {
+
+            output_stream << pair.second.file_content;
+            boost::asio::write(socket_, output_buf);
+            /*while (size > 0) {
                 file_size_tmp = size > MAX_MSG_SIZE ? MAX_MSG_SIZE : size;
                 tmp = pair.second.file_content.substr(count*MAX_MSG_SIZE,file_size_tmp);
 
@@ -339,7 +342,7 @@ void ClientHandler::action_restore(int index) {
                 boost::asio::write(socket_, output_buf);
                 count++;
                 size-=file_size_tmp;
-            }
+            }*/
         }
     }
 
