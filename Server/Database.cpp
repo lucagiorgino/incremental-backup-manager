@@ -123,7 +123,7 @@ int Database::addAction(std::string tablename, std::string filename, std::string
         // throw exception...
     }
 
-    if (sqlite3_bind_blob(stmt, 1, file.data(), file.size(), nullptr) != SQLITE_OK) {
+    if (sqlite3_bind_blob(stmt, 1, file.data(), size, nullptr) != SQLITE_OK) {
         std::cout << "SQLITE bind file error: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_finalize(stmt);
         // throw exception...

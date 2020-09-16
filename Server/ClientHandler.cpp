@@ -237,7 +237,6 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
         }
     }
 
-    file[file_size] = '\0';
     /*
      * TODO: for now the hash is computed saving the blob into a file,
      * the hash function should be modified to accept somehow a blob
@@ -254,18 +253,11 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     Hash hash("../provaprovaprova");
     std::string hash_value = hash.getHash();
 
-    /** SOSTITUZIONE \0 COL CARATTERE ASCII 0X10,
-     *  NON HA SENSO MA ALMENO LO SALVA.
-     *  BISOGNA TROVARE UNA SPECIE DI ESCAPE CHE
-     *  RISOLVA IL PROBLEMA **/
-    char r = '0' - 32; // DLE data link escape
-    std::replace(file.begin(), file.end(), '\0', r);
-    file[file_size] = '\0';
-
     /*
      * END of this version of hash computation
      * */
-    db.addAction(username, path, time, file.data(), file_size, read_file, hash_value,
+    std::string file_string(file.begin(), file.end());
+    db.addAction(username, path, time, file_string, file_size, read_file, hash_value,
                  last_write_time, permissions);
 
     send_response_to_client(ResponseType::ack,index, ActionStatus::completed);
