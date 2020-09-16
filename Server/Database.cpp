@@ -209,6 +209,53 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
 }
 
 
+std::map<std::string, File> Database::getRestoreEntries(std::string username, int delete_code, std::string date) {
+    int err;
+    std::string table_name = tablename_from_username(username);
+
+    std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions FROM " + table_name + " as t1 "
+                                                                   "WHERE action <> " + std::to_string(delete_code);
+    sql += " AND timestamp = ( "
+           "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
+                                                                            "                    WHERE t1.filename = t2.filename "
+                                                                            "                ) "
+                                                                            " AND timestamp <= ? "
+                                                                            " ORDER BY filename";
+    sqlite3_stmt *stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+
+    if (sqlite3_bind_text(stmt, 1, date.data(), date.size(), nullptr) != SQLITE_OK) {
+        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        // throw exception...
+    }
+
+    std::map<std::string, File> result_map;
+    std::string hash;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        File f;
+        f.filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        f.file = std::move(reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1)));
+        f.size = sqlite3_column_int(stmt, 2);
+        hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+        f.last_write_time = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+        f.permissions = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5));
+
+        hash == "dir" ? f.is_directory = 1 : f.is_directory = 0;
+
+        result_map.insert(std::pair<std::string, File>(f.filename, f));
+    }
+
+    sqlite3_finalize(stmt);
+
+    return result_map;
+}
+
 /**
  * Check if key (filename, timestamp) is already present in the table
  * @param table

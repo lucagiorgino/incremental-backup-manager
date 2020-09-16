@@ -294,16 +294,48 @@ void ClientHandler::action_delete_path(std::string path, int index, std::string 
 
 void ClientHandler::action_restore(int index) {
 
-    int length;
+    int date_length;
     std::string date_string;
-/*
+
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-    input_stream >> length;
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
+    input_stream >> date_length;
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(date_length + 1));
     input_stream >> date_string;
 
     std::cout << "****************" << date_string << std::endl;
-*/
+
+    std::map<std::string, File> restore_map = db.getRestoreEntries(username, delete_path, date_string);
+
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << restore_map.size() << "\n";
+    boost::asio::write(socket_, output_buf);
+
+    /*
+    [*] is_directory;
+    [*] filename,
+     file,
+    size;
+     [*] last_write_time,
+     [*] permissions;*/
+
+    for(std::pair<std::string, File> pair: restore_map){
+        // send single file to client
+        output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.filename.length() << "\n"
+                      << pair.second.filename << "\n"
+                      << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.last_write_time.length() << "\n"
+                      << pair.second.last_write_time << "\n"
+                      << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.permissions.length() << "\n"
+                      << pair.second.permissions << "\n"
+                      << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.is_directory << "\n";
+        boost::asio::write(socket_, output_buf);
+
+        if(pair.second.is_directory == 0){
+            //File
+            output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.size<< "\n";
+            boost::asio::write(socket_, output_buf);
+        }
+    }
+
+    //End of restore
     send_response_to_client(index, ActionStatus::completed);
 }
 

@@ -30,15 +30,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Client/Action.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Action.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/provaprovaprova" beforeDir="false" afterPath="$PROJECT_DIR$/provaprovaprova" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Database.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/Database.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +121,7 @@
       <workItem from="1598521644534" duration="4803000" />
       <workItem from="1598601491423" duration="6518000" />
       <workItem from="1600261710208" duration="518000" />
-      <workItem from="1600262261242" duration="5502000" />
+      <workItem from="1600262261242" duration="9571000" />
     </task>
     <servers />
   </component>
@@ -217,15 +213,6 @@
     <state x="2579" y="259" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598526057362" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Database.cpp</url>
-          <line>107</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
         <watch expression="file" />

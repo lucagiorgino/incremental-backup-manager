@@ -364,12 +364,46 @@ void Client::command_restore() {
 }
 
 void Client::action_restore(std::string date, std::string path) {
-    std::cout << date << " " << path << std::endl;
-    /*
-    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date_string.length() << "\n"
-                  << date_string << "\n";
+    int file_number;
+    std::filesystem::path tmp_dir{"../tmp_restore_dir"};
+
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date.length() << "\n"
+                  << date << "\n";
     boost::asio::write(socket_, output_buf);
-     */
+
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+    input_stream >> file_number;
+
+    std::filesystem::create_directory(tmp_dir);
+
+    int size, is_directory, read_length;
+    std::string filename, file, last_write_time, permissions;
+    for(int i=0; i< file_number; i++){
+        //save single file in tmp_dir
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+        input_stream >> read_length;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
+        input_stream >> filename;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+        input_stream >> read_length;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
+        input_stream >> last_write_time;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+        input_stream >> read_length;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
+        input_stream >> permissions;
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+        input_stream >> is_directory;
+
+        if(is_directory == 1){
+            //Directory
+        }
+        else{
+            //File
+            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
+            input_stream >> size;
+        }
+    }
 
     fileWatcher.restart();
 }

@@ -11,6 +11,11 @@
 #include <optional>
 #include <chrono>
 
+struct File{
+    int size, is_directory;
+    std::string filename, file, last_write_time, permissions;
+};
+
 class Database {
 public:
     Database(std::filesystem::path path);
@@ -32,6 +37,7 @@ public:
                   std::string permissions);
 
     std::map<std::string, std::string> getInitailizationEntries(std::string username, int delete_code);
+    std::map<std::string, File> getRestoreEntries(std::string username, int delete_code, std::string date);
 
 private:
     sqlite3 *db;
