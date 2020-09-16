@@ -212,18 +212,21 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     input_stream.ignore();
     std::cout << "{prova} file size: " << file_size << std::endl;
 
-    std::string file;
+    //std::string file;
+    std::vector<char> file;
+    file.reserve(file_size+1);
     int file_size_tmp = file_size;
 
     while (file_size_tmp > 0) {
         size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
         std::cout << "FS: " << file_size_tmp;
         int l = boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
-        std::cout << " ... OK - " << l << " - CURSIZE: " << file.length() << std::endl;
 
-        array[size] = '\0';
+        //array[size] = '\0';
         input_stream.read(array.c_array(), size);
-        file += array.c_array();
+        file.insert(file.end(), array.begin(), array.begin()+size);
+        array.assign(0);
+        std::cout << " ... OK - " << l << " - CURSIZE: " << file.size() << std::endl;
 
         file_size_tmp -= size;
 
@@ -234,23 +237,35 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
         }
     }
 
-
+    file[file_size] = '\0';
     /*
      * TODO: for now the hash is computed saving the blob into a file,
      * the hash function should be modified to accept somehow a blob
      * */
-    std::cout << file.length() << std::endl;
+    std::cout << file.size() << std::endl;
     std::ofstream fp("../provaprovaprova");
-    fp << file;
+
+    std::ostream_iterator<char> output_iterator(fp);
+    std::copy(file.begin(), file.end(), output_iterator);
+
+    //fp << file.;
 
     fp.close();
     Hash hash("../provaprovaprova");
     std::string hash_value = hash.getHash();
 
+    /** SOSTITUZIONE \0 COL CARATTERE ASCII 0X10,
+     *  NON HA SENSO MA ALMENO LO SALVA.
+     *  BISOGNA TROVARE UNA SPECIE DI ESCAPE CHE
+     *  RISOLVA IL PROBLEMA **/
+    char r = '0' - 32; // DLE data link escape
+    std::replace(file.begin(), file.end(), '\0', r);
+    file[file_size] = '\0';
+
     /*
      * END of this version of hash computation
      * */
-    db.addAction(username, path, time, std::move(file), file_size, read_file, hash_value,
+    db.addAction(username, path, time, file.data(), file_size, read_file, hash_value,
                  last_write_time, permissions);
 
     send_response_to_client(ResponseType::ack,index, ActionStatus::completed);

@@ -199,6 +199,7 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         std::string filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
         std::string hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+
         result_map.insert(std::pair<std::string, std::string>(filename, hash));
     }
 
