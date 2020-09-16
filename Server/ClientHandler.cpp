@@ -140,9 +140,9 @@ bool ClientHandler::read_action() {
     std::getline(input_stream, permissions);
 
     if (action_type == ActionType::quit)
-        send_response_to_client(ResponseType::ack,0, ActionStatus::finish);
+        send_response_to_client(0, ActionStatus::finish);
     else
-        send_response_to_client(ResponseType::ack, index, ActionStatus::received);
+        send_response_to_client(index, ActionStatus::received);
 
     std::cout << "[" << index << "] " << "Executing action_type " << action_type << " " << path << " " << last_write_time << " "
               << permissions << "..." << std::endl;
@@ -177,14 +177,10 @@ bool ClientHandler::read_action() {
     return true;
 }
 
-void ClientHandler::send_response_to_client(ResponseType r,int index, int action_status) {
+void ClientHandler::send_response_to_client(int index, int action_status) {
 
-
-    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << r << "\n";
-    if ( r == ResponseType::ack) {
-        output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n";
-        output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action_status << "\n";
-    }
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n";
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action_status << "\n";
     boost::asio::write(socket_, output_buf);
 
     std::cout << "[****************] Sending response " << index << ", type " << action_status << std::endl;
@@ -232,7 +228,7 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 
         if (err) {
             std::cerr << err << std::endl;
-            send_response_to_client(ResponseType::ack,index, ActionStatus::error);
+            send_response_to_client(index, ActionStatus::error);
             throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
         }
     }
@@ -260,7 +256,7 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     db.addAction(username, path, time, file_string, file_size, read_file, hash_value,
                  last_write_time, permissions);
 
-    send_response_to_client(ResponseType::ack,index, ActionStatus::completed);
+    send_response_to_client(index, ActionStatus::completed);
 }
 
 /**
@@ -276,7 +272,7 @@ void ClientHandler::action_create_folder(std::string path, int index, std::strin
     db.addAction(username, path, time, "", 0, create_folder, "dir", last_write_time,
                  permissions);
     // catch
-    send_response_to_client(ResponseType::ack,index, ActionStatus::completed);
+    send_response_to_client(index, ActionStatus::completed);
 }
 
 /**
@@ -293,25 +289,22 @@ void ClientHandler::action_delete_path(std::string path, int index, std::string 
                  permissions);
     // catch
 
-    send_response_to_client(ResponseType::ack,index, ActionStatus::completed);
+    send_response_to_client(index, ActionStatus::completed);
 }
 
 void ClientHandler::action_restore(int index) {
 
-
-    send_response_to_client(ResponseType::restore_start, index, ActionStatus::received);
-
     int length;
     std::string date_string;
-
+/*
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> length;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> date_string;
 
     std::cout << "****************" << date_string << std::endl;
-
-    send_response_to_client(ResponseType::ack, index, ActionStatus::completed);
+*/
+    send_response_to_client(index, ActionStatus::completed);
 }
 
 // ***** SQL CALLBACK *****

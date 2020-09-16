@@ -7,11 +7,6 @@
 
 namespace fs = std::filesystem;
 
-
-enum ResponseType {
-    ack, restore_start
-};
-
 enum ActionStatus{
     created, sent, received, completed, error, finish
 };
@@ -42,7 +37,8 @@ public:
         }
     }
 
-    Action(ActionType actionType): actionType(actionType) {};
+    Action(ActionType actionType, std::string restore_date, std::string restore_path):
+            actionType(actionType), restore_date(restore_date), restore_path(restore_path){};
 
 
     Action(){};
@@ -52,6 +48,9 @@ public:
     FileStatus fileStatus;
     ActionStatus st;
     std::time_t timestamp;
+
+    std::string restore_date;
+    std::string restore_path;
 };
 
 #endif //CLIENT_ACTION_H

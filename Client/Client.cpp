@@ -51,46 +51,42 @@ Client::Client(std::string name) :
         });
 
         responseConsumer = std::thread([this]() {
-
-            int responseType;
             int index;
             int action_status = -1;
             while(action_status != ActionStatus::finish){
 
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
-                input_stream >> responseType;
-                std::cout << "RESPONSE TYPE "<< responseType << " ";
-                if (responseType == ResponseType::ack) {
-                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
-                    input_stream >> index;
-                    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
-                    input_stream >> action_status;
+                input_stream >> index;
+                boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT+1));
+                input_stream >> action_status;
 
-                    std::cout << "[****************] Receiving response " << index << ", type of response " << action_status << std::endl;
-                    std::optional<Action> a = responses.get_action(index);
-                    if(a.has_value()) {
-                        Action ac = a.value();
-                        std::cout << "[****************] Response " << static_cast<int>(ac.actionType) << " path: "<< ac.path.string() << ", file status " << static_cast<int>(ac.fileStatus) << std::endl;
-                        if(action_status == ActionStatus::completed)
-                            std::cout << std::endl;
-                    }
+                std::cout << "[****************] Receiving response " << index << ", type of response " << action_status << std::endl;
 
-                    switch (action_status) {
-                        case ActionStatus::completed :
-                            responses.completed(index);
-                            break;
-                        case ActionStatus::received :
-                            responses.receive(index);
-                            break;
-                        case ActionStatus::error :
-                            responses.signal_error(index);
-                            break;
-                        default:
-                            break;
+                std::optional<Action> a = responses.get_action(index);
+                if(a.has_value()) {
+                    Action ac = a.value();
+                    std::cout << "[****************] Response " << static_cast<int>(ac.actionType) << " path: "<< ac.path.string() << ", file status " << static_cast<int>(ac.fileStatus) << std::endl;
+                    if(action_status == ActionStatus::completed)
+                        std::cout << std::endl;
+
+                    if(ac.actionType == ActionType::restore && action_status == ActionStatus::received){
+                        std::cout << "starting action RESTORE" << std::endl;
+                        action_restore(ac.restore_date, ac.restore_path);
                     }
-                } else if ( responseType == ResponseType::restore_start ){
-                    std::cout << "starting action RESTORE" << std::endl;
-                    action_restore();
+                }
+
+                switch (action_status) {
+                    case ActionStatus::completed :
+                        responses.completed(index);
+                        break;
+                    case ActionStatus::received :
+                        responses.receive(index);
+                        break;
+                    case ActionStatus::error :
+                        responses.signal_error(index);
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -337,15 +333,10 @@ void Client::send_file(const std::string &filename) {
 
 void Client::command_restore() {
     fileWatcher.pause();
-    Action action{ ActionType::restore };
-    actions.push(action);
-}
 
-void Client::action_restore() {
-    // controllo inserimento data
+    // Reading date
     bool correct_date = false;
     std::string date_string;
-/*
     while(!correct_date){
         try{
             std::cout << "Insert date (YYYY-MM-DD): ";
@@ -358,11 +349,27 @@ void Client::action_restore() {
             std::cout << " Error: " << e.what() << std::endl;
         }
     }
-    */
-    date_string = "Provaprovaprovaporova";
+
+    //Reading path
+    std::string path_string;
+    std::cout << "insert existing path to save the restored data: ";
+    std::cin >> path_string;
+    while (!std::filesystem::exists(path_string)) {
+        std::cout << "path not found, try again: ";
+        std::cin >> path_string;
+    }
+
+    Action action{ ActionType::restore, date_string, path_string};
+    actions.push(action);
+}
+
+void Client::action_restore(std::string date, std::string path) {
+    std::cout << date << " " << path << std::endl;
+    /*
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date_string.length() << "\n"
                   << date_string << "\n";
     boost::asio::write(socket_, output_buf);
+     */
 
     fileWatcher.restart();
 }

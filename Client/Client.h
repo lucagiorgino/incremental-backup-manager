@@ -32,7 +32,7 @@ public:
     Client( std::string name);
     ~Client();
     void command_restore();
-    void action_restore();
+    void action_restore(std::string date, std::string path);
 
 private:
     Buffer<Action> actions;

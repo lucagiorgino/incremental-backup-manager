@@ -41,7 +41,7 @@ std::optional<Action> ResponseBuffer::get_action(int index){
 
     Action m = responseMap[index];
     if (m.actionType == ActionType::restore)
-        return std::optional<Action>{{m.actionType}};
+        return std::optional<Action>{{m.actionType, m.restore_date, m.restore_path}};
     else
         return std::optional<Action>{{m.path, m.fileStatus, m.st, m.timestamp}};
 }

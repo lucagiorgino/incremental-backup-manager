@@ -28,10 +28,6 @@ const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
 
 const std::filesystem::path db_path = "../database.sqlite3";
 
-enum ResponseType {
-    ack, restore_start
-};
-
 enum ActionType {
     read_file, create_folder, delete_path, restore, quit
 };
@@ -87,7 +83,7 @@ private:
     void action_create_folder(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
     void action_delete_path(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
     void action_restore(int index);
-    void send_response_to_client(ResponseType r,int index, int action_status);
+    void send_response_to_client(int index, int action_status);
 };
 
 
