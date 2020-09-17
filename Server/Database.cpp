@@ -239,7 +239,7 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         File f;
         f.is_directory = 1;
-        f.file_content = "";
+        f.file_content.clear();
 
         f.filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
         f.size = sqlite3_column_int(stmt, 2);
@@ -250,7 +250,7 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
 
         if(hash != "dir"){
             f.is_directory = 0;
-            f.file_content = reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1));
+            f.file_content = std::string(reinterpret_cast<const char *>(sqlite3_column_blob(stmt, 1)), f.size);
         }
 
         result_map.insert(std::pair<std::string, File>(f.filename, f));

@@ -414,9 +414,10 @@ void Client::action_restore(std::string date, std::string user_path) {
                 file_size_tmp = size > MAX_MSG_SIZE ? MAX_MSG_SIZE : size;
 
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(file_size_tmp));
-                input_stream.read(array.c_array(), size);
+                input_stream.read(array.c_array(), file_size_tmp);
 
-                of << array.c_array();
+                of.write(array.c_array(), file_size_tmp);
+
                 array.assign(0);
                 size-=file_size_tmp;
             }
@@ -443,6 +444,7 @@ void Client::action_restore(std::string date, std::string user_path) {
     }
 
 
+    std::cout << "Data collection ended, creating directory" << std::endl;
     std::filesystem::remove_all(user_path);
     std::filesystem::rename(tmp_dir,user_path);
 
