@@ -4,14 +4,7 @@
 
 #include "Hash.h"
 
-Hash::Hash(const std::string& filename){
-    std::ifstream myfile (filename);
-    char buf[BUF_SIZE];
-
-    if(!myfile.is_open()) {
-        std::cout << "Couldn't open input file, try again" << std::endl;
-        exit(1);
-    }
+Hash::Hash(const std::string& blob_string){
 
     EVP_MD_CTX *md_ctx;
 
@@ -24,30 +17,22 @@ Hash::Hash(const std::string& filename){
         // handleErrors();
         abort();
     }
-
-
     if( EVP_DigestInit(md_ctx, EVP_sha256()) != 1){
         // handleErrors();
         abort();
     }
 
-    // std::cout<<"start reading..."<<std::endl;
-    while ( !myfile.eof() ) {
-        myfile.read (buf,BUF_SIZE); // può dare errori
-        int n = myfile.gcount();
-        if ( EVP_DigestUpdate(md_ctx, buf,n) != 1)
-            abort();
+
+    if ( EVP_DigestUpdate(md_ctx, blob_string.c_str(), blob_string.length()) != 1) {
+        abort();
     }
 
-
-    // EVP_DigestFinal_ex(md_ctx, md_value, (&md_len))
-    if(EVP_DigestFinal_ex(md_ctx, this->md_value, reinterpret_cast<unsigned int *> (&this->md_len)) != 1) {
+    if(EVP_DigestFinal_ex(md_ctx, this->md_value, &this->md_len ) != 1) {
         std::cout << "Digest computation problem\n";
         abort();
     }
 
     EVP_MD_CTX_free(md_ctx);
-    myfile.close();
 }
 
 bool Hash::operator==( const Hash& input){

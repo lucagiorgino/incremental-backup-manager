@@ -45,15 +45,7 @@ class ClientHandler
     // a shared pointer to himself and pass or bind it
 {
 public:
-    ClientHandler(boost::asio::io_service &service) :
-            service_(service),
-            socket_(service),
-            write_strand_(service),
-            input_stream(&input_buf),
-            output_stream(&output_buf),
-            db(db_path)
-            {}
-
+    ClientHandler(boost::asio::io_service &service);
     ~ClientHandler();
 
     boost::asio::ip::tcp::socket &socket() {

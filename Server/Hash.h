@@ -14,10 +14,10 @@
 class Hash {
 private:
     unsigned char md_value[EVP_MAX_MD_SIZE];
-    int md_len;
+    unsigned int md_len;
 public:
     Hash() {};
-    Hash(const std::string& filename);
+    Hash(const std::string& blob_string);
 
     bool operator==( const Hash& input);
 

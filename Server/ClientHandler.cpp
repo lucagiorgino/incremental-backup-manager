@@ -9,6 +9,18 @@
 
 // ***** PUBLIC *****
 
+ClientHandler::ClientHandler(boost::asio::io_service &service) :
+        service_(service),
+        socket_(service),
+        write_strand_(service),
+        input_stream(&input_buf),
+        output_stream(&output_buf),
+        db(db_path) {}
+
+ClientHandler::~ClientHandler() {
+    action_handler.join();
+}
+
 void ClientHandler::start() {
     std::cout << "Starting new client connection" << std::endl;
 
@@ -23,9 +35,7 @@ void ClientHandler::start() {
     });
 }
 
-ClientHandler::~ClientHandler() {
-    action_handler.join();
-}
+
 
 
 
@@ -145,7 +155,8 @@ bool ClientHandler::read_action() {
     else
         send_response_to_client(index, ActionStatus::received);
 
-    std::cout << "[" << index << "] " << "Executing action_type " << action_type << " " << path << " " << last_write_time << " "
+    std::cout << "[" << index << "] " << "Executing action_type " << action_type << " " << path << " "
+              << last_write_time << " "
               << permissions << "..." << std::endl;
 
     /*
@@ -203,7 +214,7 @@ void ClientHandler::send_response_to_client(int index, int action_status) {
  */
 void ClientHandler::action_read_file(std::string path, int index, std::string time, std::string last_write_time,
                                      std::string permissions) {
-    boost::array<char, MAX_MSG_SIZE+1> array{};
+    boost::array<char, MAX_MSG_SIZE + 1> array{};
 
     boost::system::error_code err;
     int file_size = 0;
@@ -215,19 +226,17 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 
     //std::string file;
     std::vector<char> file;
-    file.reserve(file_size+1);
+    file.reserve(file_size + 1);
     int file_size_tmp = file_size;
 
     while (file_size_tmp > 0) {
         size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
-        std::cout << "FS: " << file_size_tmp;
-        int l = boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
 
         //array[size] = '\0';
         input_stream.read(array.c_array(), size);
-        file.insert(file.end(), array.begin(), array.begin()+size);
+        file.insert(file.end(), array.begin(), array.begin() + size);
         array.assign(0);
-        std::cout << " ... OK - " << l << " - CURSIZE: " << file.size() << std::endl;
 
         file_size_tmp -= size;
 
@@ -238,21 +247,9 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
         }
     }
 
-    /*
-     * TODO: for now the hash is computed saving the blob into a file,
-     * the hash function should be modified to accept somehow a blob
-     * */
-    std::cout << file.size() << std::endl;
-    std::ofstream fp("../provaprovaprova");
-
-    std::ostream_iterator<char> output_iterator(fp);
-    std::copy(file.begin(), file.end(), output_iterator);
-
-    //fp << file.;
-
-    fp.close();
-    Hash hash("../provaprovaprova");
+    Hash hash( std::string(file.begin(),file.end()) );
     std::string hash_value = hash.getHash();
+    std::cout << "hash " << hash_value << "\n";
 
     /*
      * END of this version of hash computation
@@ -313,7 +310,7 @@ void ClientHandler::action_restore(int index) {
     boost::asio::write(socket_, output_buf);
 
 
-    for(std::pair<std::string, File> pair: restore_map){
+    for (std::pair<std::string, File> pair: restore_map) {
         // send single file to client
         output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.filename.length() << "\n"
                       << pair.second.filename << "\n"
@@ -322,14 +319,14 @@ void ClientHandler::action_restore(int index) {
                       << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.is_directory << "\n";
         boost::asio::write(socket_, output_buf);
 
-        if(pair.second.is_directory == 0){
+        if (pair.second.is_directory == 0) {
             //File
-            output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.size<< "\n";
+            output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.size << "\n";
             boost::asio::write(socket_, output_buf);
 
             size_t size = pair.second.size;
             size_t file_size_tmp;
-            int count=0;
+            int count = 0;
             std::string tmp;
 
             output_stream << pair.second.file_content;
