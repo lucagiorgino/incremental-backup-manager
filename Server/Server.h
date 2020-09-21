@@ -42,7 +42,6 @@ public:
         std::cout << "Thread created\n";
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_[i].join();
-            std::cout << "T joined" << std::endl;
         }
     }
 

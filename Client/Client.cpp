@@ -163,6 +163,9 @@ Client::Client(std::string name) :
     });
 
     join_threads();
+
+    socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+    socket_.close();
 }
 
 void Client::join_threads() {
@@ -336,7 +339,7 @@ void Client::send_action(Action action) {
                 std_last_write_time = boost::filesystem::last_write_time(boost_file, err);
                 if (err) {
                     std::cout << "Error reading last write time: " << err << std::endl;
-                    // throw exception...
+                    throw std::runtime_error{"Filesystem exception"};
                 }
                 last_write_time = std::to_string(std_last_write_time);
 
@@ -344,7 +347,7 @@ void Client::send_action(Action action) {
                 boost::filesystem::file_status boost_file_status = boost::filesystem::status(boost_file, err);
                 if (err) {
                     std::cout << "Error reading permissions: " << err << std::endl;
-                    // throw exception...
+                    throw std::runtime_error{"Filesystem exception"};
                 }
                 boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
                 file_permissions = std::to_string(boost_file_permissions);

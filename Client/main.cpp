@@ -20,6 +20,7 @@ int main() {
         try {
             exit = true;
             Client client{machine_id};
+            Client client2{"Pino"};
         } catch (std::exception &e) {
             exit = false;
             new_exception_time = std::time(nullptr);

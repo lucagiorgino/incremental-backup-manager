@@ -10,8 +10,8 @@
 Database::Database(std::filesystem::path path) {
 
     if (sqlite3_open(path.string().c_str(), &db)) {
-        std::cout << "DB Open Error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+        throw std::runtime_error{error_message};
     } else {
         std::cout << "DB opened successfully" << std::endl;
     }
@@ -19,8 +19,8 @@ Database::Database(std::filesystem::path path) {
 
 Database::~Database() {
     if (sqlite3_close(db)) {
-        std::cout << "DB close Error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+        throw std::runtime_error{error_message};
     }
 }
 
@@ -31,14 +31,14 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
     std::optional<std::string> result;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 1, username.data(), username.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         std::string password = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
@@ -56,45 +56,55 @@ void Database::createNewUser(std::string username, std::string password) {
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
-    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if (sqlite3_bind_text(stmt, 1, username.data(), username.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind username error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if (sqlite3_bind_text(stmt, 2, password.data(), password.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind password error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    if (sqlite3_step(stmt) != SQLITE_DONE) {
-        std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
-    sqlite3_finalize(stmt);
+    try{sqlite3_exec(db, "BEGIN TRANSACTION", nullptr, nullptr, nullptr);
 
-    std::string table_name = tablename_from_username(username);
+        if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+        if (sqlite3_bind_text(stmt, 1, username.data(), username.size(), nullptr) != SQLITE_OK) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+        if (sqlite3_bind_text(stmt, 2, password.data(), password.size(), nullptr) != SQLITE_OK) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+        if (sqlite3_step(stmt) != SQLITE_DONE) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+        sqlite3_finalize(stmt);
 
-    // create user's table
-    sql = "CREATE TABLE " + table_name + "( "
-                                         "filename TEXT NOT NULL, "
-                                         "timestamp TEXT NOT NULL, "
-                                         "file BLOB,"
-                                         "size INT,"
-                                         "action INT,"
-                                         "hash TEXT, "
-                                         "last_write_time TEXT, "
-                                         "permissions TEXT, "
-                                         "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
-    if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
+        std::string table_name = tablename_from_username(username);
+
+        // create user's table
+        sql = "CREATE TABLE " + table_name + "( "
+                                             "filename TEXT NOT NULL, "
+                                             "timestamp TEXT NOT NULL, "
+                                             "file BLOB,"
+                                             "size INT,"
+                                             "action INT,"
+                                             "hash TEXT, "
+                                             "last_write_time TEXT, "
+                                             "permissions TEXT, "
+                                             "CONSTRAINT composite_key PRIMARY KEY (filename, timestamp));";
+
+        if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+        if (sqlite3_step(stmt) != SQLITE_DONE) {
+            std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
+            throw std::runtime_error{error_message};
+        }
+    }catch(std::exception& e){
+        sqlite3_exec(db, "ROLLBACK", nullptr, nullptr, nullptr);
+        sqlite3_finalize(stmt);
+        throw e;
     }
-    if (sqlite3_step(stmt) != SQLITE_DONE) {
-        std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
-        // throw exception...
-    }
+
+    sqlite3_exec(db, "COMMIT", nullptr, nullptr, nullptr);
     sqlite3_finalize(stmt);
 }
 
@@ -118,57 +128,57 @@ int Database::addAction(std::string tablename, std::string filename, std::string
 
     // create user/password pair into db
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
     if (sqlite3_bind_blob(stmt, 1, file.data(), size, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind file error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_int(stmt, 2, size) != SQLITE_OK) {
-        std::cout << "SQLITE bind size error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_int(stmt, 3, action) != SQLITE_OK) {
-        std::cout << "SQLITE bind action error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 4, hash.data(), hash.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind hash error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 5, last_write_time.data(), last_write_time.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind last_write_time error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 6, permissions.data(), permissions.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind permissions error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 7, filename.data(), filename.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind filename error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 8, timestamp.data(), timestamp.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
 
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     sqlite3_finalize(stmt);
     return 0;
@@ -188,9 +198,9 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     sqlite3_stmt *stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
     std::string filename, hash;
@@ -223,15 +233,15 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
     sqlite3_stmt *stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
     if (sqlite3_bind_text(stmt, 1, date.data(), date.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
     std::map<std::string, File> result_map;
@@ -278,27 +288,27 @@ bool Database::checkKeyExist(const std::string &table, std::string filename, std
 
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE prepare statement error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 1, filename.data(), filename.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind filename error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
     if (sqlite3_bind_text(stmt, 2, timestamp.data(), timestamp.size(), nullptr) != SQLITE_OK) {
-        std::cout << "SQLITE bind timestamp error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
 
     int return_code = sqlite3_step(stmt);
     if (return_code != SQLITE_DONE && return_code != SQLITE_ROW) {
-        std::cout << "SQLITE statement step error: " << sqlite3_errmsg(db) << std::endl;
+        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        // throw exception...
+        throw std::runtime_error{error_message};
     }
 
     if (return_code == SQLITE_DONE) { // no result

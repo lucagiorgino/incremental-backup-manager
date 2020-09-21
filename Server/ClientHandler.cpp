@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <ctime>
 #include "boost/date_time/gregorian/gregorian.hpp"
-#include "ClientHandler.h"
 #include "Hash.h"
 
 // ***** PUBLIC *****
@@ -22,21 +21,38 @@ ClientHandler::~ClientHandler() {
 }
 
 void ClientHandler::start() {
-    std::cout << "Starting new client connection" << std::endl;
+    try{
+        std::cout << "Starting new client connection" << std::endl;
 
-    login();
-    send_file_hash();
+        login();
+        send_file_hash();
 
+        // Read and perform action
+        action_handler = std::thread([this]() {
+            try{
+                while (read_action()) {}
+            }catch(std::exception &e){
+                std::cout << "Fatal exception, trying to close the socket..." << std::endl;
+                // No return: executing next code block to try and close the connection,
+                // if a new exception is thrown, the next try/catch block will handle it.
+            }
 
-    // Read and perform action
-    action_handler = std::thread([this]() {
-        while (read_action()) {}
-        std::cout << "Connection terminated." << std::endl;
-    });
+            try{
+                socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+                socket_.close();
+                std::cout << "Connection terminated." << std::endl;
+            }catch(std::exception &e){
+                std::cout << "Exception during socket closure: " << e.what() << std::endl;
+                return 1;
+            }
+        });
+
+    }catch(std::exception &e){
+        std::cout << "ClientHandler error: " << e.what() << std::endl;
+        return;
+        // This function stops, and the acceptor can accept a new connection.
+    }
 }
-
-
-
 
 
 // ***** PRIVATE *****
@@ -169,25 +185,29 @@ bool ClientHandler::read_action() {
     boost::gregorian::date d{boost::gregorian::day_clock::local_day()};
     std::string current_date = boost::gregorian::to_iso_extended_string(d);
 
-    switch (action_type) {
-        case read_file:
-            action_read_file(path, index, current_date, last_write_time, permissions);
-            break;
-        case create_folder:
-            action_create_folder(path, index, current_date, last_write_time, permissions);
-            break;
-        case delete_path:
-            action_delete_path(path, index, current_date, last_write_time, permissions);
-            break;
-        case quit:
-            // close connection
-            return false;
-        case restore:
-            action_restore(index);
-            break;
-        default:
-            // throw exception???
-            break;
+    try{
+        switch (action_type) {
+            case read_file:
+                action_read_file(path, index, current_date, last_write_time, permissions);
+                break;
+            case create_folder:
+                action_create_folder(path, index, current_date, last_write_time, permissions);
+                break;
+            case delete_path:
+                action_delete_path(path, index, current_date, last_write_time, permissions);
+                break;
+            case quit:
+                // close connection
+                return false;
+            case restore:
+                action_restore(index);
+                break;
+            default:
+                throw std::runtime_error{"Action not recognized"};
+                break;
+        }
+    }catch(std::exception& e){
+        send_response_to_client(index, ActionStatus::error);
     }
     std::cout << " OK" << std::endl;
     return true;
@@ -216,7 +236,6 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
                                      std::string permissions) {
     boost::array<char, MAX_MSG_SIZE + 1> array{};
 
-    boost::system::error_code err;
     int file_size = 0;
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -231,7 +250,7 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 
     while (file_size_tmp > 0) {
         size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size), err);
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
 
         //array[size] = '\0';
         input_stream.read(array.c_array(), size);
@@ -239,12 +258,6 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
         array.assign(0);
 
         file_size_tmp -= size;
-
-        if (err) {
-            std::cerr << err << std::endl;
-            send_response_to_client(index, ActionStatus::error);
-            throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error
-        }
     }
 
     Hash hash( std::string(file.begin(),file.end()) );
@@ -270,10 +283,9 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 void ClientHandler::action_create_folder(std::string path, int index, std::string time, std::string last_write_time,
                                          std::string permissions) {
 
-    // try
     db.addAction(username, path, time, "", 0, create_folder, "dir", last_write_time,
                  permissions);
-    // catch
+
     send_response_to_client(index, ActionStatus::completed);
 }
 
@@ -285,11 +297,8 @@ void ClientHandler::action_create_folder(std::string path, int index, std::strin
  */
 void ClientHandler::action_delete_path(std::string path, int index, std::string time, std::string last_write_time,
                                        std::string permissions) {
-    std::error_code errorCode;
-    // try
     db.addAction(username, path, time, "", 0, delete_path, "", last_write_time,
                  permissions);
-    // catch
 
     send_response_to_client(index, ActionStatus::completed);
 }
