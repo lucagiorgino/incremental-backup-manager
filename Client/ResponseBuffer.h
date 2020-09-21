@@ -27,6 +27,8 @@ public:
     void completed(int index);
 
     std::optional<Action> get_action(int index);
+
+    std::vector<Action> getAll();
 };
 
 

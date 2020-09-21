@@ -33,6 +33,7 @@ class Client {
 public:
     Client( std::string name);
     void command_restore();
+    bool command_quit();
     void action_restore(std::string date, std::string path);
 
 private:

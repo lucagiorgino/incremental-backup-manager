@@ -45,3 +45,13 @@ std::optional<Action> ResponseBuffer::get_action(int index){
     else
         return std::optional<Action>{{m.path, m.fileStatus, m.st, m.timestamp}};
 }
+
+std::vector<Action> ResponseBuffer::getAll(){
+    std::unique_lock lg(lock);
+    std::vector<Action> result;
+
+    for(auto const& [ind, a]: responseMap)
+        result.push_back(a);
+
+    return result;
+}

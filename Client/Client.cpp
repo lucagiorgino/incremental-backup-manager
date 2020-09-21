@@ -126,6 +126,7 @@ Client::Client(std::string name) :
         struct pollfd fds;
         int ret;
         bool print = true;
+        bool user_quit = false;
         fds.fd = 0; /* this is STDIN */
         fds.events = POLLIN;
         std::cin.clear();
@@ -144,11 +145,14 @@ Client::Client(std::string name) :
                     if (command == "r") {
                         this->command_restore();
                     }
+                    else if(command == "q"){
+                        user_quit = this->command_quit();
+                    }
                 } else if (ret != 0) {
                     throw std::runtime_error{"stdin error"};
                 }
 
-            } while (command != "q" && !has_exception_occurred.load());
+            } while ( (user_quit == false) && (!has_exception_occurred.load()) );
         }
         catch (std::exception &e) {
             this->has_exception_occurred.store(true);
@@ -531,4 +535,34 @@ void Client::action_restore(std::string date, std::string user_path) {
 
     fileWatcher.restart();
 
+}
+
+bool Client::command_quit(){
+    std::cout << "List of pending actions: " << std::endl;
+    std::vector<Action> pendingActions = responses.getAll();
+
+    if(pendingActions.size() == 0){
+        std::cout << "No pending actions" << std::endl << std::endl;
+    }
+    else{
+        std::string timestamp_string;
+        for(Action a: pendingActions){
+            timestamp_string = std::ctime(&a.timestamp);
+            timestamp_string.pop_back();
+            std::cout << "[" << timestamp_string << "] " << a.actionType << " (" << a.st << ")";
+
+            if(a.actionType != ActionType::restore){
+                std::cout << ", path: " << a.path.string() << std::endl;
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    std::string user_response;
+    do{
+        std:: cout << "Are you sure you want to quit? (y/n): ";
+        std::cin >> user_response;
+    }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
+
+    return (user_response == "y" || user_response == "yes");
 }
