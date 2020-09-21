@@ -53,4 +53,7 @@ public:
     std::string restore_path;
 };
 
+const std::vector<std::string> actionStatusStrings {"created", "sent", "received", "completed", "error", "finish" };
+const std::vector<std::string> actionTypeStrings {"read file", "create folder", "delete path", "restore", "quit", "ignore"};
+
 #endif //CLIENT_ACTION_H

@@ -82,14 +82,14 @@ Client::Client(std::string name) :
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
                 input_stream >> action_status;
 
-                std::cout << "[****************] Receiving response " << index << ", type of response " << action_status
+                std::cout << "[****************] Receiving response " << index << ", type of response " << actionStatusStrings[action_status]
                           << std::endl;
 
                 std::optional <Action> a = responses.get_action(index);
                 if (a.has_value()) {
                     Action ac = a.value();
-                    std::cout << "[****************] Response " << static_cast<int>(ac.actionType) << " path: "
-                              << ac.path.string() << ", file status " << static_cast<int>(ac.fileStatus) << std::endl;
+                    std::cout << "[****************] Response " << actionTypeStrings[static_cast<int>(ac.actionType)] << " path: "
+                              << ac.path.string() << ", file status " << fileStatusStrings[static_cast<int>(ac.fileStatus)] << std::endl;
                     if (action_status == ActionStatus::completed)
                         std::cout << std::endl;
 
@@ -261,7 +261,7 @@ void Client::create_account_password() {
 
 void Client::create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) {
     // new path
-    std::cout << "insert existing path to create accout: ";
+    std::cout << "insert existing path to create account: ";
     std::cin >> path_string;
     while (!std::filesystem::exists(path_string)) {
         std::cout << "path not found, try again: ";
@@ -365,7 +365,7 @@ void Client::send_action(Action action) {
 
     boost::asio::write(socket_, request);
 
-    std::cout << "actiontype: " << action.actionType << " - " << action.path << " - - - >" << cleaned_path << std::endl;
+    std::cout << "actiontype: " << actionTypeStrings[action.actionType] << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
     //boost::asio::write(socket_, boost::asio::buffer(actionType, INT_MAX_N_DIGIT));
 
@@ -549,7 +549,7 @@ bool Client::command_quit(){
         for(Action a: pendingActions){
             timestamp_string = std::ctime(&a.timestamp);
             timestamp_string.pop_back();
-            std::cout << "[" << timestamp_string << "] " << a.actionType << " (" << a.st << ")";
+            std::cout << "[" << timestamp_string << "] " << actionTypeStrings[a.actionType] << " (" << actionStatusStrings[a.st] << ")";
 
             if(a.actionType != ActionType::restore){
                 std::cout << ", path: " << a.path.string() << std::endl;

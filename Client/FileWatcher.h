@@ -27,6 +27,7 @@ namespace fs = std::filesystem;
 
 class FileWatcher {
 public:
+
     /**
      * @param path_to_watch
      * @param delay
@@ -64,5 +65,6 @@ private:
     bool contains(const std::string &key);
 };
 
+const std::vector<std::string> fileStatusStrings = {"created", "modified", "erased"};
 
 #endif //CLIENT_FILEWATCHER_H
