@@ -54,6 +54,6 @@ public:
 };
 
 const std::vector<std::string> actionStatusStrings {"created", "sent", "received", "completed", "error", "finish" };
-const std::vector<std::string> actionTypeStrings {"read file", "create folder", "delete path", "restore", "quit", "ignore"};
+const std::vector<std::string> actionTypeStrings {"read_file", "create_folder", "delete_path", "restore", "quit", "ignore"};
 
 #endif //CLIENT_ACTION_H

@@ -9,27 +9,24 @@ Hash::Hash(const std::string& blob_string){
     EVP_MD_CTX *md_ctx;
 
     if ( (md_ctx = EVP_MD_CTX_new() ) == NULL) {
-        // hadleErrors();
-        abort();
+        throw std::runtime_error("computing hash error, EVP_MD_CTX_new()");
     }
 
     if( EVP_MD_CTX_init(md_ctx) != 1){
-        // handleErrors();
-        abort();
+        throw std::runtime_error("computing hash error, EVP_MD_CTX_init()");
     }
     if( EVP_DigestInit(md_ctx, EVP_sha256()) != 1){
-        // handleErrors();
-        abort();
+        throw std::runtime_error("computing hash error, EVP_DigestInit()");
     }
 
 
     if ( EVP_DigestUpdate(md_ctx, blob_string.c_str(), blob_string.length()) != 1) {
-        abort();
+        throw std::runtime_error("computing hash error, EVP_DigestUpdate()");
     }
 
     if(EVP_DigestFinal_ex(md_ctx, this->md_value, &this->md_len ) != 1) {
         std::cout << "Digest computation problem\n";
-        abort();
+        throw std::runtime_error("computing hash error, EVP_DigestFinal_ex()");
     }
 
     EVP_MD_CTX_free(md_ctx);

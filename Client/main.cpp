@@ -20,7 +20,6 @@ int main() {
         try {
             exit = true;
             Client client{machine_id};
-            Client client2{"Pino"};
         } catch (std::exception &e) {
             exit = false;
             new_exception_time = std::time(nullptr);
@@ -49,6 +48,7 @@ std::string get_machine_id(){
 
     const std::filesystem::path machine_id_path = "/etc/machine-id";
     std::ifstream fp(machine_id_path);
+    fp.exceptions ( std::ifstream::badbit );
     fp >> machine_id;
     fp.close();
 

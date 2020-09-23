@@ -4,12 +4,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cstring>
 #include <openssl/evp.h>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-#define BUF_SIZE 1024
+
 
 class Hash {
 private:

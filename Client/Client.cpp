@@ -52,7 +52,7 @@ Client::Client(std::string name) :
             std::ostream request_stream(&request);
 
             std::string padding = "0000";
-            request_stream << ActionType::quit << "\n"
+            request_stream <<  std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << ActionType::quit << "\n"
                            << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n"
                            << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n"
@@ -82,7 +82,7 @@ Client::Client(std::string name) :
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
                 input_stream >> action_status;
 
-                std::cout << "[****************] Receiving response " << index << ", type of response " << actionStatusStrings[action_status]
+                std::cout << "[****************] Receiving response [" << index << "], type of response " << actionStatusStrings[action_status]
                           << std::endl;
 
                 std::optional <Action> a = responses.get_action(index);
@@ -207,6 +207,7 @@ void Client::login(std::string name) {
     } else {
         // read path from file
         std::ifstream fp(backup_path);
+        fp.exceptions ( std::ifstream::badbit );
         fp >> main_path_string;
         fp.close();
     }
@@ -257,7 +258,9 @@ void Client::create_account_password() {
     } while (password.compare(password1));
 
 
-    output_stream << password.length() << "\n" << password << "\n";
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
+                  << password << "\n";
+    // output_stream << password.length() << "\n" << password << "\n";
     boost::asio::write(socket_, output_buf);
     std::cout << "Ok, You are now signed up!" << std::endl;
 }
@@ -272,6 +275,7 @@ void Client::create_account_backup_folder(std::string &path_string, const std::f
     }
 
     std::ofstream fp(backup_path);
+    fp.exceptions ( std::ofstream::badbit );
     fp << path_string;
     fp.close();
 }
@@ -311,7 +315,7 @@ void Client::send_action(Action action) {
     std::ostream request_stream(&request);
 
     int index = responses.add(action);
-    std::cout << "[****************] Generating response " << index << std::endl;
+    std::cout << "[****************] Generating response [" << index << "]" << std::endl;
 
     std::string cleaned_path = " ";;
     std::string last_write_time = " ";
@@ -352,11 +356,21 @@ void Client::send_action(Action action) {
                 boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
                 file_permissions = std::to_string(boost_file_permissions);
             }
-
             break;
     }
 
-    request_stream << action.actionType << "\n"
+    std::uintmax_t file_size;
+    if ( action.actionType == ActionType::read_file ) {
+        file_size =  std::filesystem::file_size( action.path );
+        if ( file_size > MAX_FILE_SIZE){
+            std::cout << "File: " << action.path.string() << ", size "<< file_size<<"B above max " << MAX_FILE_SIZE << "B" << std::endl;
+            responses.signal_error(index);
+            return;
+        }
+
+    }
+
+    request_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action.actionType << "\n"
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n"
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n"
@@ -364,6 +378,8 @@ void Client::send_action(Action action) {
                    << last_write_time << "\n"
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_permissions.length() << "\n"
                    << file_permissions << "\n";
+
+
 
 
     boost::asio::write(socket_, request);
@@ -380,6 +396,7 @@ void Client::send_action(Action action) {
 void Client::send_file(const std::string &filename) {
     boost::array<char, MAX_MSG_SIZE> buf;
     std::ifstream source_file(filename, std::ios_base::binary | std::ios_base::ate);
+    source_file.exceptions ( std::ifstream::badbit );
     if (!source_file) {
         std::cout << "failed to open " << filename << std::endl;
         throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
@@ -490,6 +507,7 @@ void Client::action_restore(std::string date, std::string user_path) {
                 input_stream.ignore();
 
                 std::ofstream of{file_path};
+                of.exceptions ( std::ofstream::badbit );
                 std::string buf;
                 size_t file_size_tmp;
                 while (size > 0) {
