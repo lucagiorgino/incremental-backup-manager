@@ -23,7 +23,7 @@ Action ResponseBuffer::signal_error(int index){
     responseMap[index].st = ActionStatus::error;
     Action m = responseMap[index];
 
-    std::cout << "Error during action: " << m.path.string() << ", timestamp " << std::asctime(std::localtime(&m.timestamp)) << std::endl;
+    std::cout << "Error during action [" << index << "] :" << m.path.string() << ", timestamp " << std::asctime(std::localtime(&m.timestamp)) << std::endl;
 
     return m;
 }

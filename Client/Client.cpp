@@ -52,7 +52,7 @@ Client::Client(std::string name) :
             std::ostream request_stream(&request);
 
             std::string padding = "0000";
-            request_stream <<  std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << ActionType::quit << "\n"
+            output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << ActionType::quit << "\n"
                            << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n"
                            << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n"
@@ -61,7 +61,7 @@ Client::Client(std::string name) :
                            << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
                            << padding << "\n";
 
-            boost::asio::write(socket_, request);
+            boost::asio::write(socket_, output_buf);
 
         } catch (std::exception &e) {
             this->has_exception_occurred.store(true);
@@ -370,7 +370,7 @@ void Client::send_action(Action action) {
 
     }
 
-    request_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action.actionType << "\n"
+    output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action.actionType << "\n"
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n"
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << cleaned_path.length() << "\n"
                    << cleaned_path << "\n"
@@ -379,10 +379,7 @@ void Client::send_action(Action action) {
                    << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_permissions.length() << "\n"
                    << file_permissions << "\n";
 
-
-
-
-    boost::asio::write(socket_, request);
+    boost::asio::write(socket_, output_buf);
 
     std::cout << "actiontype: " << actionTypeStrings[action.actionType] << " - " << action.path << " - - - >" << cleaned_path << std::endl;
 
@@ -451,15 +448,23 @@ void Client::command_restore() {
 
     //Reading path
     std::string path_string;
-    std::cout << "insert existing path to save the restored data: ";
+    std::cout << "Insert existing path to save the restored data: ";
     std::cin >> path_string;
     while (!std::filesystem::exists(path_string)) {
         std::cout << "path not found, try again: ";
         std::cin >> path_string;
     }
+    std::string user_response;
+    do{
+        std:: cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
+        std::cin >> user_response;
+        user_response = boost::algorithm::to_lower_copy(user_response);
+    }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
 
-    Action action{ActionType::restore, date_string, path_string};
-    actions.push(action);
+    if (user_response == "y" || user_response == "yes") {
+        Action action{ActionType::restore, date_string, path_string};
+        actions.push(action);
+    }
 }
 
 void Client::action_restore(std::string date, std::string user_path) {
@@ -583,6 +588,7 @@ bool Client::command_quit(){
     do{
         std:: cout << "Are you sure you want to quit? (y/n): ";
         std::cin >> user_response;
+        user_response = boost::algorithm::to_lower_copy(user_response);
     }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
 
     return (user_response == "y" || user_response == "yes");

@@ -20,7 +20,8 @@ using boost::asio::ip::tcp;
 #define DELAY 2000
 #define POLLING_DELAY 3000
 #define MAX_MSG_SIZE 1024
-#define MAX_FILE_SIZE 1073741824  // 1 GB
+// https://www.sqlite.org/limits.html actual BLOB size from documentation
+#define MAX_FILE_SIZE 512*1024*1024+1 // about 512MB
 
 const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
 

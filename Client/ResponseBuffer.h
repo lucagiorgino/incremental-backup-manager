@@ -19,15 +19,10 @@ class ResponseBuffer{
 
 public:
     int add(Action item);
-
     void receive(int index);
-
-    Action signal_error(int index);
-
     void completed(int index);
-
+    Action signal_error(int index);
     std::optional<Action> get_action(int index);
-
     std::vector<Action> getAll();
 };
 

@@ -17,7 +17,8 @@ ClientHandler::ClientHandler(boost::asio::io_service &service) :
         db(db_path) {}
 
 ClientHandler::~ClientHandler() {
-    action_handler.join();
+    if(action_handler.joinable())
+        action_handler.join();
 }
 
 void ClientHandler::start() {
@@ -71,7 +72,7 @@ void ClientHandler::login() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> username;
 
-    std::cout << "TRY TO LOGIN " << username << std::endl;
+    std::cout << "USER " << username << "IS TRYING TO LOGIN " << std::endl;
 
     std::optional<std::string> password_db = db.passwordFromUsername(username);
     if (password_db.has_value()) {
@@ -266,9 +267,7 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     std::string hash_value = hash.getHash();
     std::cout << hash_value << "\n";
 
-    /*
-     * END of this version of hash computation
-     * */
+
     std::string file_string(file.begin(), file.end());
     db.addAction(username, path, time, file_string, file_size, read_file, hash_value,
                  last_write_time, permissions);

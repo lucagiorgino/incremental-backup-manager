@@ -32,8 +32,9 @@ public:
 
         std::cout << "Async accept\n";
         acceptor_.async_accept(handler->socket(),
-                               [=, this](auto ec) { handle_new_connection(handler, ec); }
-        );
+                               [=, this](auto ec) {
+                                   handle_new_connection(handler, ec);
+                               });
         std::cout << "Generating thread\n";
         // start pool of threads to process the asio events
         for (int i = 0; i < thread_count_; ++i) {
@@ -47,13 +48,13 @@ public:
 
 private:
     void handle_new_connection(shared_handler_t handler, std::error_code const &error) {
-        if (error) { return; }
+        if (error) {return;}
         handler->start();
 
         auto new_handler = std::make_shared<ConnectionHandler>(io_service_);
 
         acceptor_.async_accept(new_handler->socket(),
-                               [=, this](auto ec) { handle_new_connection(new_handler, ec); }
+                               [=, this](auto ec) {handle_new_connection(new_handler, ec);}
         );
     }
 
