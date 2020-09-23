@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <ctime>
 #include <boost/filesystem.hpp>
-#include "ResponseBuffer.h"
 #include "Action.h"
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include <sys/poll.h>

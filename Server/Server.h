@@ -1,15 +1,11 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
-#ifndef SERVER_SERVER_H
-#define SERVER_SERVER_H
+#pragma once
 
 #include <thread>
 #include <vector>
-#include <boost/asio.hpp>
 #include <iostream>
+
 #include <sqlite3.h>
+#include <boost/asio.hpp>
 
 template<typename ConnectionHandler>
 class Server {
@@ -24,7 +20,8 @@ public:
 
         std::cout << "Server starting...\n";
         // set up the acceptor to listen on the tcp port
-        boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port); // listen to any ipv4 address
+        // listen to any ipv4 address
+        boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
         acceptor_.open(endpoint.protocol());
         acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
         acceptor_.bind(endpoint);
@@ -36,6 +33,7 @@ public:
                                    handle_new_connection(handler, ec);
                                });
         std::cout << "Generating thread\n";
+
         // start pool of threads to process the asio events
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_.emplace_back([=, this] { io_service_.run(); });
@@ -54,7 +52,7 @@ private:
         auto new_handler = std::make_shared<ConnectionHandler>(io_service_);
 
         acceptor_.async_accept(new_handler->socket(),
-                               [=, this](auto ec) {handle_new_connection(new_handler, ec);}
+                               [=, this](auto ec) { handle_new_connection(new_handler, ec); }
         );
     }
 
@@ -63,5 +61,3 @@ private:
     boost::asio::io_service io_service_;
     boost::asio::ip::tcp::acceptor acceptor_;
 };
-
-#endif //SERVER_SERVER_H

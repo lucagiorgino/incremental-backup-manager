@@ -1,24 +1,18 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
-#ifndef SERVER_CLIENTHANDLER_H
-#define SERVER_CLIENTHANDLER_H
-
+#pragma once
 
 #include <ctime>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <boost/array.hpp>
-
-#include <sqlite3.h>
 #include <memory>
 #include <deque>
+#include <utility>
+
+#include <sqlite3.h>
+#include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <utility>
 
 #include "Database.h"
 
@@ -33,17 +27,13 @@ enum ActionType {
     read_file, create_folder, delete_path, restore, quit
 };
 
-enum ClientStatus {
-    starting, active, terminating
-};
-
 enum ActionStatus{
     created, sent, received, completed, error, finish
 };
 
 class ClientHandler
         : public std::enable_shared_from_this<ClientHandler> // pattern that allows to inject behaviours via
-    // a shared pointer to himself and pass or bind it
+                                                             // a shared pointer to himself and pass or bind it
 {
 public:
     ClientHandler(boost::asio::io_service &service);
@@ -78,6 +68,3 @@ private:
     void action_restore(int index);
     void send_response_to_client(int index, int action_status);
 };
-
-
-#endif //SERVER_CLIENTHANDLER_H

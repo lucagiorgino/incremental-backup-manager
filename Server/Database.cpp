@@ -1,10 +1,6 @@
-//
-// Created by cosimo on 03/09/20.
-//
+#include "Database.h"
 
 #include <iostream>
-#include <map>
-#include "Database.h"
 
 
 Database::Database(std::filesystem::path path) {
@@ -25,7 +21,7 @@ Database::~Database() {
 }
 
 std::optional<std::string> Database::passwordFromUsername(std::string username) {
-    int err;
+
     std::string sql = "select password from users where username=?";
     sqlite3_stmt *stmt = nullptr;
     std::optional<std::string> result;
@@ -43,8 +39,9 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         std::string password = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
         result = password;
-    } else
+    } else {
         result = std::nullopt;
+    }
 
     sqlite3_finalize(stmt);
     return result;
@@ -56,7 +53,8 @@ void Database::createNewUser(std::string username, std::string password) {
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
-    try{sqlite3_exec(db, "BEGIN TRANSACTION", nullptr, nullptr, nullptr);
+    try{
+        sqlite3_exec(db, "BEGIN TRANSACTION", nullptr, nullptr, nullptr);
 
         if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
             std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
@@ -132,7 +130,6 @@ int Database::addAction(std::string tablename, std::string filename, std::string
         sqlite3_finalize(stmt);
         throw std::runtime_error{error_message};
     }
-
     if (sqlite3_bind_blob(stmt, 1, file.data(), size, nullptr) != SQLITE_OK) {
         std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
@@ -185,16 +182,15 @@ int Database::addAction(std::string tablename, std::string filename, std::string
 }
 
 std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code) {
-    int err;
     std::string table_name = tablename_from_username(username);
 
     std::string sql = "SELECT filename, hash FROM " + table_name + " as t1 "
-                                                                   "WHERE action <> " + std::to_string(delete_code);
-    sql += " AND timestamp = ( "
-           "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
-                                                                            "                    WHERE t1.filename = t2.filename "
-                                                                            "                ) "
-                                                                            " ORDER BY filename";
+                      " WHERE action <> " + std::to_string(delete_code) + " ";
+    sql +=            " AND timestamp = ( "
+                                        "  SELECT MAX(timestamp) FROM " + table_name + " as t2 "
+                                        "  WHERE t1.filename = t2.filename "
+                                      " ) "
+                       " ORDER BY filename";
     sqlite3_stmt *stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
@@ -206,8 +202,8 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     std::string filename, hash;
     std::map<std::string, std::string> result_map;
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        std::string filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-        std::string hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+        filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
 
         result_map.insert(std::pair<std::string, std::string>(filename, hash));
     }
@@ -219,17 +215,17 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
 
 
 std::map<std::string, File> Database::getRestoreEntries(std::string username, int delete_code, std::string date) {
-    int err;
     std::string table_name = tablename_from_username(username);
 
-    std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions FROM " + table_name + " as t1 "
-                                                                                                             "WHERE action <> " +
-                      std::to_string(delete_code);
-    sql += " AND timestamp = ( "
-           "                    SELECT MAX(timestamp) FROM " + table_name + " as t2 "
-                                                                            " WHERE t1.filename = t2.filename "
-                                                                            "   AND timestamp <= ?) "
-                                                                            " ORDER BY filename";
+    std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions "
+                      " FROM " + table_name + " as t1 "
+                      " WHERE action <> " + std::to_string(delete_code);
+    sql +=            " AND timestamp = ( "
+                                          " SELECT MAX(timestamp) FROM " + table_name + " as t2 "
+                                          " WHERE t1.filename = t2.filename "
+                                          " AND timestamp <= ? "
+                                      " ) "
+                      " ORDER BY filename";
     sqlite3_stmt *stmt = nullptr;
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
@@ -282,10 +278,9 @@ bool Database::checkKeyExist(const std::string &table, std::string filename, std
     sqlite3_stmt *stmt = nullptr;
     bool result;
 
-    std::string sql = "select filename, timestamp "
-                      "from " + table + " "
-                                        "where filename=? and timestamp=?;";
-
+    std::string sql = "SELECT filename, timestamp "
+                      " FROM " + table + " "
+                      " WHERE filename=? and timestamp=?;";
 
     if (sqlite3_prepare_v2(db, sql.data(), -1, &stmt, nullptr) != SQLITE_OK) {
         std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
@@ -303,7 +298,6 @@ bool Database::checkKeyExist(const std::string &table, std::string filename, std
         throw std::runtime_error{error_message};
     }
 
-
     int return_code = sqlite3_step(stmt);
     if (return_code != SQLITE_DONE && return_code != SQLITE_ROW) {
         std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
@@ -311,11 +305,14 @@ bool Database::checkKeyExist(const std::string &table, std::string filename, std
         throw std::runtime_error{error_message};
     }
 
-    if (return_code == SQLITE_DONE) { // no result
+    if (return_code == SQLITE_DONE) {
+        // no result
         result = false;
-    } else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) { // result is NULL
+    } else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
+        // result is NULL
         result = false;
-    } else { // some valid result
+    } else {
+        // some valid result
         result = true;
     }
 
@@ -325,6 +322,11 @@ bool Database::checkKeyExist(const std::string &table, std::string filename, std
 
 // ****** UTILS ******
 static std::string tablename_from_username(std::string s) {
+    // This function erases from the username each non-alphanumeric character
+    // and adds a "_" at the beginning of the name (to make it a valid table name),
+    // because the table name can't be bound with sqlite3_bind_text()
+    // and this function can prevent eventual malicious attacks
+
     s.erase(remove_if(s.begin(), s.end(), [](char c) { return !isalnum(c); }), s.end());
     return "_" + s;
 }

@@ -1,11 +1,3 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
-#ifndef CLIENT_FILEWATCHER_H
-#define CLIENT_FILEWATCHER_H
-
-
 #pragma once
 
 #include <filesystem>
@@ -66,5 +58,3 @@ private:
 };
 
 const std::vector<std::string> fileStatusStrings = {"created", "modified", "erased"};
-
-#endif //CLIENT_FILEWATCHER_H

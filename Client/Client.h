@@ -1,5 +1,4 @@
-#ifndef CLIENT_CLIENT_H
-#define CLIENT_CLIENT_H
+#pragma once
 
 #include <filesystem>
 #include <iostream>
@@ -71,5 +70,3 @@ private:
     void join_threads();
     void signal_threads_end();
 };
-
-#endif //CLIENT_CLIENT_H

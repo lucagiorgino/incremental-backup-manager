@@ -1,6 +1,4 @@
-
-#ifndef CLIENT_ACTION_H
-#define CLIENT_ACTION_H
+#pragma once
 
 #include <ctime>
 #include "FileWatcher.h"
@@ -55,5 +53,3 @@ public:
 
 const std::vector<std::string> actionStatusStrings {"created", "sent", "received", "completed", "error", "finish" };
 const std::vector<std::string> actionTypeStrings {"read_file", "create_folder", "delete_path", "restore", "quit", "ignore"};
-
-#endif //CLIENT_ACTION_H

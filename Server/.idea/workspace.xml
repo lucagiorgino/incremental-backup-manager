@@ -31,23 +31,118 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Client/Action.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Action.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Buffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Buffer.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Hash.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Hash.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/loremipsumX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/prova" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/dir1/loremipsum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/dir1/prova" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/dirC/loremipsumX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/loremipsumX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/restore/test_image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/test_image (copia).jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Database.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/Database.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Hash.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hash.h" beforeDir="false" afterPath="$PROJECT_DIR$/Hash.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server.h" beforeDir="false" afterPath="$PROJECT_DIR$/Server.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/backup/dirC/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/backup/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/password" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/413e8d1dd0234bbc959339bac493ab6a/password" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/provaMetadati.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/boh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/provaMetadati" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/provaMetadati.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaMetadati/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/provaSQL.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/22.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/233.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/provaSQL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/provaSQL.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/loremipsum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../provaSQL/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../testOpenSSL/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +168,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../provaMetadati" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -90,6 +185,11 @@
   </component>
   <component name="RunManager">
     <configuration name="Server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Server" TARGET_NAME="Server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Server" RUN_TARGET_NAME="Server">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -135,6 +235,8 @@
       <workItem from="1600859189672" duration="129000" />
       <workItem from="1600866378893" duration="597000" />
       <workItem from="1600867376897" duration="7990000" />
+      <workItem from="1600879098261" duration="560000" />
+      <workItem from="1600879676733" duration="5893000" />
     </task>
     <servers />
   </component>
@@ -174,42 +276,42 @@
     <state x="2699" y="311" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598601500886" />
     <state x="822" y="330" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1600256864815" />
     <state x="822" y="293" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.923@72.27.1848.923" timestamp="1600262272864" />
-    <state width="1874" height="274" key="GridCell.Tab.0.bottom" timestamp="1600872965382">
-      <screen x="0" y="27" width="1920" height="941" />
+    <state width="1802" height="219" key="GridCell.Tab.0.bottom" timestamp="1600886945832">
+      <screen x="72" y="27" width="1848" height="923" />
     </state>
     <state width="1320" height="170" key="GridCell.Tab.0.bottom/0.27.1366.629@0.27.1366.629" timestamp="1600868913923" />
     <state width="1874" height="274" key="GridCell.Tab.0.bottom/0.27.1920.941@0.27.1920.941" timestamp="1600872965382" />
     <state width="1802" height="270" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
     <state width="878" height="296" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598608199444" />
     <state width="868" height="394" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1600261554624" />
-    <state width="878" height="222" key="GridCell.Tab.0.bottom/72.27.1848.923@72.27.1848.923" timestamp="1600360489988" />
-    <state width="1874" height="274" key="GridCell.Tab.0.center" timestamp="1600872965381">
-      <screen x="0" y="27" width="1920" height="941" />
+    <state width="1802" height="219" key="GridCell.Tab.0.bottom/72.27.1848.923@72.27.1848.923" timestamp="1600886945832" />
+    <state width="1802" height="219" key="GridCell.Tab.0.center" timestamp="1600886945830">
+      <screen x="72" y="27" width="1848" height="923" />
     </state>
     <state width="1320" height="170" key="GridCell.Tab.0.center/0.27.1366.629@0.27.1366.629" timestamp="1600868913921" />
     <state width="1874" height="274" key="GridCell.Tab.0.center/0.27.1920.941@0.27.1920.941" timestamp="1600872965381" />
     <state width="1802" height="270" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
     <state width="878" height="296" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598608199444" />
     <state width="868" height="394" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1600261554623" />
-    <state width="878" height="222" key="GridCell.Tab.0.center/72.27.1848.923@72.27.1848.923" timestamp="1600360489986" />
-    <state width="1874" height="274" key="GridCell.Tab.0.left" timestamp="1600872965381">
-      <screen x="0" y="27" width="1920" height="941" />
+    <state width="1802" height="219" key="GridCell.Tab.0.center/72.27.1848.923@72.27.1848.923" timestamp="1600886945830" />
+    <state width="1802" height="219" key="GridCell.Tab.0.left" timestamp="1600886945830">
+      <screen x="72" y="27" width="1848" height="923" />
     </state>
     <state width="1320" height="170" key="GridCell.Tab.0.left/0.27.1366.629@0.27.1366.629" timestamp="1600868913920" />
     <state width="1874" height="274" key="GridCell.Tab.0.left/0.27.1920.941@0.27.1920.941" timestamp="1600872965381" />
     <state width="1802" height="270" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820295" />
     <state width="878" height="296" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598608199444" />
     <state width="868" height="394" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1600261554622" />
-    <state width="878" height="222" key="GridCell.Tab.0.left/72.27.1848.923@72.27.1848.923" timestamp="1600360489985" />
-    <state width="1874" height="274" key="GridCell.Tab.0.right" timestamp="1600872965382">
-      <screen x="0" y="27" width="1920" height="941" />
+    <state width="1802" height="219" key="GridCell.Tab.0.left/72.27.1848.923@72.27.1848.923" timestamp="1600886945830" />
+    <state width="1802" height="219" key="GridCell.Tab.0.right" timestamp="1600886945831">
+      <screen x="72" y="27" width="1848" height="923" />
     </state>
     <state width="1320" height="170" key="GridCell.Tab.0.right/0.27.1366.629@0.27.1366.629" timestamp="1600868913922" />
     <state width="1874" height="274" key="GridCell.Tab.0.right/0.27.1920.941@0.27.1920.941" timestamp="1600872965382" />
     <state width="1802" height="270" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1596732820296" />
     <state width="878" height="296" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1598608199444" />
     <state width="868" height="394" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1600261554624" />
-    <state width="878" height="222" key="GridCell.Tab.0.right/72.27.1848.923@72.27.1848.923" timestamp="1600360489986" />
+    <state width="1802" height="219" key="GridCell.Tab.0.right/72.27.1848.923@72.27.1848.923" timestamp="1600886945831" />
     <state width="1874" height="263" key="GridCell.Tab.1.bottom" timestamp="1600870316938">
       <screen x="0" y="27" width="1920" height="941" />
     </state>
@@ -262,13 +364,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Database.cpp</url>
-          <line>270</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" log-message="true" log-stack="true" type="CidrExceptionBreakpoint" />
       </default-breakpoints>

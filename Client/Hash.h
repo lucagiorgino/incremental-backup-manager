@@ -1,5 +1,4 @@
-#ifndef CLIENT_HASH_H
-#define CLIENT_HASH_H
+#pragma once
 
 #include <iostream>
 #include <sstream>
@@ -24,6 +23,3 @@ public:
     void printHash();
     std::string getHash();
 };
-
-
-#endif //CLIENT_HASH_H

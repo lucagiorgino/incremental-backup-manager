@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/provaSQL.dir/main.cpp.o  -o provaSQL  -lsqlite3 

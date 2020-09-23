@@ -1,10 +1,4 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
-#ifndef CLIENT_BUFFER_H
-#define CLIENT_BUFFER_H
-
+#pragma once
 
 #include <array>
 #include <mutex>
@@ -50,6 +44,3 @@ public:
         cv.notify_all();
     }
 };
-
-
-#endif //CLIENT_BUFFER_H

@@ -6,7 +6,6 @@
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include "Hash.h"
 
-// ***** PUBLIC *****
 
 ClientHandler::ClientHandler(boost::asio::io_service &service) :
         service_(service),
@@ -55,12 +54,7 @@ void ClientHandler::start() {
     }
 }
 
-
-// ***** PRIVATE *****
-
-
 void ClientHandler::login() {
-    //Authentication
     int length;
     std::string password;
     std::string actual_password;
@@ -76,6 +70,8 @@ void ClientHandler::login() {
 
     std::optional<std::string> password_db = db.passwordFromUsername(username);
     if (password_db.has_value()) {
+        //existent user
+
         is_signedup = 1;
         actual_password = password_db.value();
 
@@ -83,10 +79,9 @@ void ClientHandler::login() {
         boost::asio::write(socket_, output_buf);
     } else {
         //new user
+
         output_stream << is_signedup << "\n";
         boost::asio::write(socket_, output_buf);
-
-        // utente sceglie se registrarsi con quel username o fa quit e chiude il client ( o gli si chiede un nuovo username)
 
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> length;
@@ -99,7 +94,7 @@ void ClientHandler::login() {
 
     // Check password
     while (is_authenticated == 0) {
-        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1)); // ex 2
+        boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
         input_stream >> password;
@@ -128,7 +123,7 @@ void ClientHandler::send_file_hash() {
         boost::asio::write(socket_, output_buf);
     }
 
-    // when 0 client end initialization
+    // when 0 client ends initialization
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n";
     boost::asio::write(socket_, output_buf);
 
@@ -148,7 +143,7 @@ bool ClientHandler::read_action() {
     int index;
     std::cout << "reading action_type" << std::endl;
 
-    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1)); // ex 2
+    boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> action_type;
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> index;
@@ -177,13 +172,6 @@ bool ClientHandler::read_action() {
               << last_write_time << " "
               << permissions << "..." << std::endl;
 
-    /*
-    time_t t = time(nullptr);
-    tm *tPtr = localtime(&t);
-    std::string current_date = std::to_string((tPtr->tm_year) + 1900) + "-" +
-                               std::to_string((tPtr->tm_mon)) + "-" +
-                               std::to_string((tPtr->tm_mday) + 1);
-                               */
     boost::gregorian::date d{boost::gregorian::day_clock::local_day()};
     std::string current_date = boost::gregorian::to_iso_extended_string(d);
 
@@ -199,14 +187,12 @@ bool ClientHandler::read_action() {
                 action_delete_path(path, index, current_date, last_write_time, permissions);
                 break;
             case quit:
-                // close connection
                 return false;
             case restore:
                 action_restore(index);
                 break;
             default:
                 throw std::runtime_error{"Action not recognized"};
-                break;
         }
     }catch(std::exception& e){
         std::cout << "Caught " << e.what() << " while executing action [" << index << "] type "
@@ -246,7 +232,6 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     input_stream.ignore();
     std::cout << "  Reading file " << path <<" from buffer, size " << file_size << std::endl;
 
-    //std::string file;
     std::vector<char> file;
     file.reserve(file_size + 1);
     int file_size_tmp = file_size;
@@ -255,7 +240,6 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
         size_t size = file_size_tmp > MAX_MSG_SIZE ? MAX_MSG_SIZE : file_size_tmp;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size));
 
-        //array[size] = '\0';
         input_stream.read(array.c_array(), size);
         file.insert(file.end(), array.begin(), array.begin() + size);
         array.assign(0);
@@ -333,31 +317,11 @@ void ClientHandler::action_restore(int index) {
             //File
             output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << pair.second.size << "\n";
             boost::asio::write(socket_, output_buf);
-
-            size_t size = pair.second.size;
-            size_t file_size_tmp;
-            int count = 0;
-            std::string tmp;
-
             output_stream << pair.second.file_content;
             boost::asio::write(socket_, output_buf);
-
-/*
-            while (size > 0) {
-                file_size_tmp = size > MAX_MSG_SIZE ? MAX_MSG_SIZE : size;
-                tmp = pair.second.file_content.substr(count*MAX_MSG_SIZE,file_size_tmp);
-
-                output_stream << tmp << "\n";
-                boost::asio::write(socket_, output_buf);
-                count++;
-                size-=file_size_tmp;
-            }
-            */
         }
     }
 
     //End of restore
     send_response_to_client(index, ActionStatus::completed);
 }
-
-// ***** SQL CALLBACK *****
