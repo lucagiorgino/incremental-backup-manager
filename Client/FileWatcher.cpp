@@ -16,8 +16,12 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
     init_status(path_to_watch, std::move(initial_status));
 
     while (running_) {
-        // Wait for "delay" milliseconds
+
+        // Wait for "delay" milliseconds, not for synchronizing
         std::this_thread::sleep_for(delay);
+
+        std::unique_lock ul(mutex);
+        cv.wait(ul, [this]() { return !this->pause_execution; });
 
         auto it = paths_.begin();
         while (it != paths_.end()) {
@@ -48,6 +52,17 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
     }
 }
 
+void FileWatcher::pause () {
+    std::unique_lock ul(mutex);
+    pause_execution = true;
+}
+
+void FileWatcher::restart () {
+    std::unique_lock ul(mutex);
+    pause_execution = false;
+    cv.notify_all();
+}
+
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
     std::cout << "initializing fileWatcher" << std::endl;
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
@@ -56,7 +71,7 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
             std::string hash_str = file.is_directory() ? "dir" : Hash(file.path()).getHash();
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
             if (initial_status[file.path()] != hash_str) {
-                std::cout << "modify: " << file.path() << std::endl;
+                std::cout << "modify: " << file.path() << "hash: " << hash_str << std::endl;
                 action(file.path().string(), FileStatus::modified);
             }
             initial_status.erase(file.path().string());

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cosimo/Desktop/ProgettoPDS/provaSQL/main.cpp
+iostream
+-
+sqlite3.h
+-
+fstream
+-
+vector
+-
+cstring
+-
+

@@ -1,3 +1,0 @@
-/home/cosimo/Desktop/ProgettoPDS/testOpenSSL/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/cosimo/Desktop/ProgettoPDS/testOpenSSL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/cosimo/Desktop/ProgettoPDS/testOpenSSL/cmake-build-debug/CMakeFiles/testOpenSSL.dir

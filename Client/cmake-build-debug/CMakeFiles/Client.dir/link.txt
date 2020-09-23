@@ -1,1 +1,0 @@
-/usr/bin/c++  -pthread -lcrypto -g   CMakeFiles/Client.dir/main.cpp.o CMakeFiles/Client.dir/Client.cpp.o CMakeFiles/Client.dir/FileWatcher.cpp.o CMakeFiles/Client.dir/Hash.cpp.o  -o ../bin/Client  -lcrypto 

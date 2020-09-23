@@ -4,50 +4,32 @@
 
 #include "Hash.h"
 
-Hash::Hash(const std::string& filename){
-    std::ifstream myfile (filename);
-    char buf[BUF_SIZE];
-
-    if(!myfile.is_open()) {
-        std::cout << "Couldn't open input file, try again" << std::endl;
-        exit(1);
-    }
+Hash::Hash(const std::string& blob_string){
 
     EVP_MD_CTX *md_ctx;
 
     if ( (md_ctx = EVP_MD_CTX_new() ) == NULL) {
-        // hadleErrors();
-        abort();
+        throw std::runtime_error("computing hash error, EVP_MD_CTX_new()");
     }
 
     if( EVP_MD_CTX_init(md_ctx) != 1){
-        // handleErrors();
-        abort();
+        throw std::runtime_error("computing hash error, EVP_MD_CTX_init()");
     }
-
-
     if( EVP_DigestInit(md_ctx, EVP_sha256()) != 1){
-        // handleErrors();
-        abort();
-    }
-
-    // std::cout<<"start reading..."<<std::endl;
-    while ( !myfile.eof() ) {
-        myfile.read (buf,BUF_SIZE); // può dare errori
-        int n = myfile.gcount();
-        if ( EVP_DigestUpdate(md_ctx, buf,n) != 1)
-            abort();
+        throw std::runtime_error("computing hash error, EVP_DigestInit()");
     }
 
 
-    // EVP_DigestFinal_ex(md_ctx, md_value, (&md_len))
-    if(EVP_DigestFinal_ex(md_ctx, this->md_value, reinterpret_cast<unsigned int *> (&this->md_len)) != 1) {
+    if ( EVP_DigestUpdate(md_ctx, blob_string.c_str(), blob_string.length()) != 1) {
+        throw std::runtime_error("computing hash error, EVP_DigestUpdate()");
+    }
+
+    if(EVP_DigestFinal_ex(md_ctx, this->md_value, &this->md_len ) != 1) {
         std::cout << "Digest computation problem\n";
-        abort();
+        throw std::runtime_error("computing hash error, EVP_DigestFinal_ex()");
     }
 
     EVP_MD_CTX_free(md_ctx);
-    myfile.close();
 }
 
 bool Hash::operator==( const Hash& input){

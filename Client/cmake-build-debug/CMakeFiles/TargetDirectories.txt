@@ -1,4 +1,0 @@
-/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/Client.dir
-/home/cosimo/Desktop/ProgettoPDS/Client/cmake-build-debug/CMakeFiles/BoostTest.dir
