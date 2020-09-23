@@ -1,7 +1,3 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
 #include "Hash.h"
 
 Hash::Hash(const std::string& filename){
@@ -72,4 +68,3 @@ std::string Hash::getHash(){
         stream << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(md_value[i]);
     return stream.str();
 }
-

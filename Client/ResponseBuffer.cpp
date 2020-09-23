@@ -1,11 +1,14 @@
 #include "ResponseBuffer.h"
+
 #include <iostream>
 #include <map>
 #include <optional>
+
 #include "Action.h"
 
 int ResponseBuffer::add(Action item){
     std::unique_lock lg(lock);
+
     int index = current_index++;
     item.st  = ActionStatus::sent;
     responseMap[index] = item;
@@ -15,11 +18,13 @@ int ResponseBuffer::add(Action item){
 
 void ResponseBuffer::receive(int index){
     std::unique_lock lg(lock);
+
     responseMap[index].st = ActionStatus::received;
 }
 
 Action ResponseBuffer::signal_error(int index){
     std::unique_lock lg(lock);
+
     responseMap[index].st = ActionStatus::error;
     Action m = responseMap[index];
 
@@ -30,11 +35,13 @@ Action ResponseBuffer::signal_error(int index){
 
 void ResponseBuffer::completed(int index){
     std::unique_lock lg(lock);
+
     responseMap.erase(index);
 }
 
 std::optional<Action> ResponseBuffer::get_action(int index){
     std::unique_lock lg(lock);
+
     auto it = responseMap.find(index);
     if(it == responseMap.end())
         return std::nullopt;
@@ -48,6 +55,7 @@ std::optional<Action> ResponseBuffer::get_action(int index){
 
 std::vector<Action> ResponseBuffer::getAll(){
     std::unique_lock lg(lock);
+
     std::vector<Action> result;
 
     for(auto const& [ind, a]: responseMap)

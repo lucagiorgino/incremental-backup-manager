@@ -31,118 +31,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Client/Action.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Action.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/Buffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Buffer.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/Hash.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Hash.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Hash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Hash.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dirB2/test_image (copia).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Database.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/Database.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hash.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Hash.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hash.h" beforeDir="false" afterPath="$PROJECT_DIR$/Hash.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server.h" beforeDir="false" afterPath="$PROJECT_DIR$/Server.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/backup/dirC/loremipsumX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/backup/loremipsumX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/3587eee10de94d1485cc58baad326f9b/password" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/413e8d1dd0234bbc959339bac493ab6a/password" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/provaMetadati.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/boh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/CXX.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/main.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/CMakeFiles/provaMetadati.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/provaMetadati" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/cmake-build-debug/provaMetadati.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaMetadati/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/provaSQL.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/22.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/233.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/CXX.includecache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/depend.internal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/main.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/CMakeFiles/provaSQL.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/provaSQL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/cmake-build-debug/provaSQL.cbp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/loremipsum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaSQL/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../testOpenSSL/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +132,7 @@
       <workItem from="1600866378893" duration="597000" />
       <workItem from="1600867376897" duration="7990000" />
       <workItem from="1600879098261" duration="560000" />
-      <workItem from="1600879676733" duration="5893000" />
+      <workItem from="1600879676733" duration="6755000" />
     </task>
     <servers />
   </component>

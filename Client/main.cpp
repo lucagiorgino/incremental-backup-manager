@@ -1,6 +1,8 @@
 #include <iostream>
-#include "Client.h"
+
 #include <boost/algorithm/string.hpp>
+
+#include "Client.h"
 
 #define THREAD_RESTART_DELAY 3000
 #define TRY_AGAIN_ATTEMPTS 5
@@ -11,6 +13,7 @@ std::string get_machine_id();
 int main() {
     std::string machine_id = get_machine_id();
     std::cout << machine_id << std::endl;
+
     std::time_t last_exception_time{0};
     std::time_t new_exception_time{0};
     int try_again = TRY_AGAIN_ATTEMPTS;
@@ -20,10 +23,13 @@ int main() {
         try {
             exit = true;
             Client client{machine_id};
+
         } catch (std::exception &e) {
             exit = false;
             new_exception_time = std::time(nullptr);
 
+            // If the last anomaly occourred more than TRY_AGAIN_ATTEMPTS_RESET_SECONDS seconds ago,
+            // reset the counter of retries
             if(new_exception_time - last_exception_time > TRY_AGAIN_ATTEMPTS_RESET_SECONDS){
                 try_again = TRY_AGAIN_ATTEMPTS;
             }
@@ -31,6 +37,8 @@ int main() {
             last_exception_time = new_exception_time;
             try_again--;
             std::cout << "Exception occurred: " << e.what() << "\n Trying to reconnect..." << std::endl;
+
+            // It waits THREAD_RESTART_DELAY milliseconds before trying to reconnect
             std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(THREAD_RESTART_DELAY));
         }
     }
