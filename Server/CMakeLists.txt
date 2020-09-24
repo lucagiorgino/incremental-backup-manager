@@ -27,7 +27,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-add_executable(Server main.cpp Server.h Hash.h Hash.cpp ClientHandler.cpp ClientHandler.h Database.h Database.cpp)
+add_executable(Server main.cpp Server.h Hash.h Hash.cpp ClientHandler.cpp ClientHandler.h Database.h Database.cpp Debug.h)
 
 if(Boost_FOUND)
     target_link_libraries(Server ${Boost_LIBRARIES})

@@ -27,18 +27,17 @@ public:
         acceptor_.bind(endpoint);
         acceptor_.listen();
 
-        std::cout << "Async accept\n";
         acceptor_.async_accept(handler->socket(),
                                [=, this](auto ec) {
                                    handle_new_connection(handler, ec);
                                });
-        std::cout << "Generating thread\n";
+        std::cout << "Generating acceptors threads...";
 
         // start pool of threads to process the asio events
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_.emplace_back([=, this] { io_service_.run(); });
         }
-        std::cout << "Thread created\n";
+        std::cout << "OK" << std::endl;
         for (int i = 0; i < thread_count_; ++i) {
             thread_pool_[i].join();
         }
