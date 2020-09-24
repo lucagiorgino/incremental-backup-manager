@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "Action.h"
+#include "Debug.h"
 
 int ResponseBuffer::add(Action item){
     std::unique_lock lg(lock);
@@ -28,7 +29,7 @@ Action ResponseBuffer::signal_error(int index){
     responseMap[index].st = ActionStatus::error;
     Action m = responseMap[index];
 
-    std::cout << "Error during action [" << index << "] :" << m.path.string() << ", timestamp " << std::asctime(std::localtime(&m.timestamp)) << std::endl;
+    PRINT("Error during action [" + std::to_string(index) + "] :" + m.path.string() + ", timestamp " + std::asctime(std::localtime(&m.timestamp)) + "\n")
 
     return m;
 }

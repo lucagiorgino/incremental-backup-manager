@@ -2,14 +2,16 @@
 
 #include <utility>
 
+#include "Debug.h"
+
 FileWatcher::FileWatcher( std::chrono::duration<int, std::milli> delay,
                          const std::function<void(std::string, FileStatus)> &action) :
         delay{delay}, action{action} {
 }
 
 void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, std::string> initial_status) {
-    // Print in DEBUG
-    //std::cout << "Starting fileWatcher" << std::endl;
+    DEBUG_PRINT("Starting fileWatcher\n")
+
     init_status(path_to_watch, std::move(initial_status));
 
     while (running_) {
@@ -67,8 +69,7 @@ void FileWatcher::restart () {
 }
 
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
-    // Print in DEBUG
-    //std::cout << "initializing fileWatcher" << std::endl;
+    DEBUG_PRINT("initializing fileWatcher\n")
 
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
 
@@ -77,15 +78,14 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
 
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
             if (initial_status[file.path()] != hash_str) {
-                // Print in DEBUG
-                //std::cout << "modify: " << file.path() << "hash: " << hash_str << std::endl;
+                DEBUG_PRINT("modify: " + file.path().string() + "hash: " + hash_str + "\n")
                 action(file.path().string(), FileStatus::modified);
             }
             initial_status.erase(file.path().string());
         } else {
             // False -> file has been created
-            // Print in DEBUG
-            //std::cout << "create: " << file.path() << std::endl;
+
+            DEBUG_PRINT("create: " + file.path().string() + "\n")
             action(file.path().string(), FileStatus::created);
         }
         // Add file to pats_ with last_writ_time as value
@@ -94,13 +94,11 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
     }
     // File exist in server but not in client -> file has been erased
     for (const auto &it : initial_status) {
-        // Print in DEBUG
-        //std::cout << "erase: " << it.first << std::endl;
+        DEBUG_PRINT("erase: " + it.first + "\n")
         action(it.first, FileStatus::erased);
     }
 
-    // Print in DEBUG
-    //std::cout << "fileWatcher initialized" << std::endl;
+    DEBUG_PRINT("fileWatcher initialized\n")
 }
 
 void FileWatcher::stop(){
