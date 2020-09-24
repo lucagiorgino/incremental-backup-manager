@@ -12,7 +12,6 @@ std::string get_machine_id();
 
 int main() {
     std::string machine_id = get_machine_id();
-    std::cout << machine_id << std::endl;
 
     std::time_t last_exception_time{0};
     std::time_t new_exception_time{0};
@@ -28,7 +27,7 @@ int main() {
             exit = false;
             new_exception_time = std::time(nullptr);
 
-            // If the last anomaly occourred more than TRY_AGAIN_ATTEMPTS_RESET_SECONDS seconds ago,
+            // If the last anomaly occurred more than TRY_AGAIN_ATTEMPTS_RESET_SECONDS seconds ago,
             // reset the counter of retries
             if(new_exception_time - last_exception_time > TRY_AGAIN_ATTEMPTS_RESET_SECONDS){
                 try_again = TRY_AGAIN_ATTEMPTS;
@@ -46,7 +45,7 @@ int main() {
     if(try_again == 0){
         std::cout << "Could not reconnect to the server, closing the program" << std::endl;
     }
-    std::cout << "TERMINATED" << std::endl;
+    std::cout << "Program terminated" << std::endl;
 
     return 0;
 }

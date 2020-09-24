@@ -8,7 +8,8 @@ FileWatcher::FileWatcher( std::chrono::duration<int, std::milli> delay,
 }
 
 void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, std::string> initial_status) {
-    std::cout << "Starting fileWatcher" << std::endl;
+    // Print in DEBUG
+    //std::cout << "Starting fileWatcher" << std::endl;
     init_status(path_to_watch, std::move(initial_status));
 
     while (running_) {
@@ -66,7 +67,8 @@ void FileWatcher::restart () {
 }
 
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
-    std::cout << "initializing fileWatcher" << std::endl;
+    // Print in DEBUG
+    //std::cout << "initializing fileWatcher" << std::endl;
 
     for (auto &file : std::filesystem::recursive_directory_iterator(path_to_watch)) {
 
@@ -75,13 +77,15 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
 
             paths_[file.path().string()] = std::filesystem::last_write_time(file);
             if (initial_status[file.path()] != hash_str) {
-                std::cout << "modify: " << file.path() << "hash: " << hash_str << std::endl;
+                // Print in DEBUG
+                //std::cout << "modify: " << file.path() << "hash: " << hash_str << std::endl;
                 action(file.path().string(), FileStatus::modified);
             }
             initial_status.erase(file.path().string());
         } else {
             // False -> file has been created
-            std::cout << "create: " << file.path() << std::endl;
+            // Print in DEBUG
+            //std::cout << "create: " << file.path() << std::endl;
             action(file.path().string(), FileStatus::created);
         }
         // Add file to pats_ with last_writ_time as value
@@ -90,11 +94,13 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
     }
     // File exist in server but not in client -> file has been erased
     for (const auto &it : initial_status) {
-        std::cout << "erase: " << it.first << std::endl;
+        // Print in DEBUG
+        //std::cout << "erase: " << it.first << std::endl;
         action(it.first, FileStatus::erased);
     }
 
-    std::cout << "fileWatcher initialized" << std::endl;
+    // Print in DEBUG
+    //std::cout << "fileWatcher initialized" << std::endl;
 }
 
 void FileWatcher::stop(){
