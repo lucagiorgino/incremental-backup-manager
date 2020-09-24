@@ -8,8 +8,6 @@ Database::Database(std::filesystem::path path) {
     if (sqlite3_open(path.string().c_str(), &db)) {
         std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
         throw std::runtime_error{error_message};
-    } else {
-        std::cout << "DB opened successfully" << std::endl;
     }
 }
 

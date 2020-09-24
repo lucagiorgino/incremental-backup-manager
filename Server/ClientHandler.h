@@ -15,28 +15,34 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "Database.h"
+#include "Debug.h"
+
+
 
 #define MAX_MSG_SIZE 1024
-const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
+
+const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8 * sizeof(int))));
 const std::filesystem::path db_path = "../database.sqlite3";
 
-const std::vector<std::string> actionStatusStrings {"created", "sent", "received", "completed", "error", "finish" };
-const std::vector<std::string> actionTypeStrings {"read_file", "create_folder", "delete_path", "restore", "quit", "ignore"};
+const std::vector<std::string> actionStatusStrings{"created", "sent", "received", "completed", "error", "finish"};
+const std::vector<std::string> actionTypeStrings{"read_file", "create_folder", "delete_path", "restore", "quit",
+                                                 "ignore"};
 
 enum ActionType {
     read_file, create_folder, delete_path, restore, quit
 };
 
-enum ActionStatus{
+enum ActionStatus {
     created, sent, received, completed, error, finish
 };
 
 class ClientHandler
         : public std::enable_shared_from_this<ClientHandler> // pattern that allows to inject behaviours via
-                                                             // a shared pointer to himself and pass or bind it
+    // a shared pointer to himself and pass or bind it
 {
 public:
     ClientHandler(boost::asio::io_service &service);
+
     ~ClientHandler();
 
     boost::asio::ip::tcp::socket &socket() {
@@ -60,11 +66,21 @@ private:
     Database db;
 
     void login();
+
     void send_file_hash();
+
     bool read_action();
-    void action_read_file(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
-    void action_create_folder(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
-    void action_delete_path(std::string path, int index, std::string time, std::string last_write_time, std::string permissions);
+
+    void action_read_file(std::string path, int index, std::string time, std::string last_write_time,
+                          std::string permissions);
+
+    void action_create_folder(std::string path, int index, std::string time, std::string last_write_time,
+                              std::string permissions);
+
+    void action_delete_path(std::string path, int index, std::string time, std::string last_write_time,
+                            std::string permissions);
+
     void action_restore(int index);
+
     void send_response_to_client(int index, int action_status);
 };

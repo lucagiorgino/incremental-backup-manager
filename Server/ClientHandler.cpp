@@ -3,9 +3,10 @@
 #include <iostream>
 #include <filesystem>
 #include <ctime>
-#include "boost/date_time/gregorian/gregorian.hpp"
-#include "Hash.h"
 
+#include "boost/date_time/gregorian/gregorian.hpp"
+
+#include "Hash.h"
 
 ClientHandler::ClientHandler(boost::asio::io_service &service) :
         service_(service),
@@ -16,39 +17,39 @@ ClientHandler::ClientHandler(boost::asio::io_service &service) :
         db(db_path) {}
 
 ClientHandler::~ClientHandler() {
-    if(action_handler.joinable())
+    if (action_handler.joinable())
         action_handler.join();
 }
 
 void ClientHandler::start() {
-    try{
-        std::cout << "Starting new client connection" << std::endl;
+    try {
+        PRINT("[ --- ] Starting new client connection\n");
 
         login();
         send_file_hash();
 
         // Read and perform action
         action_handler = std::thread([this]() {
-            try{
+            try {
                 while (read_action()) {}
-            }catch(std::exception &e){
-                std::cout << "Fatal exception, trying to close the socket..." << std::endl;
+            } catch (std::exception &e) {
+                PRINT("[" + username + "] Fatal exception, trying to close the socket...\n");
                 // No return: executing next code block to try and close the connection,
                 // if a new exception is thrown, the next try/catch block will handle it.
             }
 
-            try{
+            try {
                 socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
                 socket_.close();
-                std::cout << "Connection terminated." << std::endl;
-            }catch(std::exception &e){
-                std::cout << "Exception during socket closure: " << e.what() << std::endl;
+                PRINT("[" + username + "] Connection terminated.\n");
+            } catch (std::exception &e) {
+                PRINT("[" + username + "] Exception during socket closure: " + e.what() +"\n");
                 return 1;
             }
         });
 
-    }catch(std::exception &e){
-        std::cout << "ClientHandler error: " << e.what() << std::endl;
+    } catch (std::exception &e) {
+        PRINT("[" + username + "] ClientHandler error: " + e.what() + "\n");
         return;
         // This function stops, and the acceptor can accept a new connection.
     }
@@ -66,7 +67,7 @@ void ClientHandler::login() {
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
     input_stream >> username;
 
-    std::cout << "USER " << username << "IS TRYING TO LOGIN " << std::endl;
+    PRINT("[" + username + "] is trying to login\n");
 
     std::optional<std::string> password_db = db.passwordFromUsername(username);
     if (password_db.has_value()) {
@@ -105,12 +106,11 @@ void ClientHandler::login() {
         boost::asio::write(socket_, output_buf);
     }
 
-    std::cout << "LOGIN completed, welcome " << username << std::endl;
-
+    PRINT("[" + username + "] Login completed\n");
 }
 
 void ClientHandler::send_file_hash() {
-    std::cout << "Sending initial status...";
+    DEBUG_PRINT("[" + username + "] Sending initial status...")
     std::map<std::string, std::string> init_map = db.getInitailizationEntries(username, delete_path);
 
     for (auto entry_path : init_map) {
@@ -127,7 +127,7 @@ void ClientHandler::send_file_hash() {
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n";
     boost::asio::write(socket_, output_buf);
 
-    std::cout << " completed" << std::endl;
+    DEBUG_PRINT("[" + username + "] Sending initial status... completed.")
 }
 
 bool ClientHandler::read_action() {
@@ -141,7 +141,7 @@ bool ClientHandler::read_action() {
     std::string permissions;
 
     int index;
-    std::cout << "reading action_type" << std::endl;
+    DEBUG_PRINT("[" + username + "] reading action_type\n");
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> action_type;
@@ -168,14 +168,13 @@ bool ClientHandler::read_action() {
     else
         send_response_to_client(index, ActionStatus::received);
 
-    std::cout << "[" << index << "] " << "Executing action_type " << actionTypeStrings[action_type] << " " << path << " "
-              << last_write_time << " "
-              << permissions << "..." << std::endl;
+    DEBUG_PRINT("[" + username + "] index: " + std::to_string(index) + ", type: " + actionTypeStrings[action_type] + ", path: " + path +
+                ", last_write_time: " + last_write_time + ", permission:" + permissions + "\n");
 
     boost::gregorian::date d{boost::gregorian::day_clock::local_day()};
     std::string current_date = boost::gregorian::to_iso_extended_string(d);
 
-    try{
+    try {
         switch (action_type) {
             case read_file:
                 action_read_file(path, index, current_date, last_write_time, permissions);
@@ -194,9 +193,9 @@ bool ClientHandler::read_action() {
             default:
                 throw std::runtime_error{"Action not recognized"};
         }
-    }catch(std::exception& e){
-        std::cout << "Caught " << e.what() << " while executing action [" << index << "] type "
-                    << actionTypeStrings[action_type] << std::endl;
+    } catch (std::exception &e) {
+        PRINT("[" + username + "]" + e.what() + " while executing action [" + std::to_string(index) + "] type "
+              + actionTypeStrings[action_type] + "\n");
         send_response_to_client(index, ActionStatus::error);
     }
     return true;
@@ -208,7 +207,8 @@ void ClientHandler::send_response_to_client(int index, int action_status) {
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action_status << "\n";
     boost::asio::write(socket_, output_buf);
 
-    std::cout << "[****************] Sending response [" << index << "], type " << actionStatusStrings[action_status] << std::endl;
+    DEBUG_PRINT("[" + username + "] Sending response [" + std::to_string(index) + "], type "
+                        + actionStatusStrings[action_status] + "\n");
 }
 
 /**
@@ -230,7 +230,7 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> file_size;
     input_stream.ignore();
-    std::cout << "  Reading file " << path <<" from buffer, size " << file_size << std::endl;
+    DEBUG_PRINT("[" + username + "] Reading file " + path + " from buffer, size " + std::to_string(file_size) + "\n");
 
     std::vector<char> file;
     file.reserve(file_size + 1);
@@ -246,10 +246,10 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 
         file_size_tmp -= size;
     }
-    std::cout << "  hash... ";
-    Hash hash( std::string(file.begin(),file.end()) );
+
+    Hash hash(std::string(file.begin(), file.end()));
     std::string hash_value = hash.getHash();
-    std::cout << hash_value << "\n";
+    DEBUG_PRINT("[" + username + "] File " + path + " hash:  " + hash_value + "\n");
 
 
     std::string file_string(file.begin(), file.end());
