@@ -31,11 +31,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Database.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/Debug.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/ccs/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/ccs/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/ccs/prova" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/ccs/test with space    tt " beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/dir1/loremipsum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/dir1/prova" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/dirC/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/test_image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dirB2/venmto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/path" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/prova" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/ccs/test with space    tt " beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/dir1/loremipsum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/dir1/prova" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/dirC/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/loremipsumX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/test_image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/restore/venmto" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +144,7 @@
       <workItem from="1600879676733" duration="6755000" />
       <workItem from="1600950545837" duration="3070000" />
       <workItem from="1600964983662" duration="1113000" />
-      <workItem from="1601022305689" duration="4059000" />
+      <workItem from="1601022305689" duration="4366000" />
     </task>
     <servers />
   </component>
