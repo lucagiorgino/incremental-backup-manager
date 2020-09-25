@@ -9,8 +9,6 @@
 
 #include "Action.h"
 
-#define MAX_SIZE 50
-
 class ResponseBuffer{
     std::map<int, Action> responseMap;
     std::mutex lock;
