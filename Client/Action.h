@@ -13,7 +13,6 @@ enum ActionType {
     read_file, create_folder, delete_path, restore, quit, ignore
 };
 
-
 class Action {
 public:
 

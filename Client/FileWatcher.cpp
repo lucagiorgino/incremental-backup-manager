@@ -9,6 +9,12 @@ FileWatcher::FileWatcher( std::chrono::duration<int, std::milli> delay,
         delay{delay}, action{action} {
 }
 
+/**
+     * Initialize FileWatcher with the initial status retrieved from initial_status
+     * by calling init_status.
+     * Start monitoring all entries in path_to_watch
+     * execute action when a difference is found
+     */
 void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string, std::string> initial_status) {
     DEBUG_PRINT("Starting fileWatcher\n")
 
@@ -57,17 +63,30 @@ void FileWatcher::start(std::string path_to_watch,std::unordered_map<std::string
     }
 }
 
+
+/**
+ * Pause the file watcher till the FileWatcher::restart is called
+ */
 void FileWatcher::pause () {
     std::unique_lock ul(mutex);
     pause_execution = true;
 }
 
+/**
+ * Restart the file watcher
+ */
 void FileWatcher::restart () {
     std::unique_lock ul(mutex);
     pause_execution = false;
     cv.notify_all();
 }
 
+
+/**
+ * Setup the file watcher status with the data in initial_status
+ * @param path_to_watch
+ * @param initial_status
+ */
 void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std::string, std::string> initial_status){
     DEBUG_PRINT("initializing fileWatcher\n")
 
@@ -101,12 +120,9 @@ void FileWatcher::init_status(std::string path_to_watch, std::unordered_map<std:
     DEBUG_PRINT("fileWatcher initialized\n")
 }
 
+/**
+ * Stop the file watcher
+ */
 void FileWatcher::stop(){
     running_ = false;
-}
-
-// deprecated
-bool FileWatcher::contains(const std::string &key) {
-    auto el = paths_.find(key);
-    return el != paths_.end();
 }

@@ -173,7 +173,6 @@ Client::Client(std::string name) :
                 } else if (ret != 0) {
                     throw std::runtime_error{"stdin error"};
                 }
-
             } while ((user_quit == false) && (!has_exception_occurred.load()));
         }
         catch (std::exception &e) {
@@ -411,6 +410,7 @@ void Client::send_action(Action action) {
         case ActionType::restore:
             break;
         case ActionType::ignore :
+            responses.completed(index);
             return;
             break;
         default :
@@ -590,12 +590,20 @@ void Client::command_restore() {
 }
 
 /**
- * Execute restore
+ * Execute restore by sending to the server the date,
+ * get number of path and for each one read:
+ * - path length
+ * - path
+ * - last_write_time
+ * - permissions
+ * - is_directory
+ *      if is_directory == 0 proceeds to read the file,
+ *      otherwise create the folder
  * @param date, date of restore
  * @param user_path, path to store the data
  */
 void Client::action_restore(std::string date, std::string user_path) {
-    int file_number;
+    int path_number;
     std::filesystem::path tmp_dir{"../tmp_restore_dir"};
 
     fileWatcher.pause();
@@ -606,20 +614,20 @@ void Client::action_restore(std::string date, std::string user_path) {
         boost::asio::write(socket_, output_buf);
 
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-        input_stream >> file_number;
+        input_stream >> path_number;
 
         std::filesystem::create_directory(tmp_dir);
 
-        int size, is_directory, read_length;
-        std::string filename;
+        int size, is_directory, path_length;
+        std::string path;
         int last_write_time, permissions;
-        for (int i = 0; i < file_number; i++) {
+        for (int i = 0; i < path_number; i++) {
             //save single file in tmp_dir
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
-            input_stream >> read_length;
-            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
+            input_stream >> path_length;
+            boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(path_length + 1));
             input_stream.ignore();
-            std::getline(input_stream, filename);
+            std::getline(input_stream, path);
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> last_write_time;
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -627,12 +635,11 @@ void Client::action_restore(std::string date, std::string user_path) {
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> is_directory;
 
-            std::filesystem::path file_path{tmp_dir.string() + filename};
+            std::filesystem::path file_path{tmp_dir.string() + path};
 
             if (is_directory == 1) {
                 //Directory
                 std::filesystem::create_directory(file_path);
-
             } else {
                 //File
                 boost::array<char, MAX_MSG_SIZE + 1> array{};
@@ -692,6 +699,11 @@ void Client::action_restore(std::string date, std::string user_path) {
 
 }
 
+/**
+ *  Execute quit command, print all pending actions and
+ *  double check if user wants to quit.
+ * @return
+ */
 bool Client::command_quit() {
     PRINT("List of pending actions:\n")
     std::vector<Action> pendingActions = responses.getAll();

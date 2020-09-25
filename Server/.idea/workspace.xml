@@ -31,13 +31,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e5dbf01-d8de-4e9b-b0bf-cea217804a5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Client/Action.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Action.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/Buffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Buffer.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Client.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Client.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/Debug.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/FileWatcher.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/FileWatcher.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/ResponseBuffer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ClientHandler.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/Debug.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +126,7 @@
       <workItem from="1600950545837" duration="3070000" />
       <workItem from="1600964983662" duration="1113000" />
       <workItem from="1601022305689" duration="4462000" />
-      <workItem from="1601042474318" duration="1105000" />
+      <workItem from="1601042474318" duration="1840000" />
     </task>
     <servers />
   </component>

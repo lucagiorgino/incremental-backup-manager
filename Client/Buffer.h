@@ -7,6 +7,11 @@
 
 #define MAX_SIZE 10
 
+
+/**
+ * Thread safe buffer
+ * @tparam T
+ */
 template <typename T>
 class Buffer{
     std::array<T, MAX_SIZE>  buf;
