@@ -46,6 +46,7 @@ void ClientHandler::start() {
                 PRINT("[" + username + "] Exception during socket closure: " + e.what() +"\n");
                 return 1;
             }
+            return 0;
         });
 
     } catch (std::exception &e) {

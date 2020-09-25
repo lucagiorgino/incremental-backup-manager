@@ -51,6 +51,10 @@ int main() {
     return 0;
 }
 
+/**
+ * Retrieve the unique id of linux build
+ * @return machine id
+ */
 std::string get_machine_id(){
     std::string machine_id;
 

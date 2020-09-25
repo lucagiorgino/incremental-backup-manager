@@ -11,6 +11,14 @@
 #include "Debug.h"
 
 
+/**
+ * Create client, setup 4 thread:
+ * - File watcher: execute file watcher to monitor the folder backup path
+ * - Action consumer: send action retrieved from the actions buffer to the server
+ * - Response consumer: read response sent from server, manage the backup restore
+ * - Input watcher: read input from the user, "q" -> quit, "r" -> restore
+ * @param name, name of the user
+ */
 Client::Client(std::string name) :
         input_stream(&input_buf),
         output_stream(&output_buf),
@@ -25,7 +33,7 @@ Client::Client(std::string name) :
     PRINT("Welcome to the live backup service!\n\n")
 
     login(name);
-    std::unordered_map <std::string, std::string> initial_status = get_init_file_from_server();
+    std::unordered_map<std::string, std::string> initial_status = get_init_file_from_server();
 
     // **** FILE WATCHER THREAD ****
     fileWatcherThread = std::async([this, initial_status]() {
@@ -41,7 +49,7 @@ Client::Client(std::string name) :
 
     // **** ACTION CONSUMER THREAD ****
     actionsConsumer = std::async([this]() {
-        std::optional <Action> action;
+        std::optional<Action> action;
         try {
             do {
                 action = actions.pop();
@@ -87,24 +95,25 @@ Client::Client(std::string name) :
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
                 input_stream >> action_status;
 
+                DEBUG_PRINT("[****************] Receiving response [" + std::to_string(index) + "], type of response " +
+                            actionStatusStrings[action_status] + "\n")
 
-                DEBUG_PRINT("[****************] Receiving response [" + std::to_string(index) + "], type of response " + actionStatusStrings[action_status] + "\n")
-
-                std::optional <Action> a = responses.get_action(index);
+                std::optional<Action> a = responses.get_action(index);
                 if (a.has_value()) {
                     Action ac = a.value();
 
                     DEBUG_PRINT("[****************] Response " + actionTypeStrings[static_cast<int>(ac.actionType)])
-                    if(ac.actionType != ActionType::restore)
-                        DEBUG_PRINT("path: " + ac.path.string() + ", file status " + fileStatusStrings[static_cast<int>(ac.fileStatus)] + "\n")
+                    if (ac.actionType != ActionType::restore)
+                            DEBUG_PRINT("path: " + ac.path.string() + ", file status " +
+                                        fileStatusStrings[static_cast<int>(ac.fileStatus)] + "\n")
 
-                    if (action_status == ActionStatus::completed)
-                        DEBUG_PRINT("\n")
+                        if (action_status == ActionStatus::completed)
+                                DEBUG_PRINT("\n")
 
-                    if (ac.actionType == ActionType::restore && action_status == ActionStatus::received) {
-                        DEBUG_PRINT("starting action RESTORE\n")
-                        action_restore(ac.restore_date, ac.restore_path);
-                    }
+                            if (ac.actionType == ActionType::restore && action_status == ActionStatus::received) {
+                                DEBUG_PRINT("starting action RESTORE\n")
+                                action_restore(ac.restore_date, ac.restore_path);
+                            }
                 }
 
                 switch (action_status) {
@@ -143,7 +152,7 @@ Client::Client(std::string name) :
         try {
             do {
                 if (print) {
-                    PRINT("Insert \"q\" to quit, \"r\" to restore: \n" )
+                    PRINT("Insert \"q\" to quit, \"r\" to restore: \n")
                     print = false;
                 }
 
@@ -154,20 +163,18 @@ Client::Client(std::string name) :
                     command = boost::algorithm::to_lower_copy(command);
                     if (command == "r") {
                         this->command_restore();
-                    }
-                    else if(command == "q"){
+                    } else if (command == "q") {
                         user_quit = this->command_quit();
-                        if(user_quit == false)
+                        if (user_quit == false)
                             PRINT("\n")
-                    }
-                    else{
+                    } else {
                         PRINT("Command not recognized\n")
                     }
                 } else if (ret != 0) {
                     throw std::runtime_error{"stdin error"};
                 }
 
-            } while ( (user_quit == false) && (!has_exception_occurred.load()) );
+            } while ((user_quit == false) && (!has_exception_occurred.load()));
         }
         catch (std::exception &e) {
             this->has_exception_occurred.store(true);
@@ -183,6 +190,12 @@ Client::Client(std::string name) :
     socket_.close();
 }
 
+/**
+ * Join threads, if an error as occurred throw an exception
+ * ERROR HANDLING:
+ *  if an error occurs in a thread, all other thread return
+ *  so that the main thread can execute the join
+ */
 void Client::join_threads() {
     int err;
 
@@ -210,7 +223,12 @@ void Client::join_threads() {
     }
 }
 
-
+/**
+ * Start login session: check if account
+ * exist and eventually call create_account_password(),
+ * then ask for the password and send it to the server
+ * @param name, name of the user
+ */
 void Client::login(std::string name) {
     std::string main_path_string;
     std::string password;
@@ -224,7 +242,7 @@ void Client::login(std::string name) {
     } else {
         // read path from file
         std::ifstream fp(backup_path);
-        fp.exceptions ( std::ifstream::badbit );
+        fp.exceptions(std::ifstream::badbit);
         fp >> main_path_string;
         fp.close();
     }
@@ -235,7 +253,6 @@ void Client::login(std::string name) {
     socket_.connect(endpoint);
 
     //Authentication
-
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << name.length() << "\n"
                   << name << "\n";
     boost::asio::write(socket_, output_buf);
@@ -259,20 +276,24 @@ void Client::login(std::string name) {
 
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> is_authenticated;
-        if(is_authenticated == 0)
+        if (is_authenticated == 0)
             PRINT("Wrong password. ")
     }
 
     PRINT("You are now logged in!\n\n")
 }
 
+/**
+ * Create account, ask the user for a password and
+ * send it to the server
+ */
 void Client::create_account_password() {
     std::string password;
     std::string password_confirmed;
     int passwords_are_different = 0;
 
     do {
-        if(passwords_are_different)
+        if (passwords_are_different)
             PRINT("The two passwords are different. \n Insert new password: ")
         else
             PRINT("You are not signed up. \n Insert new password: ")
@@ -294,29 +315,39 @@ void Client::create_account_password() {
     PRINT("You are now signed up!\n\n")
 }
 
+/**
+ * Retrieve the backup folder path from the user
+ * and store it in the backup_path file
+ * @param path_string
+ * @param backup_path
+ */
 void Client::create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) {
 
     // new path
     PRINT("There's no target folder, please select one: ")
     std::getline(std::cin, path_string);
 
-    while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
-        if(!std::filesystem::exists(path_string))
+    while (!std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string)) {
+        if (!std::filesystem::exists(path_string))
             PRINT("Path not found, try again: ")
-        else if(!std::filesystem::is_directory(path_string))
+        else if (!std::filesystem::is_directory(path_string))
             PRINT("This is not a directory, try again: ")
         std::getline(std::cin, path_string);
     }
     PRINT("Path found, this will be the monitored folder\n\n")
 
     std::ofstream fp(backup_path);
-    fp.exceptions ( std::ofstream::badbit );
+    fp.exceptions(std::ofstream::badbit);
     fp << path_string;
     fp.close();
 }
 
-std::unordered_map <std::string, std::string> Client::get_init_file_from_server() {
-    std::unordered_map <std::string, std::string> init_map;
+/**
+ * retrieve current status of the server
+ * @return init_map, key: path, type: hash of the file on the server
+ */
+std::unordered_map<std::string, std::string> Client::get_init_file_from_server() {
+    std::unordered_map<std::string, std::string> init_map;
     int size;
     std::string path;
     std::string hash;
@@ -343,6 +374,24 @@ std::unordered_map <std::string, std::string> Client::get_init_file_from_server(
     return init_map;
 }
 
+/**
+ * Send to the server, in this order:
+ * - actionType
+ * - action index
+ * - path length
+ * - path
+ * - last_write_time length
+ * - last_time_write
+ * - permissions length
+ * - permissions
+ *
+ * if action.actionType is read_file, proceed to send the file
+ * by calling send_file(std::string path)
+ *
+ * @param action, contains data about the action to be executed server side
+ * @throw std::runtime_error boost::filesystem::last_write_time or
+ *          boost::filesystem::status give an error
+ */
 void Client::send_action(Action action) {
 
     boost::array<char, MAX_MSG_SIZE> buf;
@@ -398,39 +447,45 @@ void Client::send_action(Action action) {
 
     // Check file size, it must be less than MAX_FILE_SIZE
     std::uintmax_t file_size;
-    if ( action.actionType == ActionType::read_file ) {
-        file_size =  std::filesystem::file_size( action.path );
-        if ( file_size > MAX_FILE_SIZE){
-            PRINT("File: " + action.path.string() + ", size " + std::to_string(file_size) + "B above max " + std::to_string(MAX_FILE_SIZE) + "B" + "\n")
+    if (action.actionType == ActionType::read_file) {
+        file_size = std::filesystem::file_size(action.path);
+        if (file_size > MAX_FILE_SIZE) {
+            PRINT("File: " + action.path.string() + ", size " + std::to_string(file_size) + "B above max " +
+                  std::to_string(MAX_FILE_SIZE) + "B" + "\n")
             responses.signal_error(index);
             return;
         }
-
     }
 
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << action.actionType << "\n"
-                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n"
-                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << cleaned_path.length() << "\n"
-                   << cleaned_path << "\n"
-                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << last_write_time.length() << "\n"
-                   << last_write_time << "\n"
-                   << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_permissions.length() << "\n"
-                   << file_permissions << "\n";
+                  << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n"
+                  << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << cleaned_path.length() << "\n"
+                  << cleaned_path << "\n"
+                  << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << last_write_time.length() << "\n"
+                  << last_write_time << "\n"
+                  << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_permissions.length() << "\n"
+                  << file_permissions << "\n";
 
     boost::asio::write(socket_, output_buf);
 
-    DEBUG_PRINT("actiontype: " + actionTypeStrings[action.actionType] + " - " + action.path.string() + " - - - >" + cleaned_path + "\n")
+    DEBUG_PRINT("actiontype: " + actionTypeStrings[action.actionType] + " - " + action.path.string() + " - - - >" +
+                cleaned_path + "\n")
 
     if (action.actionType == ActionType::read_file) {
         send_file(action.path.string());
     }
 }
 
+/**
+ * Send content of a file to the server
+ * @param filename
+ * @throw boost::system::system_error
+ */
 void Client::send_file(const std::string &filename) {
     boost::array<char, MAX_MSG_SIZE> buf;
 
     std::ifstream source_file(filename, std::ios_base::binary | std::ios_base::ate);
-    source_file.exceptions ( std::ifstream::badbit );
+    source_file.exceptions(std::ifstream::badbit);
     if (!source_file) {
         PRINT("failed to open " + filename + "\n")
         throw boost::system::system_error(boost::asio::error::connection_aborted);
@@ -471,6 +526,12 @@ void Client::send_file(const std::string &filename) {
     source_file.close();
 }
 
+/**
+ * Create restore action,
+ * ask the cliend for the DATE of the restore and
+ * the FOLDER to save the backup then push
+ * the action in the buffer
+ */
 void Client::command_restore() {
 
     // Reading date
@@ -497,37 +558,42 @@ void Client::command_restore() {
     PRINT("Insert existing path to save the restored data: ")
     std::getline(std::cin, path_string);
 
-    while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
-        if(!std::filesystem::exists(path_string))
+    while (!std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string)) {
+        if (!std::filesystem::exists(path_string))
             PRINT("Path not found, try again: ")
-        else if(!std::filesystem::is_directory(path_string))
+        else if (!std::filesystem::is_directory(path_string))
             PRINT("This is not a directory, try again: ")
         std::getline(std::cin, path_string);
     }
 
     std::string user_response;
     bool response_is_wrong = false;
-    do{
-        if(response_is_wrong)
-            std:: cout << "Command not recognized, are you sure to continue? (y/n): ";
+    do {
+        if (response_is_wrong)
+            std::cout << "Command not recognized, are you sure to continue? (y/n): ";
         else
-            std:: cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
+            std::cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
 
         std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
-        response_is_wrong = user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
-    }while(response_is_wrong);
+        response_is_wrong =
+                user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
+    } while (response_is_wrong);
 
     if (user_response == "y" || user_response == "yes") {
         PRINT("Starting restore...\n\n")
 
         Action action{ActionType::restore, date_string, path_string};
         actions.push(action);
-    }
-    else
+    } else
         PRINT("\n")
 }
 
+/**
+ * Execute restore
+ * @param date, date of restore
+ * @param user_path, path to store the data
+ */
 void Client::action_restore(std::string date, std::string user_path) {
     int file_number;
     std::filesystem::path tmp_dir{"../tmp_restore_dir"};
@@ -569,14 +635,14 @@ void Client::action_restore(std::string date, std::string user_path) {
 
             } else {
                 //File
-                boost::array < char, MAX_MSG_SIZE + 1 > array{};
+                boost::array<char, MAX_MSG_SIZE + 1> array{};
 
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
                 input_stream >> size;
                 input_stream.ignore();
 
                 std::ofstream of{file_path};
-                of.exceptions ( std::ofstream::badbit );
+                of.exceptions(std::ofstream::badbit);
                 std::string buf;
                 size_t file_size_tmp;
 
@@ -626,22 +692,23 @@ void Client::action_restore(std::string date, std::string user_path) {
 
 }
 
-bool Client::command_quit(){
+bool Client::command_quit() {
     PRINT("List of pending actions:\n")
     std::vector<Action> pendingActions = responses.getAll();
 
-    if( pendingActions.empty() ){
+    if (pendingActions.empty()) {
         PRINT("No pending actions\n\n")
-    }
-    else{
+    } else {
         std::string timestamp_string;
-        for(Action a: pendingActions){
+        for (Action a: pendingActions) {
             timestamp_string = std::ctime(&a.timestamp);
             timestamp_string.pop_back();
 
-            std::string debug_message = "[" + timestamp_string + "] " + actionTypeStrings[a.actionType] + " (" + actionStatusStrings[a.st] + ")";
+            std::string debug_message =
+                    "[" + timestamp_string + "] " + actionTypeStrings[a.actionType] + " (" + actionStatusStrings[a.st] +
+                    ")";
 
-            if(a.actionType != ActionType::restore){
+            if (a.actionType != ActionType::restore) {
                 debug_message += ", path: " + a.path.string() + "\n";
             }
             PRINT(debug_message)
@@ -650,11 +717,11 @@ bool Client::command_quit(){
     }
 
     std::string user_response;
-    do{
+    do {
         PRINT("Are you sure you want to quit? (y/n): ")
         std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
-    }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
+    } while (user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no");
 
     return (user_response == "y" || user_response == "yes");
 }

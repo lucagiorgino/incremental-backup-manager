@@ -1,6 +1,6 @@
 #pragma once
 
-#define _DEBUG 0
+#define _DEBUG 1
 
 #if _DEBUG
 #define DEBUG_PRINT(line) std::cout << (line);
