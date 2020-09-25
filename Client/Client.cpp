@@ -143,13 +143,13 @@ Client::Client(std::string name) :
         try {
             do {
                 if (print) {
-                    PRINT("(Insert \"q\" to quit, \"r\" to restore: )\n" )
+                    PRINT("Insert \"q\" to quit, \"r\" to restore: \n" )
                     print = false;
                 }
 
                 ret = poll(&fds, 1, POLLING_DELAY);
                 if (ret == 1) {
-                    std::cin >> command;
+                    std::getline(std::cin, command);
                     print = true;
                     command = boost::algorithm::to_lower_copy(command);
                     if (command == "r") {
@@ -250,7 +250,8 @@ void Client::login(std::string name) {
     PRINT("\tLOG IN\n")
     while (is_authenticated == 0) {
         PRINT("Insert password: ")
-        std::cin >> password;
+
+        std::getline(std::cin, password);
 
         output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
                       << password << "\n";
@@ -276,10 +277,10 @@ void Client::create_account_password() {
         else
             PRINT("You are not signed up. \n Insert new password: ")
 
-        std::cin >> password;
+        std::getline(std::cin, password);
 
         PRINT(" Insert new password again: ")
-        std::cin >> password_confirmed;
+        std::getline(std::cin, password_confirmed);
 
         passwords_are_different = password.compare(password_confirmed);
 
@@ -297,14 +298,14 @@ void Client::create_account_backup_folder(std::string &path_string, const std::f
 
     // new path
     PRINT("There's no target folder, please select one: ")
-    std::cin >> path_string;
+    std::getline(std::cin, path_string);
 
     while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
         if(!std::filesystem::exists(path_string))
             PRINT("Path not found, try again: ")
         else if(!std::filesystem::is_directory(path_string))
             PRINT("This is not a directory, try again: ")
-        std::cin >> path_string;
+        std::getline(std::cin, path_string);
     }
     PRINT("Path found, this will be the monitored folder\n\n")
 
@@ -472,15 +473,13 @@ void Client::send_file(const std::string &filename) {
 
 void Client::command_restore() {
 
-    fileWatcher.pause();
-
     // Reading date
     bool correct_date = false;
     std::string date_string;
     PRINT("Insert date (YYYY-MM-DD): ")
     while (!correct_date) {
         try {
-            std::cin >> date_string;
+            std::getline(std::cin, date_string);
             boost::gregorian::date d{boost::gregorian::from_simple_string(date_string)};
 
             DEBUG_PRINT("Date: " + boost::gregorian::to_iso_extended_string(d) + "\n")
@@ -491,19 +490,19 @@ void Client::command_restore() {
             PRINT("Incorrect date, try again: ")
         }
     }
-    PRINT("Correct date")
+    PRINT("Correct date\n")
 
     //Reading path
     std::string path_string;
     PRINT("Insert existing path to save the restored data: ")
-    std::cin >> path_string;
+    std::getline(std::cin, path_string);
 
     while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
         if(!std::filesystem::exists(path_string))
             PRINT("Path not found, try again: ")
         else if(!std::filesystem::is_directory(path_string))
             PRINT("This is not a directory, try again: ")
-        std::cin >> path_string;
+        std::getline(std::cin, path_string);
     }
 
     std::string user_response;
@@ -514,7 +513,7 @@ void Client::command_restore() {
         else
             std:: cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
 
-        std::cin >> user_response;
+        std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
         response_is_wrong = user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
     }while(response_is_wrong);
@@ -532,6 +531,8 @@ void Client::command_restore() {
 void Client::action_restore(std::string date, std::string user_path) {
     int file_number;
     std::filesystem::path tmp_dir{"../tmp_restore_dir"};
+
+    fileWatcher.pause();
 
     try {
         output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date.length() << "\n"
@@ -551,7 +552,8 @@ void Client::action_restore(std::string date, std::string user_path) {
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> read_length;
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
-            input_stream >> filename;
+            input_stream.ignore();
+            std::getline(input_stream, filename);
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> last_write_time;
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -650,7 +652,7 @@ bool Client::command_quit(){
     std::string user_response;
     do{
         PRINT("Are you sure you want to quit? (y/n): ")
-        std::cin >> user_response;
+        std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
     }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
 
