@@ -1,5 +1,7 @@
 #pragma once
 
+// _DEBUG = 1 enables debug mode, showing
+// more output messages
 #define _DEBUG 0
 
 #if _DEBUG

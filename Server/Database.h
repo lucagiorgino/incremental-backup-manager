@@ -8,6 +8,10 @@
 #include <vector>
 #include <map>
 
+/**
+ * Struct that contains the fields that describe
+ * a file entry in the database
+ */
 struct File{
     int size, is_directory;
     std::string filename, file_content;

@@ -38,7 +38,8 @@ int main() {
             try_again--;
             PRINT("Exception occurred: " + std::string(e.what()) + "\nTrying to reconnect...\n")
 
-            // It waits THREAD_RESTART_DELAY milliseconds before trying to reconnect
+            // It waits THREAD_RESTART_DELAY milliseconds before trying to reconnect,
+            // hoping that a brief connection loss will be resolved
             std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(THREAD_RESTART_DELAY));
         }
     }

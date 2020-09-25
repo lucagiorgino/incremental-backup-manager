@@ -156,6 +156,10 @@ Client::Client(std::string name) :
                     print = false;
                 }
 
+                /**
+                 * Input is read via polling, to avoid being
+                 * stuck waiting for an input in case of a fatal exception
+                 */
                 ret = poll(&fds, 1, POLLING_DELAY);
                 if (ret == 1) {
                     std::getline(std::cin, command);
@@ -497,6 +501,8 @@ void Client::send_file(const std::string &filename) {
     // send file size to server
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
+
+    // send actual file
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
@@ -528,7 +534,7 @@ void Client::send_file(const std::string &filename) {
 
 /**
  * Create restore action,
- * ask the cliend for the DATE of the restore and
+ * ask the client for the DATE of the restore and
  * the FOLDER to save the backup then push
  * the action in the buffer
  */
@@ -616,6 +622,7 @@ void Client::action_restore(std::string date, std::string user_path) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> path_number;
 
+        // Create a temporary directory to store the files
         std::filesystem::create_directory(tmp_dir);
 
         int size, is_directory, path_length;
@@ -684,6 +691,7 @@ void Client::action_restore(std::string date, std::string user_path) {
             }
         }
 
+        // Overwrite target directory with the temporary one
         std::filesystem::remove_all(user_path);
         std::filesystem::rename(tmp_dir, user_path);
 

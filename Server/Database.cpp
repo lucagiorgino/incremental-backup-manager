@@ -2,7 +2,10 @@
 
 #include <iostream>
 
-
+/**
+ * Opens connection to the database
+ * @param path position of the sqlite3 file that contains the database
+ */
 Database::Database(std::filesystem::path path) {
 
     if (sqlite3_open(path.string().c_str(), &db)) {
@@ -11,6 +14,9 @@ Database::Database(std::filesystem::path path) {
     }
 }
 
+/**
+ * Closes db connection
+ */
 Database::~Database() {
     if (sqlite3_close(db)) {
         std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
@@ -18,6 +24,11 @@ Database::~Database() {
     }
 }
 
+/**
+ * Returns authentication information of a given user
+ * @param username name of the user
+ * @return password of the user, std::nullopt if not present
+ */
 std::optional<std::string> Database::passwordFromUsername(std::string username) {
 
     std::string sql = "select password from users where username=?";
@@ -45,6 +56,13 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
     return result;
 }
 
+/**
+ * Inserts new user in db:
+ *      - saves the password in "users" table
+ *      - creates new table with a name chosen starting from the username
+ * @param username
+ * @param password
+ */
 void Database::createNewUser(std::string username, std::string password) {
     std::string sql = "insert into users(username, password)"
                       "values(?, ?)";
@@ -104,7 +122,19 @@ void Database::createNewUser(std::string username, std::string password) {
     sqlite3_finalize(stmt);
 }
 
-
+/**
+ * Adds a new file entry in the suer's table
+ * @param tablename
+ * @param filename
+ * @param timestamp
+ * @param file
+ * @param size
+ * @param action
+ * @param hash
+ * @param last_write_time
+ * @param permissions
+ * @return status of transaction
+ */
 int Database::addAction(std::string tablename, std::string filename, std::string timestamp, std::string file, int size,
                         int action, std::string hash, std::string last_write_time, std::string permissions) {
     std::string table = tablename_from_username(tablename);
@@ -179,6 +209,17 @@ int Database::addAction(std::string tablename, std::string filename, std::string
     return 0;
 }
 
+/**
+ * Gets all files currently in backup:
+ * for each filename, only the most recent entry is selected,
+ * and if it corresponds to a deleted file, it's ignored.
+ * Filenames are sorted in alphabetical order, to preserve the precedence
+ * of a folder relative to its content
+ * @param username
+ * @param delete_code (it's the code that indicates a "deleted" action,
+ *                      passed as a parameter since it can vary with changes in the code)
+ * @return all current files and their hash code, saved into an ordered map with filename as key
+ */
 std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code) {
     std::string table_name = tablename_from_username(username);
 
@@ -211,7 +252,17 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     return result_map;
 }
 
-
+/**
+ * Similarly to getInitailizationEntries(), retrieves all files in backup,
+ *  but only up to a date specified by the user.
+ *  In this case all the files are returned completely, so they can be restored
+ *  on the user's machine.
+ * @param username
+ * @param delete_code (it's the code that indicates a "deleted" action,
+ *                      passed as a parameter since it can vary with changes in the code)
+ * @param date (given by the user)
+ * @return all current files and their hash code, saved into an ordered map with filename as key
+ */
 std::map<std::string, File> Database::getRestoreEntries(std::string username, int delete_code, std::string date) {
     std::string table_name = tablename_from_username(username);
 

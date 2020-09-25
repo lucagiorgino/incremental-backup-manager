@@ -8,7 +8,7 @@
 #include "Debug.h"
 
 /**
- * Add item to the buffer and generate it's index
+ * Add item to the buffer and generate its index
  * @param item
  * @return index of the inserted object
  */

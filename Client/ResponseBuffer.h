@@ -9,7 +9,7 @@
 
 #include "Action.h"
 
-#define MAX_SIZE 10
+#define MAX_SIZE 50
 
 class ResponseBuffer{
     std::map<int, Action> responseMap;

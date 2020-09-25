@@ -21,6 +21,11 @@ ClientHandler::~ClientHandler() {
         action_handler.join();
 }
 
+/**
+ * Checks user authentication,
+ * performs initialization sending current status of the db (each filename and relative hash)
+ * and continuously waits for actions from the user.
+ */
 void ClientHandler::start() {
     try {
         PRINT("[ --- ] Starting new client connection\n");
@@ -64,6 +69,9 @@ void ClientHandler::start() {
     }
 }
 
+/**
+ * Checks user's authentication credentials, calls db.createNewUser() if the user has no credentials
+ */
 void ClientHandler::login() {
     int length;
     std::string password;
@@ -120,6 +128,9 @@ void ClientHandler::login() {
     PRINT("[" + username + "] Login completed\n");
 }
 
+/**
+ * performs initialization sending current status of the db (each filename and relative hash)
+ */
 void ClientHandler::send_file_hash() {
     DEBUG_PRINT("[" + username + "] Sending initial status...")
     std::map<std::string, std::string> init_map = db.getInitailizationEntries(username, delete_path);
@@ -141,6 +152,11 @@ void ClientHandler::send_file_hash() {
     DEBUG_PRINT("[" + username + "] Sending initial status... completed.")
 }
 
+/**
+ * Executes an action sent by the user, and responds to signal both
+ * its beginning and its end.
+ * @return false if  action_type == ActionType::quit, true otherwise
+ */
 bool ClientHandler::read_action() {
     size_t action_type = 0;
     size_t path_size = 0;
@@ -212,6 +228,11 @@ bool ClientHandler::read_action() {
     return true;
 }
 
+/**
+ * Send a response to the client
+ * @param index of the relative action
+ * @param action_status
+ */
 void ClientHandler::send_response_to_client(int index, int action_status) {
 
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << index << "\n";
@@ -223,14 +244,12 @@ void ClientHandler::send_response_to_client(int index, int action_status) {
 }
 
 /**
- * Read file from socket_, the client must send in this order:
- * (int) path_size + "\n"
- * (char*path_size) file_path + "\n"
- * (int) file_size
- * (char*file_size) bytes
- * the function will read n file_size bytes and save them in
- * a new file named file_path
- * @throw ????????????
+ * Executes an action in case of a read_file status, saves the file in the db
+ * @param path
+ * @param index
+ * @param time
+ * @param last_write_time
+ * @param permissions
  */
 void ClientHandler::action_read_file(std::string path, int index, std::string time, std::string last_write_time,
                                      std::string permissions) {
@@ -271,10 +290,12 @@ void ClientHandler::action_read_file(std::string path, int index, std::string ti
 }
 
 /**
- * Create folder, the client must send in this order:
- * (int) path_size + "\n"
- * (char*path_size) folder_path + "\n"
- * @throw boost::asio::error::???????? if create operation is not successful
+ * Executes an action in case of a create_folder status, saves the folder in the db
+ * @param path
+ * @param index
+ * @param time
+ * @param last_write_time
+ * @param permissions
  */
 void ClientHandler::action_create_folder(std::string path, int index, std::string time, std::string last_write_time,
                                          std::string permissions) {
@@ -286,10 +307,12 @@ void ClientHandler::action_create_folder(std::string path, int index, std::strin
 }
 
 /**
- * Delete path, the client must send in this order:
- * (int) path_size + "\n"
- * (char*path_size) folder_path + "\n"
- * @throw boost::asio::error::???????? if delete operation is not successful
+ * Executes an action in case of a delete_path status, saves the entry in the db
+ * @param path
+ * @param index
+ * @param time
+ * @param last_write_time
+ * @param permissions
  */
 void ClientHandler::action_delete_path(std::string path, int index, std::string time, std::string last_write_time,
                                        std::string permissions) {
@@ -299,6 +322,10 @@ void ClientHandler::action_delete_path(std::string path, int index, std::string 
     send_response_to_client(index, ActionStatus::completed);
 }
 
+/**
+ * Executes an action in case of a restore status
+ * @param index
+ */
 void ClientHandler::action_restore(int index) {
 
     int date_length;

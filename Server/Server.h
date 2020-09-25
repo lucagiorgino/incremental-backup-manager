@@ -15,6 +15,10 @@ public:
             thread_count_(thread_count),
             acceptor_(io_service_){}
 
+    /**
+    * Opens connection, creates acceptors and waits for them with join()
+    * @param port
+    */
     void start_server(uint16_t port) {
         auto handler = std::make_shared<ConnectionHandler>(io_service_);
 
@@ -44,6 +48,12 @@ public:
     }
 
 private:
+    /**
+     * Called by an acceptor before a new connection with a client is opened,
+     * checks possible previous errors and waits for a new connection.
+     * @param handler
+     * @param error
+     */
     void handle_new_connection(shared_handler_t handler, std::error_code const &error) {
         if (error) {return;}
         handler->start();
