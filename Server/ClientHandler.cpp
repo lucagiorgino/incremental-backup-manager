@@ -49,7 +49,15 @@ void ClientHandler::start() {
         });
 
     } catch (std::exception &e) {
-        PRINT("[" + username + "] ClientHandler error: " + e.what() + "\n");
+        PRINT("[" + username + "] ClientHandler error: " + e.what() + "\n" + "Closing connextion...\n");
+        try {
+            socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+            socket_.close();
+            PRINT("[" + username + "] Connection terminated.\n");
+        } catch (std::exception &e) {
+            PRINT("[" + username + "] Exception during socket closure: " + e.what() +"\n");
+            return;
+        }
         return;
         // This function stops, and the acceptor can accept a new connection.
     }
