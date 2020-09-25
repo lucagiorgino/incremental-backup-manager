@@ -215,7 +215,7 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
 std::map<std::string, File> Database::getRestoreEntries(std::string username, int delete_code, std::string date) {
     std::string table_name = tablename_from_username(username);
 
-    std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions "
+    std::string sql = "SELECT filename, file, size, hash, last_write_time, permissions, length(filename) "
                       " FROM " + table_name + " as t1 "
                       " WHERE action <> " + std::to_string(delete_code);
     sql +=            " AND timestamp = ( "
@@ -245,7 +245,9 @@ std::map<std::string, File> Database::getRestoreEntries(std::string username, in
         f.is_directory = 1;
         f.file_content.clear();
 
-        f.filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        int filename_length = reinterpret_cast<int>(sqlite3_column_int(stmt, 6));
+        f.filename = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)), filename_length);
+
         f.size = sqlite3_column_int(stmt, 2);
         hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 
