@@ -87,7 +87,8 @@ void ClientHandler::login() {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
-        input_stream >> password;
+        input_stream.ignore();
+        std::getline(input_stream, password);
 
         db.createNewUser(username, password);
         actual_password = password;
@@ -98,7 +99,8 @@ void ClientHandler::login() {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
         input_stream >> length;
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(length + 1));
-        input_stream >> password;
+        input_stream.ignore();
+        std::getline(input_stream, password);
 
         is_authenticated = actual_password == password ? 1 : 0;
 
