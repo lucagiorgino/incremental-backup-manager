@@ -1,8 +1,6 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
 #include "Hash.h"
+
+#include "Debug.h"
 
 Hash::Hash(const std::string& filename){
     std::ifstream myfile (filename);
@@ -38,7 +36,7 @@ Hash::Hash(const std::string& filename){
 
 
     if(EVP_DigestFinal_ex(md_ctx, this->md_value, &this->md_len) != 1) {
-        std::cout << "Digest computation problem\n";
+        PRINT("Digest computation problem\n")
         throw std::runtime_error("computing hash error, EVP_DigestFinal_ex()");
     }
 
@@ -72,4 +70,3 @@ std::string Hash::getHash(){
         stream << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(md_value[i]);
     return stream.str();
 }
-

@@ -1,26 +1,27 @@
-#ifndef CLIENT_CLIENT_H
-#define CLIENT_CLIENT_H
-
-#include <filesystem>
-#include <iostream>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
+#pragma once
 
 #include <fstream>
 #include <sstream>
 #include <ctime>
 #include <future>
+#include <filesystem>
+#include <iostream>
 
-using boost::asio::ip::tcp;
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
 
 #include "FileWatcher.h"
 #include "Buffer.h"
 #include "ResponseBuffer.h"
 
+using boost::asio::ip::tcp;
+
+
 #define DELAY 2000
 #define POLLING_DELAY 3000
 #define MAX_MSG_SIZE 1024
-// https://www.sqlite.org/limits.html actual BLOB size from documentation
+// https://www.sqlite.org/limits.html actual BLOB size from documentation is reported as 1.000.000.000 B
+// but files below that size are still rejected
 #define MAX_FILE_SIZE 512*1024*1024+1 // about 512MB
 
 const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
@@ -28,7 +29,6 @@ const int INT_MAX_N_DIGIT = std::ceil(std::log10(std::exp2(8*sizeof(int))));
 namespace fs = std::filesystem;
 
 using boost::asio::ip::tcp;
-
 
 
 class Client {
@@ -58,7 +58,6 @@ private:
     std::atomic<bool> has_exception_occurred;
 
 
-
     void send_action(Action action);
     void send_file(const std::string& filename);
 
@@ -69,7 +68,4 @@ private:
     std::unordered_map<std::string, std::string> get_init_file_from_server();
 
     void join_threads();
-    void signal_threads_end();
 };
-
-#endif //CLIENT_CLIENT_H

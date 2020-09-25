@@ -1,8 +1,5 @@
-//
-// Created by cosimo on 06/08/20.
-//
-
 #include "Hash.h"
+
 
 Hash::Hash(const std::string& blob_string){
 

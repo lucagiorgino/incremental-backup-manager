@@ -1,6 +1,4 @@
-
-#ifndef CLIENT_RESPONSEBUFFER_H
-#define CLIENT_RESPONSEBUFFER_H
+#pragma once
 
 #include <array>
 #include <mutex>
@@ -8,6 +6,7 @@
 #include <filesystem>
 #include <map>
 #include <ctime>
+
 #include "Action.h"
 
 #define MAX_SIZE 10
@@ -25,6 +24,3 @@ public:
     std::optional<Action> get_action(int index);
     std::vector<Action> getAll();
 };
-
-
-#endif //CLIENT_RESPONSEBUFFER_H

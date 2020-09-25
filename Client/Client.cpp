@@ -1,11 +1,14 @@
 #include "Client.h"
+
 #include <unordered_map>
 #include <ctime>
+
 #include <boost/filesystem.hpp>
-#include "ResponseBuffer.h"
-#include "Action.h"
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include <sys/poll.h>
+
+#include "Action.h"
+#include "Debug.h"
 
 
 Client::Client(std::string name) :
@@ -18,6 +21,8 @@ Client::Client(std::string name) :
                                                             std::time(nullptr)};
                                               this->actions.push(action);
                                           }) {
+
+    PRINT("Welcome to the live backup service!\n\n")
 
     login(name);
     std::unordered_map <std::string, std::string> initial_status = get_init_file_from_server();
@@ -53,13 +58,13 @@ Client::Client(std::string name) :
 
             std::string padding = "0000";
             output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << ActionType::quit << "\n"
-                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n"
-                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
-                           << padding << "\n"
-                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
-                           << padding << "\n"
-                           << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
-                           << padding << "\n";
+                          << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n"
+                          << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
+                          << padding << "\n"
+                          << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
+                          << padding << "\n"
+                          << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << padding.length() << "\n"
+                          << padding << "\n";
 
             boost::asio::write(socket_, output_buf);
 
@@ -82,19 +87,22 @@ Client::Client(std::string name) :
                 boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
                 input_stream >> action_status;
 
-                std::cout << "[****************] Receiving response [" << index << "], type of response " << actionStatusStrings[action_status]
-                          << std::endl;
+
+                DEBUG_PRINT("[****************] Receiving response [" + std::to_string(index) + "], type of response " + actionStatusStrings[action_status] + "\n")
 
                 std::optional <Action> a = responses.get_action(index);
                 if (a.has_value()) {
                     Action ac = a.value();
-                    std::cout << "[****************] Response " << actionTypeStrings[static_cast<int>(ac.actionType)] << " path: "
-                              << ac.path.string() << ", file status " << fileStatusStrings[static_cast<int>(ac.fileStatus)] << std::endl;
+
+                    DEBUG_PRINT("[****************] Response " + actionTypeStrings[static_cast<int>(ac.actionType)])
+                    if(ac.actionType != ActionType::restore)
+                        DEBUG_PRINT("path: " + ac.path.string() + ", file status " + fileStatusStrings[static_cast<int>(ac.fileStatus)] + "\n")
+
                     if (action_status == ActionStatus::completed)
-                        std::cout << std::endl;
+                        DEBUG_PRINT("\n")
 
                     if (ac.actionType == ActionType::restore && action_status == ActionStatus::received) {
-                        std::cout << "starting action RESTORE" << std::endl;
+                        DEBUG_PRINT("starting action RESTORE\n")
                         action_restore(ac.restore_date, ac.restore_path);
                     }
                 }
@@ -127,19 +135,21 @@ Client::Client(std::string name) :
         int ret;
         bool print = true;
         bool user_quit = false;
+
         fds.fd = 0; /* this is STDIN */
         fds.events = POLLIN;
         std::cin.clear();
+
         try {
             do {
                 if (print) {
-                    std::cout << R"(Insert "q" to quit, "r"  to restore)" << std::endl;
+                    PRINT("Insert \"q\" to quit, \"r\" to restore: \n" )
                     print = false;
                 }
 
                 ret = poll(&fds, 1, POLLING_DELAY);
                 if (ret == 1) {
-                    std::cin >> command;
+                    std::getline(std::cin, command);
                     print = true;
                     command = boost::algorithm::to_lower_copy(command);
                     if (command == "r") {
@@ -147,6 +157,11 @@ Client::Client(std::string name) :
                     }
                     else if(command == "q"){
                         user_quit = this->command_quit();
+                        if(user_quit == false)
+                            PRINT("\n")
+                    }
+                    else{
+                        PRINT("Command not recognized\n")
                     }
                 } else if (ret != 0) {
                     throw std::runtime_error{"stdin error"};
@@ -170,12 +185,14 @@ Client::Client(std::string name) :
 
 void Client::join_threads() {
     int err;
+
     err = inputWatcher.get();
     if (err) {
         throw std::runtime_error{"Input exception"};
     }
 
     fileWatcher.stop();
+
     err = fileWatcherThread.get();
     if (err) {
         throw std::runtime_error{"File watcher exception"};
@@ -214,8 +231,6 @@ void Client::login(std::string name) {
 
     main_path = std::filesystem::path(main_path_string);
 
-    // const std::string &path
-
     tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000);
     socket_.connect(endpoint);
 
@@ -227,52 +242,72 @@ void Client::login(std::string name) {
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
     input_stream >> is_signedup;
-    std::cout << "is_signedup: " << is_signedup << std::endl;
 
     if (!is_signedup) {
         create_account_password();
     }
-    std::cout << "LOG IN" << std::endl;
+
+    PRINT("\tLOG IN\n")
     while (is_authenticated == 0) {
-        std::cout << "Insert password: ";
-        std::cin >> password;
+        PRINT("Insert password: ")
+
+        std::getline(std::cin, password);
+
         output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
                       << password << "\n";
         boost::asio::write(socket_, output_buf);
+
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(2));
         input_stream >> is_authenticated;
-        std::cout << "is_authenticated: " << is_authenticated << std::endl;
+        if(is_authenticated == 0)
+            PRINT("Wrong password. ")
     }
+
+    PRINT("You are now logged in!\n\n")
 }
 
 void Client::create_account_password() {
     std::string password;
-    std::string password1;
+    std::string password_confirmed;
+    int passwords_are_different = 0;
+
     do {
-        std::cout << "You are not signed up. \n Insert new password: ";
-        std::cin >> password;
+        if(passwords_are_different)
+            PRINT("The two passwords are different. \n Insert new password: ")
+        else
+            PRINT("You are not signed up. \n Insert new password: ")
 
-        std::cout << " Insert new password again: ";
-        std::cin >> password1;
+        std::getline(std::cin, password);
 
-    } while (password.compare(password1));
+        PRINT(" Insert new password again: ")
+        std::getline(std::cin, password_confirmed);
+
+        passwords_are_different = password.compare(password_confirmed);
+
+    } while (passwords_are_different);
 
 
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << password.length() << "\n"
                   << password << "\n";
-    // output_stream << password.length() << "\n" << password << "\n";
     boost::asio::write(socket_, output_buf);
-    std::cout << "Ok, You are now signed up!" << std::endl;
+
+    PRINT("You are now signed up!\n\n")
 }
 
 void Client::create_account_backup_folder(std::string &path_string, const std::filesystem::path &backup_path) {
+
     // new path
-    std::cout << "insert existing path to create account: ";
-    std::cin >> path_string;
-    while (!std::filesystem::exists(path_string)) {
-        std::cout << "path not found, try again: ";
-        std::cin >> path_string;
+    PRINT("There's no target folder, please select one: ")
+    std::getline(std::cin, path_string);
+
+    while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
+        if(!std::filesystem::exists(path_string))
+            PRINT("Path not found, try again: ")
+        else if(!std::filesystem::is_directory(path_string))
+            PRINT("This is not a directory, try again: ")
+        std::getline(std::cin, path_string);
     }
+    PRINT("Path found, this will be the monitored folder\n\n")
 
     std::ofstream fp(backup_path);
     fp.exceptions ( std::ofstream::badbit );
@@ -288,6 +323,7 @@ std::unordered_map <std::string, std::string> Client::get_init_file_from_server(
 
     boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
     input_stream >> size;
+
     while (size != 0) {
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size + 1));
         input_stream.ignore();
@@ -297,7 +333,7 @@ std::unordered_map <std::string, std::string> Client::get_init_file_from_server(
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(size + 1));
         input_stream >> hash;
 
-        std::cout << "init_status insert: " << main_path.string() + path << " -- " << hash << std::endl;
+        DEBUG_PRINT("init_status insert: " + main_path.string() + path + " -- " + hash + "\n")
         init_map.insert({main_path.string() + path, hash});
 
         boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -315,7 +351,8 @@ void Client::send_action(Action action) {
     std::ostream request_stream(&request);
 
     int index = responses.add(action);
-    std::cout << "[****************] Generating response [" << index << "]" << std::endl;
+
+    DEBUG_PRINT("[****************] Generating response [" + std::to_string(index) + "]\n")
 
     std::string cleaned_path = " ";;
     std::string last_write_time = " ";
@@ -342,7 +379,7 @@ void Client::send_action(Action action) {
                 //Read last write time
                 std_last_write_time = boost::filesystem::last_write_time(boost_file, err);
                 if (err) {
-                    std::cout << "Error reading last write time: " << err << std::endl;
+                    PRINT("Error reading last write time: " + err.message() + "\n\n")
                     throw std::runtime_error{"Filesystem exception"};
                 }
                 last_write_time = std::to_string(std_last_write_time);
@@ -350,7 +387,7 @@ void Client::send_action(Action action) {
                 //Read permissions
                 boost::filesystem::file_status boost_file_status = boost::filesystem::status(boost_file, err);
                 if (err) {
-                    std::cout << "Error reading permissions: " << err << std::endl;
+                    PRINT("Error reading permissions: " + err.message() + "\n")
                     throw std::runtime_error{"Filesystem exception"};
                 }
                 boost::filesystem::perms boost_file_permissions = boost_file_status.permissions();
@@ -359,11 +396,12 @@ void Client::send_action(Action action) {
             break;
     }
 
+    // Check file size, it must be less than MAX_FILE_SIZE
     std::uintmax_t file_size;
     if ( action.actionType == ActionType::read_file ) {
         file_size =  std::filesystem::file_size( action.path );
         if ( file_size > MAX_FILE_SIZE){
-            std::cout << "File: " << action.path.string() << ", size "<< file_size<<"B above max " << MAX_FILE_SIZE << "B" << std::endl;
+            PRINT("File: " + action.path.string() + ", size " + std::to_string(file_size) + "B above max " + std::to_string(MAX_FILE_SIZE) + "B" + "\n")
             responses.signal_error(index);
             return;
         }
@@ -381,9 +419,7 @@ void Client::send_action(Action action) {
 
     boost::asio::write(socket_, output_buf);
 
-    std::cout << "actiontype: " << actionTypeStrings[action.actionType] << " - " << action.path << " - - - >" << cleaned_path << std::endl;
-
-    //boost::asio::write(socket_, boost::asio::buffer(actionType, INT_MAX_N_DIGIT));
+    DEBUG_PRINT("actiontype: " + actionTypeStrings[action.actionType] + " - " + action.path.string() + " - - - >" + cleaned_path + "\n")
 
     if (action.actionType == ActionType::read_file) {
         send_file(action.path.string());
@@ -392,84 +428,111 @@ void Client::send_action(Action action) {
 
 void Client::send_file(const std::string &filename) {
     boost::array<char, MAX_MSG_SIZE> buf;
+
     std::ifstream source_file(filename, std::ios_base::binary | std::ios_base::ate);
     source_file.exceptions ( std::ifstream::badbit );
     if (!source_file) {
-        std::cout << "failed to open " << filename << std::endl;
-        throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
+        PRINT("failed to open " + filename + "\n")
+        throw boost::system::system_error(boost::asio::error::connection_aborted);
     }
+
     size_t file_size = source_file.tellg();
     source_file.seekg(0);
+
     // send file size to server
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << file_size << "\n";
     boost::asio::write(socket_, output_buf);
     for (;;) {
         if (source_file.eof() == false) {
             source_file.read(buf.c_array(), (std::streamsize) buf.size());
+
             if (source_file.gcount() < 0) {
-                std::cout << "read file error " << std::endl;
-                throw boost::system::system_error(boost::asio::error::connection_aborted); // Some other error.
+                PRINT("read file error\n")
+                throw boost::system::system_error(boost::asio::error::connection_aborted);
             } else if (source_file.gcount() == 0) {
                 break;
             }
+
             boost::system::error_code error;
             boost::asio::write(socket_, boost::asio::buffer(buf.c_array(),
                                                             source_file.gcount()),
                                boost::asio::transfer_all(), error);
             if (error) {
-                std::cout << "send error:" << error << std::endl;
-                throw boost::system::system_error(error); // Some other error.
+                PRINT("send error:" + error.message() + "\n")
+                throw boost::system::system_error(error);
             }
+
         } else
             break;
     }
-    std::cout << "send file " << filename << " completed successfully.\n";
+
+    DEBUG_PRINT("send file " + filename + " completed successfully.\n")
+
     source_file.close();
 }
 
 void Client::command_restore() {
-    fileWatcher.pause();
 
     // Reading date
     bool correct_date = false;
     std::string date_string;
+    PRINT("Insert date (YYYY-MM-DD): ")
     while (!correct_date) {
         try {
-            std::cout << "Insert date (YYYY-MM-DD): ";
-            std::cin >> date_string;
+            std::getline(std::cin, date_string);
             boost::gregorian::date d{boost::gregorian::from_simple_string(date_string)};
-            std::cout << "Date: " << boost::gregorian::to_iso_extended_string(d) << std::endl;
+
+            DEBUG_PRINT("Date: " + boost::gregorian::to_iso_extended_string(d) + "\n")
+
             date_string = boost::gregorian::to_iso_extended_string(d);
             correct_date = true;
         } catch (std::exception &e) {
-            std::cout << " Error: " << e.what() << std::endl;
+            PRINT("Incorrect date, try again: ")
         }
     }
+    PRINT("Correct date\n")
 
     //Reading path
     std::string path_string;
-    std::cout << "Insert existing path to save the restored data: ";
-    std::cin >> path_string;
-    while (!std::filesystem::exists(path_string)) {
-        std::cout << "path not found, try again: ";
-        std::cin >> path_string;
+    PRINT("Insert existing path to save the restored data: ")
+    std::getline(std::cin, path_string);
+
+    while ( !std::filesystem::exists(path_string) || !std::filesystem::is_directory(path_string) ) {
+        if(!std::filesystem::exists(path_string))
+            PRINT("Path not found, try again: ")
+        else if(!std::filesystem::is_directory(path_string))
+            PRINT("This is not a directory, try again: ")
+        std::getline(std::cin, path_string);
     }
+
     std::string user_response;
+    bool response_is_wrong = false;
     do{
-        std:: cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
-        std::cin >> user_response;
+        if(response_is_wrong)
+            std:: cout << "Command not recognized, are you sure to continue? (y/n): ";
+        else
+            std:: cout << "You will lose current files in this path, are you sure to continue? (y/n): ";
+
+        std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
-    }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
+        response_is_wrong = user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
+    }while(response_is_wrong);
 
     if (user_response == "y" || user_response == "yes") {
+        PRINT("Starting restore...\n\n")
+
         Action action{ActionType::restore, date_string, path_string};
         actions.push(action);
     }
+    else
+        PRINT("\n")
 }
 
 void Client::action_restore(std::string date, std::string user_path) {
     int file_number;
     std::filesystem::path tmp_dir{"../tmp_restore_dir"};
+
+    fileWatcher.pause();
 
     try {
         output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << date.length() << "\n"
@@ -489,7 +552,8 @@ void Client::action_restore(std::string date, std::string user_path) {
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> read_length;
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(read_length + 1));
-            input_stream >> filename;
+            input_stream.ignore();
+            std::getline(input_stream, filename);
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
             input_stream >> last_write_time;
             boost::asio::read(socket_, input_buf, boost::asio::transfer_exactly(INT_MAX_N_DIGIT + 1));
@@ -502,7 +566,7 @@ void Client::action_restore(std::string date, std::string user_path) {
             if (is_directory == 1) {
                 //Directory
                 std::filesystem::create_directory(file_path);
-                // check directory creata?
+
             } else {
                 //File
                 boost::array < char, MAX_MSG_SIZE + 1 > array{};
@@ -515,6 +579,7 @@ void Client::action_restore(std::string date, std::string user_path) {
                 of.exceptions ( std::ofstream::badbit );
                 std::string buf;
                 size_t file_size_tmp;
+
                 while (size > 0) {
                     file_size_tmp = size > MAX_MSG_SIZE ? MAX_MSG_SIZE : size;
 
@@ -535,20 +600,16 @@ void Client::action_restore(std::string date, std::string user_path) {
             std::time_t time(last_write_time);
             boost::filesystem::last_write_time(boost_file_path, time, err);
             if (err) {
-                std::cout << "Errore scrittura permessi: " << err << std::endl;
-                throw std::runtime_error{""};
+                throw std::runtime_error{"Error while reading permissions"};
             }
 
-            boost::filesystem::perms permessi = static_cast<boost::filesystem::perms>(permissions);
+            boost::filesystem::perms permissions_structure = static_cast<boost::filesystem::perms>(permissions);
 
-            boost::filesystem::permissions(boost_file_path, permessi, err);
+            boost::filesystem::permissions(boost_file_path, permissions_structure, err);
             if (err) {
-                std::cout << "Errore scrittura permessi: " << err << std::endl;
-                throw std::runtime_error{""};
+                throw std::runtime_error{"Error while writing permissions"};
             }
         }
-        std::cout << "Data collection ended, creating directory" <<
-                  std::endl;
 
         std::filesystem::remove_all(user_path);
         std::filesystem::rename(tmp_dir, user_path);
@@ -556,38 +617,42 @@ void Client::action_restore(std::string date, std::string user_path) {
     } catch (std::exception &e) {
         std::filesystem::remove_all(tmp_dir);
         fileWatcher.restart();
-        throw std::runtime_error{""};
+
+        throw std::runtime_error{"Restore error"};
     }
 
+    PRINT("\nRestore completed successfully\n\n")
     fileWatcher.restart();
 
 }
 
 bool Client::command_quit(){
-    std::cout << "List of pending actions: " << std::endl;
+    PRINT("List of pending actions:\n")
     std::vector<Action> pendingActions = responses.getAll();
 
-    if(pendingActions.size() == 0){
-        std::cout << "No pending actions" << std::endl << std::endl;
+    if( pendingActions.empty() ){
+        PRINT("No pending actions\n\n")
     }
     else{
         std::string timestamp_string;
         for(Action a: pendingActions){
             timestamp_string = std::ctime(&a.timestamp);
             timestamp_string.pop_back();
-            std::cout << "[" << timestamp_string << "] " << actionTypeStrings[a.actionType] << " (" << actionStatusStrings[a.st] << ")";
+
+            std::string debug_message = "[" + timestamp_string + "] " + actionTypeStrings[a.actionType] + " (" + actionStatusStrings[a.st] + ")";
 
             if(a.actionType != ActionType::restore){
-                std::cout << ", path: " << a.path.string() << std::endl;
+                debug_message += ", path: " + a.path.string() + "\n";
             }
+            PRINT(debug_message)
         }
-        std::cout << std::endl;
+        PRINT("\n")
     }
 
     std::string user_response;
     do{
-        std:: cout << "Are you sure you want to quit? (y/n): ";
-        std::cin >> user_response;
+        PRINT("Are you sure you want to quit? (y/n): ")
+        std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
     }while(user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no" );
 

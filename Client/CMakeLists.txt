@@ -26,7 +26,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-add_executable(Client main.cpp Client.cpp Client.h Buffer.h FileWatcher.cpp FileWatcher.h Hash.cpp Hash.h ResponseBuffer.h Action.h ResponseBuffer.cpp)
+add_executable(Client main.cpp Client.cpp Client.h Buffer.h FileWatcher.cpp FileWatcher.h Hash.cpp Hash.h ResponseBuffer.h Action.h ResponseBuffer.cpp Debug.h)
 
 if(Boost_FOUND)
     target_link_libraries(Client ${Boost_LIBRARIES})
