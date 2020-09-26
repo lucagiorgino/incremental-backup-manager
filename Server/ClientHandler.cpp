@@ -132,7 +132,7 @@ void ClientHandler::login() {
  * performs initialization sending current status of the db (each filename and relative hash)
  */
 void ClientHandler::send_file_hash() {
-    DEBUG_PRINT("[" + username + "] Sending initial status...")
+    DEBUG_PRINT("[" + username + "] Sending initial status...\n")
     std::map<std::string, std::string> init_map = db.getInitailizationEntries(username, delete_path);
 
     for (auto entry_path : init_map) {
@@ -149,7 +149,7 @@ void ClientHandler::send_file_hash() {
     output_stream << std::setw(INT_MAX_N_DIGIT) << std::setfill('0') << 0 << "\n";
     boost::asio::write(socket_, output_buf);
 
-    DEBUG_PRINT("[" + username + "] Sending initial status... completed.")
+    DEBUG_PRINT("[" + username + "] Sending initial status... completed.\n")
 }
 
 /**

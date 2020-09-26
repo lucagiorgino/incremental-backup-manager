@@ -246,7 +246,7 @@ void Client::login(std::string name) {
         // read path from file
         std::ifstream fp(backup_path);
         fp.exceptions(std::ifstream::badbit);
-        fp >> main_path_string;
+        std::getline(fp, main_path_string);
         fp.close();
     }
 
@@ -737,11 +737,16 @@ bool Client::command_quit() {
     }
 
     std::string user_response;
+    bool response_is_wrong = false;
     do {
+        if (response_is_wrong)
+            PRINT("Command not recognized.\n")
+
         PRINT("Are you sure you want to quit? (y/n): ")
         std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
-    } while (user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no");
+        response_is_wrong = user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
+    } while (response_is_wrong);
 
     return (user_response == "y" || user_response == "yes");
 }

@@ -31,7 +31,9 @@ Database::~Database() {
  */
 std::optional<std::string> Database::passwordFromUsername(std::string username) {
 
-    std::string sql = "select password from users where username=?";
+    std::string sql = "SELECT password, length(password) "
+                      " FROM users "
+                      " WHERE username=?";
     sqlite3_stmt *stmt = nullptr;
     std::optional<std::string> result;
 
@@ -46,8 +48,9 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
         throw std::runtime_error{error_message};
     }
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        std::string password = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-        result = password;
+        int password_length = reinterpret_cast<int>(sqlite3_column_int(stmt, 1));
+        result = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)), password_length);
+
     } else {
         result = std::nullopt;
     }
@@ -64,8 +67,8 @@ std::optional<std::string> Database::passwordFromUsername(std::string username) 
  * @param password
  */
 void Database::createNewUser(std::string username, std::string password) {
-    std::string sql = "insert into users(username, password)"
-                      "values(?, ?)";
+    std::string sql = "INSERT INTO users(username, password) "
+                      " VALUES(?, ?)";
     sqlite3_stmt *stmt = nullptr;
 
     // create user/password pair into db
@@ -142,12 +145,12 @@ int Database::addAction(std::string tablename, std::string filename, std::string
     bool does_key_exist = checkKeyExist(table, filename, timestamp);
 
     if (does_key_exist) {
-        sql = "update " + table + " "
-                                  "set file=?, size=?, action=?, hash=?, last_write_time=?, permissions=? "
-                                  "where filename=? and timestamp=?;";
+        sql = "UPDATE " + table + " "
+                                  " SET file=?, size=?, action=?, hash=?, last_write_time=?, permissions=? "
+                                  " WHERE filename=? AND timestamp=?;";
     } else {
-        sql = "insert into " + table + "(file, size, action, hash, last_write_time, permissions, filename, timestamp) "
-                                       "values(?, ?, ?, ?, ?, ?, ?, ?)";
+        sql = "INSERT INTO " + table + "(file, size, action, hash, last_write_time, permissions, filename, timestamp) "
+                                       " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     sqlite3_stmt *stmt = nullptr;
@@ -223,7 +226,7 @@ int Database::addAction(std::string tablename, std::string filename, std::string
 std::map<std::string, std::string> Database::getInitailizationEntries(std::string username, int delete_code) {
     std::string table_name = tablename_from_username(username);
 
-    std::string sql = "SELECT filename, hash FROM " + table_name + " as t1 "
+    std::string sql = "SELECT filename, hash, length(filename) FROM " + table_name + " as t1 "
                       " WHERE action <> " + std::to_string(delete_code) + " ";
     sql +=            " AND timestamp = ( "
                                         "  SELECT MAX(timestamp) FROM " + table_name + " as t2 "
@@ -241,7 +244,9 @@ std::map<std::string, std::string> Database::getInitailizationEntries(std::strin
     std::string filename, hash;
     std::map<std::string, std::string> result_map;
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        filename = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        int filename_length = reinterpret_cast<int>(sqlite3_column_int(stmt, 2));
+        filename = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)), filename_length);
+
         hash = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
 
         result_map.insert(std::pair<std::string, std::string>(filename, hash));
