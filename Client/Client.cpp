@@ -103,17 +103,19 @@ Client::Client(std::string name) :
                     Action ac = a.value();
 
                     DEBUG_PRINT("[****************] Response " + actionTypeStrings[static_cast<int>(ac.actionType)])
-                    if (ac.actionType != ActionType::restore)
+                    if (ac.actionType != ActionType::restore){
                             DEBUG_PRINT("path: " + ac.path.string() + ", file status " +
                                         fileStatusStrings[static_cast<int>(ac.fileStatus)] + "\n")
+                    }
 
-                        if (action_status == ActionStatus::completed)
-                                DEBUG_PRINT("\n")
+                    if (action_status == ActionStatus::completed){
+                            DEBUG_PRINT("\n")
+                    }
 
-                            if (ac.actionType == ActionType::restore && action_status == ActionStatus::received) {
-                                DEBUG_PRINT("starting action RESTORE\n")
-                                action_restore(ac.restore_date, ac.restore_path);
-                            }
+                    if (ac.actionType == ActionType::restore && action_status == ActionStatus::received) {
+                        DEBUG_PRINT("starting action RESTORE\n")
+                        action_restore(ac.restore_date, ac.restore_path);
+                    }
                 }
 
                 switch (action_status) {
