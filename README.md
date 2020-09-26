@@ -32,6 +32,6 @@ On Linux: sudo apt-get install libssl-dev
 On Linux: sudo apt-get install libsqlite3-dev
 
 ## Authors
-Bruno Andrea
-Chetta Cosimo
-Giorgino Luca
+Bruno Andrea  
+Chetta Cosimo  
+Giorgino Luca  
