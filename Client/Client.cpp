@@ -738,13 +738,15 @@ bool Client::command_quit() {
 
     std::string user_response;
     bool response_is_wrong = false;
+
     do {
         if (response_is_wrong)
-            PRINT("Command not recognized.\n")
+            PRINT("Command not recognized\n")
 
         PRINT("Are you sure you want to quit? (y/n): ")
         std::getline(std::cin, user_response);
         user_response = boost::algorithm::to_lower_copy(user_response);
+
         response_is_wrong = user_response != "y" && user_response != "n" && user_response != "yes" && user_response != "no";
     } while (response_is_wrong);
 
