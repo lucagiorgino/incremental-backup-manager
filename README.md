@@ -3,25 +3,22 @@
 ## Introduction
 
 
-
-<!--
-Descrizione del progetto
--->
-
 ### Security warning
 
 This project objective is to test our skill with a simple Client-Server interaction
-in a multithreaded environment. Security issue have not been taken in consideration
+in a multithreaded environment so security issue have not been taken in consideration
 
 ## Database
 The database, based on sqlite3, is composed of a users table and one table for each client.
 
 ### Users
 | username | password |
+| -------- | -------- |
 | TEXT     | TEXT     |
 
 ### Client table (name = _machine-id)
 | filename | timestamp | file | size | action | hash | last_write_time | permissions |
+| -------- | --------- | ---- | ---- | ------ | ---- | --------------- | ----------- |
 | TEXT     | TEXT	| BLOB | INT  | INT    | TEXT | TEXT		  | TEXT	|
 
 
@@ -53,6 +50,6 @@ Possible Client commands:
 	in which to store the backup.
 
 ## Authors
-Bruno Andrea
-Chetta Cosimo 
-Giorgino Luca 
+- Bruno Andrea
+- Chetta Cosimo 
+- Giorgino Luca 
