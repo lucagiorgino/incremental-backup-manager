@@ -28,8 +28,9 @@ Clion required.
 
 Install the following libraries:
 - Boost		-> sudo apt-get install libboost-all-dev
-- libSSL	-> sudo apt-get install libssl-dev
-- SQLite3	-> sudo apt-get install libsqlite3-dev
+- SQLite3	-> sudo apt-get install libsqlite3-dev 
+- libSSL	-> sudo apt-get install libssl-dev  
+(libSSL is only used to compute hashes for file comparisons)
 
 Launch Clion and import Client and Server Folders.
 
