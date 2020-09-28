@@ -18,10 +18,7 @@ Database::Database(std::filesystem::path path) {
  * Closes db connection
  */
 Database::~Database() {
-    if (sqlite3_close(db)) {
-        std::string error_message = "SQLITE error: " + std::string(sqlite3_errmsg(db));
-        throw std::runtime_error{error_message};
-    }
+    sqlite3_close(db);
 }
 
 /**
